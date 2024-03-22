@@ -1,0 +1,4842 @@
+
+mandelbrot.flash.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+01000000 <_start>:
+ 1000000:	800001b7          	lui	x3,0x80000
+ 1000004:	00001137          	lui	x2,0x1
+ 1000008:	00004097          	auipc	x1,0x4
+ 100000c:	ff8080e7          	jalr	-8(x1) # 1004000 <main>
+
+01000010 <exit>:
+ 1000010:	00a1a223          	sw	x10,4(x3) # 80000004 <IO_BASE+0x4>
+
+01000014 <exitl1>:
+ 1000014:	00051063          	bnez	x10,1000014 <exitl1>
+ 1000018:	00100313          	li	x6,1
+
+0100001c <exitl>:
+ 100001c:	0061a223          	sw	x6,4(x3)
+ 1000020:	00018537          	lui	x10,0x18
+ 1000024:	6a050513          	add	x10,x10,1696 # 186a0 <IO_VGA_RAM_BASE+0x166a0>
+ 1000028:	00000097          	auipc	x1,0x0
+ 100002c:	174080e7          	jalr	372(x1) # 100019c <microwait>
+ 1000030:	00131313          	sll	x6,x6,0x1
+ 1000034:	fe0314e3          	bnez	x6,100001c <exitl>
+ 1000038:	00100313          	li	x6,1
+ 100003c:	fe1ff06f          	j	100001c <exitl>
+
+01000040 <abort>:
+ 1000040:	0000a537          	lui	x10,0xa
+ 1000044:	0a050513          	add	x10,x10,160 # a0a0 <IO_VGA_RAM_BASE+0x80a0>
+ 1000048:	00100073          	ebreak
+ 100004c:	fc5ff06f          	j	1000010 <exit>
+ 1000050:	00008067          	ret
+
+01000054 <VGAtextmode>:
+ 1000054:	0281a283          	lw	x5,40(x3)
+ 1000058:	0fd2f293          	and	x5,x5,253
+ 100005c:	02518423          	sb	x5,40(x3)
+ 1000060:	00008067          	ret
+
+01000064 <VGAcolormode>:
+ 1000064:	0281a283          	lw	x5,40(x3)
+ 1000068:	0022e293          	or	x5,x5,2
+ 100006c:	02518423          	sb	x5,40(x3)
+ 1000070:	00008067          	ret
+
+01000074 <VGAActivate>:
+ 1000074:	0281a283          	lw	x5,40(x3)
+ 1000078:	0012e293          	or	x5,x5,1
+ 100007c:	0251a423          	sw	x5,40(x3)
+ 1000080:	00008067          	ret
+
+01000084 <VGADeactivate>:
+ 1000084:	0281a283          	lw	x5,40(x3)
+ 1000088:	0fe2f293          	and	x5,x5,254
+ 100008c:	02518423          	sb	x5,40(x3)
+ 1000090:	00008067          	ret
+
+01000094 <PrintInVGA>:
+ 1000094:	ffc10113          	add	x2,x2,-4 # ffc <xmax+0x7fc>
+ 1000098:	00812023          	sw	x8,0(x2)
+ 100009c:	00461293          	sll	x5,x12,0x4
+ 10000a0:	00661313          	sll	x6,x12,0x6
+ 10000a4:	00628433          	add	x8,x5,x6
+ 10000a8:	00b40433          	add	x8,x8,x11
+ 10000ac:	000023b7          	lui	x7,0x2
+ 10000b0:	00740433          	add	x8,x8,x7
+ 10000b4:	00340433          	add	x8,x8,x3
+ 10000b8:	00a40023          	sb	x10,0(x8)
+ 10000bc:	00012403          	lw	x8,0(x2)
+ 10000c0:	00410113          	add	x2,x2,4
+ 10000c4:	00008067          	ret
+
+010000c8 <VGAClean>:
+ 10000c8:	00000513          	li	x10,0
+
+010000cc <VGAPaintAll>:
+ 10000cc:	ffc10113          	add	x2,x2,-4
+ 10000d0:	00812023          	sw	x8,0(x2)
+ 10000d4:	00002437          	lui	x8,0x2
+ 10000d8:	00340433          	add	x8,x8,x3
+ 10000dc:	00001337          	lui	x6,0x1
+ 10000e0:	40030313          	add	x6,x6,1024 # 1400 <STACKTOP+0x400>
+ 10000e4:	00830333          	add	x6,x6,x8
+
+010000e8 <.VGAPaintAllloop>:
+ 10000e8:	00a40023          	sb	x10,0(x8) # 2000 <IO_VGA_RAM_BASE>
+ 10000ec:	00a400a3          	sb	x10,1(x8)
+ 10000f0:	00a40123          	sb	x10,2(x8)
+ 10000f4:	00a401a3          	sb	x10,3(x8)
+ 10000f8:	00440413          	add	x8,x8,4
+ 10000fc:	fe6446e3          	blt	x8,x6,10000e8 <.VGAPaintAllloop>
+ 1000100:	00012403          	lw	x8,0(x2)
+ 1000104:	00410113          	add	x2,x2,4
+ 1000108:	00008067          	ret
+
+0100010c <DibujaMarco>:
+ 100010c:	ff010113          	add	x2,x2,-16
+ 1000110:	00112023          	sw	x1,0(x2)
+ 1000114:	00812223          	sw	x8,4(x2)
+ 1000118:	00912423          	sw	x9,8(x2)
+ 100011c:	01212623          	sw	x18,12(x2)
+ 1000120:	00002937          	lui	x18,0x2
+ 1000124:	01218933          	add	x18,x3,x18
+ 1000128:	00000493          	li	x9,0
+ 100012c:	00000413          	li	x8,0
+ 1000130:	04f00293          	li	x5,79
+ 1000134:	03b00313          	li	x6,59
+ 1000138:	000013b7          	lui	x7,0x1
+ 100013c:	2c038393          	add	x7,x7,704 # 12c0 <STACKTOP+0x2c0>
+
+01000140 <DibujarMarco_Loop>:
+ 1000140:	00040c63          	beqz	x8,1000158 <DibujarMarco_marco>
+ 1000144:	00048a63          	beqz	x9,1000158 <DibujarMarco_marco>
+ 1000148:	00540863          	beq	x8,x5,1000158 <DibujarMarco_marco>
+ 100014c:	00648663          	beq	x9,x6,1000158 <DibujarMarco_marco>
+ 1000150:	00b90023          	sb	x11,0(x18) # 2000 <IO_VGA_RAM_BASE>
+ 1000154:	0080006f          	j	100015c <DibujarMarco_incX>
+
+01000158 <DibujarMarco_marco>:
+ 1000158:	00a90023          	sb	x10,0(x18)
+
+0100015c <DibujarMarco_incX>:
+ 100015c:	00190913          	add	x18,x18,1
+ 1000160:	02790063          	beq	x18,x7,1000180 <DibujarMarco_Fin>
+ 1000164:	00545663          	bge	x8,x5,1000170 <DibujarMarco_incY>
+ 1000168:	00140413          	add	x8,x8,1
+ 100016c:	fd5ff06f          	j	1000140 <DibujarMarco_Loop>
+
+01000170 <DibujarMarco_incY>:
+ 1000170:	00648863          	beq	x9,x6,1000180 <DibujarMarco_Fin>
+ 1000174:	00000413          	li	x8,0
+ 1000178:	00148493          	add	x9,x9,1
+ 100017c:	fc5ff06f          	j	1000140 <DibujarMarco_Loop>
+
+01000180 <DibujarMarco_Fin>:
+ 1000180:	00c12903          	lw	x18,12(x2)
+ 1000184:	00812483          	lw	x9,8(x2)
+ 1000188:	00412403          	lw	x8,4(x2)
+ 100018c:	00012083          	lw	x1,0(x2)
+ 1000190:	01010113          	add	x2,x2,16
+ 1000194:	00008067          	ret
+
+01000198 <milliwait>:
+ 1000198:	00008067          	ret
+
+0100019c <microwait>:
+ 100019c:	00a502b3          	add	x5,x10,x10
+
+010001a0 <.loop_microwait>:
+ 10001a0:	00028663          	beqz	x5,10001ac <.out_microwait>
+ 10001a4:	fff28293          	add	x5,x5,-1
+ 10001a8:	ff9ff06f          	j	10001a0 <.loop_microwait>
+
+010001ac <.out_microwait>:
+ 10001ac:	00008067          	ret
+
+010001b0 <conectado_mouse_USB>:
+ 10001b0:	0181a283          	lw	x5,24(x3)
+ 10001b4:	00100513          	li	x10,1
+ 10001b8:	0012f293          	and	x5,x5,1
+ 10001bc:	00029463          	bnez	x5,10001c4 <conectado_mouse_USB_fin>
+ 10001c0:	00000513          	li	x10,0
+
+010001c4 <conectado_mouse_USB_fin>:
+ 10001c4:	00008067          	ret
+
+010001c8 <init_mouse>:
+ 10001c8:	ffc10113          	add	x2,x2,-4
+ 10001cc:	00112023          	sw	x1,0(x2)
+ 10001d0:	ff000297          	auipc	x5,0xff000
+ 10001d4:	e3028293          	add	x5,x5,-464 # 0 <IO_BUTTON>
+ 10001d8:	ff000317          	auipc	x6,0xff000
+ 10001dc:	e2c30313          	add	x6,x6,-468 # 4 <IO_LEDS>
+ 10001e0:	ff000397          	auipc	x7,0xff000
+ 10001e4:	e2838393          	add	x7,x7,-472 # 8 <IO_LEDS_config>
+ 10001e8:	0002a023          	sw	x0,0(x5)
+ 10001ec:	00032023          	sw	x0,0(x6)
+ 10001f0:	0003a023          	sw	x0,0(x7)
+
+010001f4 <init_mouse_wait>:
+ 10001f4:	fbdff0ef          	jal	10001b0 <conectado_mouse_USB>
+ 10001f8:	fe050ee3          	beqz	x10,10001f4 <init_mouse_wait>
+ 10001fc:	00012083          	lw	x1,0(x2)
+ 1000200:	00410113          	add	x2,x2,4
+ 1000204:	00008067          	ret
+
+01000208 <refresh_mouse>:
+ 1000208:	fec10113          	add	x2,x2,-20
+ 100020c:	00112023          	sw	x1,0(x2)
+ 1000210:	00812223          	sw	x8,4(x2)
+ 1000214:	00912423          	sw	x9,8(x2)
+ 1000218:	01212623          	sw	x18,12(x2)
+ 100021c:	01312823          	sw	x19,16(x2)
+ 1000220:	00000513          	li	x10,0
+ 1000224:	0181a283          	lw	x5,24(x3)
+ 1000228:	0022f293          	and	x5,x5,2
+ 100022c:	04028c63          	beqz	x5,1000284 <refresh_mouse_out>
+ 1000230:	01c1a283          	lw	x5,28(x3)
+ 1000234:	ff000417          	auipc	x8,0xff000
+ 1000238:	dcc40413          	add	x8,x8,-564 # 0 <IO_BUTTON>
+ 100023c:	ff000497          	auipc	x9,0xff000
+ 1000240:	dc848493          	add	x9,x9,-568 # 4 <IO_LEDS>
+ 1000244:	00829913          	sll	x18,x5,0x8
+ 1000248:	41895913          	sra	x18,x18,0x18
+ 100024c:	4182d993          	sra	x19,x5,0x18
+ 1000250:	0072f313          	and	x6,x5,7
+ 1000254:	ff000297          	auipc	x5,0xff000
+ 1000258:	db428293          	add	x5,x5,-588 # 8 <IO_LEDS_config>
+ 100025c:	0062a023          	sw	x6,0(x5)
+ 1000260:	00042383          	lw	x7,0(x8)
+ 1000264:	01238533          	add	x10,x7,x18
+ 1000268:	038000ef          	jal	10002a0 <CorregirPosicionRaton>
+ 100026c:	00a42023          	sw	x10,0(x8)
+ 1000270:	0004ae03          	lw	x28,0(x9)
+ 1000274:	013e0533          	add	x10,x28,x19
+ 1000278:	028000ef          	jal	10002a0 <CorregirPosicionRaton>
+ 100027c:	00a4a023          	sw	x10,0(x9)
+ 1000280:	00100513          	li	x10,1
+
+01000284 <refresh_mouse_out>:
+ 1000284:	01012983          	lw	x19,16(x2)
+ 1000288:	00c12903          	lw	x18,12(x2)
+ 100028c:	00812483          	lw	x9,8(x2)
+ 1000290:	00412403          	lw	x8,4(x2)
+ 1000294:	00012083          	lw	x1,0(x2)
+ 1000298:	01410113          	add	x2,x2,20
+ 100029c:	00008067          	ret
+
+010002a0 <CorregirPosicionRaton>:
+ 10002a0:	c0000e93          	li	x29,-1024
+ 10002a4:	00aec663          	blt	x29,x10,10002b0 <CorregirPosicion_else>
+ 10002a8:	000e8513          	mv	x10,x29
+ 10002ac:	0100006f          	j	10002bc <Fin_CorregirPosicion>
+
+010002b0 <CorregirPosicion_else>:
+ 10002b0:	3ff00e93          	li	x29,1023
+ 10002b4:	01d54463          	blt	x10,x29,10002bc <Fin_CorregirPosicion>
+ 10002b8:	000e8513          	mv	x10,x29
+
+010002bc <Fin_CorregirPosicion>:
+ 10002bc:	00008067          	ret
+
+010002c0 <MouseMiddleButton>:
+ 10002c0:	ff000297          	auipc	x5,0xff000
+ 10002c4:	d4828293          	add	x5,x5,-696 # 8 <IO_LEDS_config>
+ 10002c8:	00028303          	lb	x6,0(x5)
+ 10002cc:	00437313          	and	x6,x6,4
+ 10002d0:	00602533          	sgtz	x10,x6
+ 10002d4:	00008067          	ret
+
+010002d8 <MouseRightButton>:
+ 10002d8:	ff000297          	auipc	x5,0xff000
+ 10002dc:	d3028293          	add	x5,x5,-720 # 8 <IO_LEDS_config>
+ 10002e0:	00028303          	lb	x6,0(x5)
+ 10002e4:	00237313          	and	x6,x6,2
+ 10002e8:	00602533          	sgtz	x10,x6
+ 10002ec:	00008067          	ret
+
+010002f0 <MouseLeftButton>:
+ 10002f0:	ff000297          	auipc	x5,0xff000
+ 10002f4:	d1828293          	add	x5,x5,-744 # 8 <IO_LEDS_config>
+ 10002f8:	00028303          	lb	x6,0(x5)
+ 10002fc:	00137313          	and	x6,x6,1
+ 1000300:	00602533          	sgtz	x10,x6
+ 1000304:	00008067          	ret
+
+01000308 <LeerMouseX>:
+ 1000308:	ff000297          	auipc	x5,0xff000
+ 100030c:	cf828293          	add	x5,x5,-776 # 0 <IO_BUTTON>
+ 1000310:	0002a503          	lw	x10,0(x5)
+ 1000314:	00008067          	ret
+
+01000318 <LeerMouseY>:
+ 1000318:	ff000297          	auipc	x5,0xff000
+ 100031c:	cec28293          	add	x5,x5,-788 # 4 <IO_LEDS>
+ 1000320:	0002a503          	lw	x10,0(x5)
+ 1000324:	00008067          	ret
+
+01000328 <EscribirMouseX>:
+ 1000328:	ffc10113          	add	x2,x2,-4
+ 100032c:	00012083          	lw	x1,0(x2)
+ 1000330:	f71ff0ef          	jal	10002a0 <CorregirPosicionRaton>
+ 1000334:	ff000297          	auipc	x5,0xff000
+ 1000338:	ccc28293          	add	x5,x5,-820 # 0 <IO_BUTTON>
+ 100033c:	00a2a023          	sw	x10,0(x5)
+ 1000340:	00012083          	lw	x1,0(x2)
+ 1000344:	00410113          	add	x2,x2,4
+ 1000348:	00008067          	ret
+
+0100034c <EscribirMouseY>:
+ 100034c:	ffc10113          	add	x2,x2,-4
+ 1000350:	00012083          	lw	x1,0(x2)
+ 1000354:	f4dff0ef          	jal	10002a0 <CorregirPosicionRaton>
+ 1000358:	ff000297          	auipc	x5,0xff000
+ 100035c:	cac28293          	add	x5,x5,-852 # 4 <IO_LEDS>
+ 1000360:	00a2a023          	sw	x10,0(x5)
+ 1000364:	00012083          	lw	x1,0(x2)
+ 1000368:	00410113          	add	x2,x2,4
+ 100036c:	00008067          	ret
+
+01000370 <conectado_teclado_usb>:
+ 1000370:	0101a283          	lw	x5,16(x3)
+ 1000374:	00100513          	li	x10,1
+ 1000378:	0012f293          	and	x5,x5,1
+ 100037c:	00029463          	bnez	x5,1000384 <conectado_teclado_usb_fin>
+ 1000380:	00000513          	li	x10,0
+
+01000384 <conectado_teclado_usb_fin>:
+ 1000384:	00008067          	ret
+
+01000388 <init_teclado>:
+ 1000388:	ffc10113          	add	x2,x2,-4
+ 100038c:	00112023          	sw	x1,0(x2)
+
+01000390 <init_teclado_wait>:
+ 1000390:	fe1ff0ef          	jal	1000370 <conectado_teclado_usb>
+ 1000394:	02050063          	beqz	x10,10003b4 <init_teclado_fin>
+ 1000398:	ff000297          	auipc	x5,0xff000
+ 100039c:	c7428293          	add	x5,x5,-908 # c <IO_UART>
+ 10003a0:	0002a023          	sw	x0,0(x5)
+ 10003a4:	ff000297          	auipc	x5,0xff000
+ 10003a8:	c7028293          	add	x5,x5,-912 # 14 <IO_KBRD_key0>
+ 10003ac:	00028023          	sb	x0,0(x5)
+ 10003b0:	00100513          	li	x10,1
+
+010003b4 <init_teclado_fin>:
+ 10003b4:	00012083          	lw	x1,0(x2)
+ 10003b8:	00410113          	add	x2,x2,4
+ 10003bc:	00008067          	ret
+
+010003c0 <leer_teclado_usb>:
+ 10003c0:	ff410113          	add	x2,x2,-12
+ 10003c4:	00112023          	sw	x1,0(x2)
+ 10003c8:	00812223          	sw	x8,4(x2)
+ 10003cc:	00912423          	sw	x9,8(x2)
+ 10003d0:	0101a403          	lw	x8,16(x3)
+ 10003d4:	0141c283          	lbu	x5,20(x3)
+ 10003d8:	0151c303          	lbu	x6,21(x3)
+ 10003dc:	0161c383          	lbu	x7,22(x3)
+ 10003e0:	0171ce03          	lbu	x28,23(x3)
+ 10003e4:	00845413          	srl	x8,x8,0x8
+ 10003e8:	ff000497          	auipc	x9,0xff000
+ 10003ec:	c2448493          	add	x9,x9,-988 # c <IO_UART>
+ 10003f0:	0004ce83          	lbu	x29,0(x9)
+ 10003f4:	0014c583          	lbu	x11,1(x9)
+ 10003f8:	0024c603          	lbu	x12,2(x9)
+ 10003fc:	0034c683          	lbu	x13,3(x9)
+ 1000400:	00000513          	li	x10,0
+
+01000404 <leerkey0>:
+ 1000404:	00028e63          	beqz	x5,1000420 <leerkey1>
+ 1000408:	01d28c63          	beq	x5,x29,1000420 <leerkey1>
+ 100040c:	00b28a63          	beq	x5,x11,1000420 <leerkey1>
+ 1000410:	00c28863          	beq	x5,x12,1000420 <leerkey1>
+ 1000414:	00d28663          	beq	x5,x13,1000420 <leerkey1>
+ 1000418:	00028513          	mv	x10,x5
+ 100041c:	0580006f          	j	1000474 <finleertecla>
+
+01000420 <leerkey1>:
+ 1000420:	00030e63          	beqz	x6,100043c <leerkey2>
+ 1000424:	01d30c63          	beq	x6,x29,100043c <leerkey2>
+ 1000428:	00b30a63          	beq	x6,x11,100043c <leerkey2>
+ 100042c:	00c30863          	beq	x6,x12,100043c <leerkey2>
+ 1000430:	00d30663          	beq	x6,x13,100043c <leerkey2>
+ 1000434:	00030513          	mv	x10,x6
+ 1000438:	03c0006f          	j	1000474 <finleertecla>
+
+0100043c <leerkey2>:
+ 100043c:	00038e63          	beqz	x7,1000458 <leerkey3>
+ 1000440:	01d38c63          	beq	x7,x29,1000458 <leerkey3>
+ 1000444:	00b38a63          	beq	x7,x11,1000458 <leerkey3>
+ 1000448:	00c38863          	beq	x7,x12,1000458 <leerkey3>
+ 100044c:	00d38663          	beq	x7,x13,1000458 <leerkey3>
+ 1000450:	00038513          	mv	x10,x7
+ 1000454:	0200006f          	j	1000474 <finleertecla>
+
+01000458 <leerkey3>:
+ 1000458:	000e0e63          	beqz	x28,1000474 <finleertecla>
+ 100045c:	01de0c63          	beq	x28,x29,1000474 <finleertecla>
+ 1000460:	00be0a63          	beq	x28,x11,1000474 <finleertecla>
+ 1000464:	00ce0863          	beq	x28,x12,1000474 <finleertecla>
+ 1000468:	00de0663          	beq	x28,x13,1000474 <finleertecla>
+ 100046c:	000e0513          	mv	x10,x28
+ 1000470:	0040006f          	j	1000474 <finleertecla>
+
+01000474 <finleertecla>:
+ 1000474:	00548023          	sb	x5,0(x9)
+ 1000478:	006480a3          	sb	x6,1(x9)
+ 100047c:	00748123          	sb	x7,2(x9)
+ 1000480:	01c481a3          	sb	x28,3(x9)
+ 1000484:	ff000497          	auipc	x9,0xff000
+ 1000488:	b9048493          	add	x9,x9,-1136 # 14 <IO_KBRD_key0>
+ 100048c:	0084a023          	sw	x8,0(x9)
+ 1000490:	00040593          	mv	x11,x8
+ 1000494:	064000ef          	jal	10004f8 <ScancodeToAscii>
+ 1000498:	00812483          	lw	x9,8(x2)
+ 100049c:	00412403          	lw	x8,4(x2)
+ 10004a0:	00012083          	lw	x1,0(x2)
+ 10004a4:	00c10113          	add	x2,x2,12
+ 10004a8:	00008067          	ret
+
+010004ac <TeclaUSBPresionada>:
+ 10004ac:	ff000297          	auipc	x5,0xff000
+ 10004b0:	b6028293          	add	x5,x5,-1184 # c <IO_UART>
+ 10004b4:	00000f13          	li	x30,0
+
+010004b8 <TeclaUSBPresionada_loop>:
+ 10004b8:	0002c303          	lbu	x6,0(x5)
+ 10004bc:	00128293          	add	x5,x5,1
+ 10004c0:	00030c63          	beqz	x6,10004d8 <TeclaUSBPresionada_no>
+ 10004c4:	00a30663          	beq	x6,x10,10004d0 <TeclaUSBPresionada_si>
+ 10004c8:	001f0f13          	add	x30,x30,1
+ 10004cc:	fedff06f          	j	10004b8 <TeclaUSBPresionada_loop>
+
+010004d0 <TeclaUSBPresionada_si>:
+ 10004d0:	000f0513          	mv	x10,x30
+ 10004d4:	0080006f          	j	10004dc <TeclaUSB_fin>
+
+010004d8 <TeclaUSBPresionada_no>:
+ 10004d8:	fff00513          	li	x10,-1
+
+010004dc <TeclaUSB_fin>:
+ 10004dc:	00008067          	ret
+
+010004e0 <ModifierUSBPresionado>:
+ 10004e0:	ff000297          	auipc	x5,0xff000
+ 10004e4:	b3428293          	add	x5,x5,-1228 # 14 <IO_KBRD_key0>
+ 10004e8:	0002c303          	lbu	x6,0(x5)
+ 10004ec:	00657333          	and	x6,x10,x6
+ 10004f0:	00603533          	snez	x10,x6
+ 10004f4:	00008067          	ret
+
+010004f8 <ScancodeToAscii>:
+ 10004f8:	ffc10113          	add	x2,x2,-4
+ 10004fc:	00112023          	sw	x1,0(x2)
+ 1000500:	0225f293          	and	x5,x11,34
+ 1000504:	00400313          	li	x6,4
+ 1000508:	04654a63          	blt	x10,x6,100055c <endNoAscii>
+ 100050c:	01e00393          	li	x7,30
+ 1000510:	00755c63          	bge	x10,x7,1000528 <else_otros_caracteres>
+ 1000514:	00028663          	beqz	x5,1000520 <letras_no_MAYUS>
+ 1000518:	03d50513          	add	x10,x10,61
+ 100051c:	0440006f          	j	1000560 <endScancodeToAscii>
+
+01000520 <letras_no_MAYUS>:
+ 1000520:	05d50513          	add	x10,x10,93
+ 1000524:	03c0006f          	j	1000560 <endScancodeToAscii>
+
+01000528 <else_otros_caracteres>:
+ 1000528:	03900313          	li	x6,57
+ 100052c:	02655863          	bge	x10,x6,100055c <endNoAscii>
+ 1000530:	fe250393          	add	x7,x10,-30
+ 1000534:	00339393          	sll	x7,x7,0x3
+ 1000538:	00029a63          	bnez	x5,100054c <otros_caracteres_shift>
+ 100053c:	00000317          	auipc	x6,0x0
+ 1000540:	03030313          	add	x6,x6,48 # 100056c <ScancodeTabla1>
+ 1000544:	00730333          	add	x6,x6,x7
+ 1000548:	000300e7          	jalr	x6
+
+0100054c <otros_caracteres_shift>:
+ 100054c:	00000317          	auipc	x6,0x0
+ 1000550:	0f830313          	add	x6,x6,248 # 1000644 <ScancodeTabla2>
+ 1000554:	00730333          	add	x6,x6,x7
+ 1000558:	000300e7          	jalr	x6
+
+0100055c <endNoAscii>:
+ 100055c:	00000513          	li	x10,0
+
+01000560 <endScancodeToAscii>:
+ 1000560:	00012083          	lw	x1,0(x2)
+ 1000564:	00410113          	add	x2,x2,4
+ 1000568:	00008067          	ret
+
+0100056c <ScancodeTabla1>:
+ 100056c:	03100513          	li	x10,49
+ 1000570:	ff1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000574:	03200513          	li	x10,50
+ 1000578:	fe9ff06f          	j	1000560 <endScancodeToAscii>
+ 100057c:	03300513          	li	x10,51
+ 1000580:	fe1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000584:	03400513          	li	x10,52
+ 1000588:	fd9ff06f          	j	1000560 <endScancodeToAscii>
+ 100058c:	03500513          	li	x10,53
+ 1000590:	fd1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000594:	03600513          	li	x10,54
+ 1000598:	fc9ff06f          	j	1000560 <endScancodeToAscii>
+ 100059c:	03700513          	li	x10,55
+ 10005a0:	fc1ff06f          	j	1000560 <endScancodeToAscii>
+ 10005a4:	03800513          	li	x10,56
+ 10005a8:	fb9ff06f          	j	1000560 <endScancodeToAscii>
+ 10005ac:	03900513          	li	x10,57
+ 10005b0:	fb1ff06f          	j	1000560 <endScancodeToAscii>
+ 10005b4:	03000513          	li	x10,48
+ 10005b8:	fa9ff06f          	j	1000560 <endScancodeToAscii>
+ 10005bc:	00a00513          	li	x10,10
+ 10005c0:	fa1ff06f          	j	1000560 <endScancodeToAscii>
+ 10005c4:	01b00513          	li	x10,27
+ 10005c8:	f99ff06f          	j	1000560 <endScancodeToAscii>
+ 10005cc:	00800513          	li	x10,8
+ 10005d0:	f91ff06f          	j	1000560 <endScancodeToAscii>
+ 10005d4:	00900513          	li	x10,9
+ 10005d8:	f89ff06f          	j	1000560 <endScancodeToAscii>
+ 10005dc:	02000513          	li	x10,32
+ 10005e0:	f81ff06f          	j	1000560 <endScancodeToAscii>
+ 10005e4:	02d00513          	li	x10,45
+ 10005e8:	f79ff06f          	j	1000560 <endScancodeToAscii>
+ 10005ec:	03d00513          	li	x10,61
+ 10005f0:	f71ff06f          	j	1000560 <endScancodeToAscii>
+ 10005f4:	05b00513          	li	x10,91
+ 10005f8:	f69ff06f          	j	1000560 <endScancodeToAscii>
+ 10005fc:	05d00513          	li	x10,93
+ 1000600:	f61ff06f          	j	1000560 <endScancodeToAscii>
+ 1000604:	05c00513          	li	x10,92
+ 1000608:	f59ff06f          	j	1000560 <endScancodeToAscii>
+ 100060c:	02300513          	li	x10,35
+ 1000610:	f51ff06f          	j	1000560 <endScancodeToAscii>
+ 1000614:	03b00513          	li	x10,59
+ 1000618:	f49ff06f          	j	1000560 <endScancodeToAscii>
+ 100061c:	02700513          	li	x10,39
+ 1000620:	f41ff06f          	j	1000560 <endScancodeToAscii>
+ 1000624:	06000513          	li	x10,96
+ 1000628:	f39ff06f          	j	1000560 <endScancodeToAscii>
+ 100062c:	02c00513          	li	x10,44
+ 1000630:	f31ff06f          	j	1000560 <endScancodeToAscii>
+ 1000634:	02e00513          	li	x10,46
+ 1000638:	f29ff06f          	j	1000560 <endScancodeToAscii>
+ 100063c:	02f00513          	li	x10,47
+ 1000640:	f21ff06f          	j	1000560 <endScancodeToAscii>
+
+01000644 <ScancodeTabla2>:
+ 1000644:	02100513          	li	x10,33
+ 1000648:	f19ff06f          	j	1000560 <endScancodeToAscii>
+ 100064c:	04000513          	li	x10,64
+ 1000650:	f11ff06f          	j	1000560 <endScancodeToAscii>
+ 1000654:	02300513          	li	x10,35
+ 1000658:	f09ff06f          	j	1000560 <endScancodeToAscii>
+ 100065c:	02400513          	li	x10,36
+ 1000660:	f01ff06f          	j	1000560 <endScancodeToAscii>
+ 1000664:	02500513          	li	x10,37
+ 1000668:	ef9ff06f          	j	1000560 <endScancodeToAscii>
+ 100066c:	05e00513          	li	x10,94
+ 1000670:	ef1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000674:	02600513          	li	x10,38
+ 1000678:	ee9ff06f          	j	1000560 <endScancodeToAscii>
+ 100067c:	02a00513          	li	x10,42
+ 1000680:	ee1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000684:	02800513          	li	x10,40
+ 1000688:	ed9ff06f          	j	1000560 <endScancodeToAscii>
+ 100068c:	02900513          	li	x10,41
+ 1000690:	ed1ff06f          	j	1000560 <endScancodeToAscii>
+ 1000694:	00a00513          	li	x10,10
+ 1000698:	ec9ff06f          	j	1000560 <endScancodeToAscii>
+ 100069c:	01b00513          	li	x10,27
+ 10006a0:	ec1ff06f          	j	1000560 <endScancodeToAscii>
+ 10006a4:	00800513          	li	x10,8
+ 10006a8:	eb9ff06f          	j	1000560 <endScancodeToAscii>
+ 10006ac:	00900513          	li	x10,9
+ 10006b0:	eb1ff06f          	j	1000560 <endScancodeToAscii>
+ 10006b4:	02000513          	li	x10,32
+ 10006b8:	ea9ff06f          	j	1000560 <endScancodeToAscii>
+ 10006bc:	05f00513          	li	x10,95
+ 10006c0:	ea1ff06f          	j	1000560 <endScancodeToAscii>
+ 10006c4:	02b00513          	li	x10,43
+ 10006c8:	e99ff06f          	j	1000560 <endScancodeToAscii>
+ 10006cc:	07b00513          	li	x10,123
+ 10006d0:	e91ff06f          	j	1000560 <endScancodeToAscii>
+ 10006d4:	07d00513          	li	x10,125
+ 10006d8:	e89ff06f          	j	1000560 <endScancodeToAscii>
+ 10006dc:	07c00513          	li	x10,124
+ 10006e0:	e81ff06f          	j	1000560 <endScancodeToAscii>
+ 10006e4:	07e00513          	li	x10,126
+ 10006e8:	e79ff06f          	j	1000560 <endScancodeToAscii>
+ 10006ec:	03a00513          	li	x10,58
+ 10006f0:	e71ff06f          	j	1000560 <endScancodeToAscii>
+ 10006f4:	02200513          	li	x10,34
+ 10006f8:	e69ff06f          	j	1000560 <endScancodeToAscii>
+ 10006fc:	07e00513          	li	x10,126
+ 1000700:	e61ff06f          	j	1000560 <endScancodeToAscii>
+ 1000704:	03c00513          	li	x10,60
+ 1000708:	e59ff06f          	j	1000560 <endScancodeToAscii>
+ 100070c:	03e00513          	li	x10,62
+ 1000710:	e51ff06f          	j	1000560 <endScancodeToAscii>
+ 1000714:	03f00513          	li	x10,63
+ 1000718:	e49ff06f          	j	1000560 <endScancodeToAscii>
+
+0100071c <UART_putc>:
+ 100071c:	00d1c303          	lbu	x6,13(x3)
+ 1000720:	fe030ee3          	beqz	x6,100071c <UART_putc>
+ 1000724:	00a18623          	sb	x10,12(x3)
+ 1000728:	00008067          	ret
+
+0100072c <UART_getc>:
+ 100072c:	00e1c283          	lbu	x5,14(x3)
+ 1000730:	fe028ee3          	beqz	x5,100072c <UART_getc>
+ 1000734:	00c1c503          	lbu	x10,12(x3)
+ 1000738:	00008067          	ret
+
+0100073c <LeerCiclos>:
+ 100073c:	c80022f3          	rdcycleh	x5
+ 1000740:	c0002573          	rdcycle	x10
+ 1000744:	c80025f3          	rdcycleh	x11
+ 1000748:	fe559ae3          	bne	x11,x5,100073c <LeerCiclos>
+ 100074c:	00008067          	ret
+
+01000750 <LeerTiempo>:
+ 1000750:	c81022f3          	rdtimeh	x5
+ 1000754:	c0102573          	rdtime	x10
+ 1000758:	c81025f3          	rdtimeh	x11
+ 100075c:	fe5590e3          	bne	x11,x5,100073c <LeerCiclos>
+ 1000760:	00008067          	ret
+
+01000764 <LeerInstrRet>:
+ 1000764:	c82022f3          	rdinstreth	x5
+ 1000768:	c0202573          	rdinstret	x10
+ 100076c:	c82025f3          	rdinstreth	x11
+ 1000770:	fc5596e3          	bne	x11,x5,100073c <LeerCiclos>
+ 1000774:	00008067          	ret
+
+01000778 <__divsi3>:
+ 1000778:	06054063          	bltz	x10,10007d8 <__umodsi3+0x10>
+ 100077c:	0605c663          	bltz	x11,10007e8 <__umodsi3+0x20>
+
+01000780 <__udivsi3>:
+ 1000780:	00058613          	mv	x12,x11
+ 1000784:	00050593          	mv	x11,x10
+ 1000788:	fff00513          	li	x10,-1
+ 100078c:	02060c63          	beqz	x12,10007c4 <__udivsi3+0x44>
+ 1000790:	00100693          	li	x13,1
+ 1000794:	00b67a63          	bgeu	x12,x11,10007a8 <__udivsi3+0x28>
+ 1000798:	00c05863          	blez	x12,10007a8 <__udivsi3+0x28>
+ 100079c:	00161613          	sll	x12,x12,0x1
+ 10007a0:	00169693          	sll	x13,x13,0x1
+ 10007a4:	feb66ae3          	bltu	x12,x11,1000798 <__udivsi3+0x18>
+ 10007a8:	00000513          	li	x10,0
+ 10007ac:	00c5e663          	bltu	x11,x12,10007b8 <__udivsi3+0x38>
+ 10007b0:	40c585b3          	sub	x11,x11,x12
+ 10007b4:	00d56533          	or	x10,x10,x13
+ 10007b8:	0016d693          	srl	x13,x13,0x1
+ 10007bc:	00165613          	srl	x12,x12,0x1
+ 10007c0:	fe0696e3          	bnez	x13,10007ac <__udivsi3+0x2c>
+ 10007c4:	00008067          	ret
+
+010007c8 <__umodsi3>:
+ 10007c8:	00008293          	mv	x5,x1
+ 10007cc:	fb5ff0ef          	jal	1000780 <__udivsi3>
+ 10007d0:	00058513          	mv	x10,x11
+ 10007d4:	00028067          	jr	x5
+ 10007d8:	40a00533          	neg	x10,x10
+ 10007dc:	0005d863          	bgez	x11,10007ec <__umodsi3+0x24>
+ 10007e0:	40b005b3          	neg	x11,x11
+ 10007e4:	f95ff06f          	j	1000778 <__divsi3>
+ 10007e8:	40b005b3          	neg	x11,x11
+ 10007ec:	00008293          	mv	x5,x1
+ 10007f0:	f89ff0ef          	jal	1000778 <__divsi3>
+ 10007f4:	40a00533          	neg	x10,x10
+ 10007f8:	00028067          	jr	x5
+
+010007fc <__modsi3>:
+ 10007fc:	00008293          	mv	x5,x1
+ 1000800:	0005ca63          	bltz	x11,1000814 <__modsi3+0x18>
+ 1000804:	00054c63          	bltz	x10,100081c <__modsi3+0x20>
+ 1000808:	f79ff0ef          	jal	1000780 <__udivsi3>
+ 100080c:	00058513          	mv	x10,x11
+ 1000810:	00028067          	jr	x5
+ 1000814:	40b005b3          	neg	x11,x11
+ 1000818:	fe0558e3          	bgez	x10,1000808 <__modsi3+0xc>
+ 100081c:	40a00533          	neg	x10,x10
+ 1000820:	f61ff0ef          	jal	1000780 <__udivsi3>
+ 1000824:	40b00533          	neg	x10,x11
+ 1000828:	00028067          	jr	x5
+
+0100082c <__mulsi3>:
+ 100082c:	00050613          	mv	x12,x10
+ 1000830:	00000513          	li	x10,0
+ 1000834:	0015f693          	and	x13,x11,1
+ 1000838:	00068463          	beqz	x13,1000840 <__mulsi3+0x14>
+ 100083c:	00c50533          	add	x10,x10,x12
+ 1000840:	0015d593          	srl	x11,x11,0x1
+ 1000844:	00161613          	sll	x12,x12,0x1
+ 1000848:	fe0596e3          	bnez	x11,1000834 <__mulsi3+0x8>
+ 100084c:	00008067          	ret
+	...
+
+01004000 <main>:
+ 1004000:	ffc10113          	add	x2,x2,-4
+ 1004004:	00112023          	sw	x1,0(x2)
+ 1004008:	feffc517          	auipc	x10,0xfeffc
+ 100400c:	01050513          	add	x10,x10,16 # 18 <IO_mouse_status>
+ 1004010:	02000293          	li	x5,32
+ 1004014:	00550023          	sb	x5,0(x10)
+ 1004018:	02e00293          	li	x5,46
+ 100401c:	005500a3          	sb	x5,1(x10)
+ 1004020:	02c00293          	li	x5,44
+ 1004024:	00550123          	sb	x5,2(x10)
+ 1004028:	03a00293          	li	x5,58
+ 100402c:	005501a3          	sb	x5,3(x10)
+ 1004030:	03b00293          	li	x5,59
+ 1004034:	00550223          	sb	x5,4(x10)
+ 1004038:	06f00293          	li	x5,111
+ 100403c:	005502a3          	sb	x5,5(x10)
+ 1004040:	07800293          	li	x5,120
+ 1004044:	00550323          	sb	x5,6(x10)
+ 1004048:	02500293          	li	x5,37
+ 100404c:	005503a3          	sb	x5,7(x10)
+ 1004050:	02300293          	li	x5,35
+ 1004054:	00550423          	sb	x5,8(x10)
+ 1004058:	04000293          	li	x5,64
+ 100405c:	005504a3          	sb	x5,9(x10)
+ 1004060:	00050523          	sb	x0,10(x10)
+ 1004064:	000505a3          	sb	x0,11(x10)
+
+01004068 <mandelstart_>:
+ 1004068:	00000493          	li	x9,0
+ 100406c:	80000993          	li	x19,-2048
+ 1004070:	05000d93          	li	x27,80
+
+01004074 <loop_y_>:
+ 1004074:	00000413          	li	x8,0
+ 1004078:	80000913          	li	x18,-2048
+
+0100407c <loop_x_>:
+ 100407c:	00090a13          	mv	x20,x18
+ 1004080:	00098a93          	mv	x21,x19
+ 1004084:	00900d13          	li	x26,9
+
+01004088 <loop_z_>:
+ 1004088:	000a0513          	mv	x10,x20
+ 100408c:	000a0593          	mv	x11,x20
+ 1004090:	f9cfc0ef          	jal	100082c <__mulsi3>
+ 1004094:	00a55b13          	srl	x22,x10,0xa
+ 1004098:	000a0513          	mv	x10,x20
+ 100409c:	000a8593          	mv	x11,x21
+ 10040a0:	f8cfc0ef          	jal	100082c <__mulsi3>
+ 10040a4:	40a55b93          	sra	x23,x10,0xa
+ 10040a8:	000a8513          	mv	x10,x21
+ 10040ac:	000a8593          	mv	x11,x21
+ 10040b0:	f7cfc0ef          	jal	100082c <__mulsi3>
+ 10040b4:	00a55c13          	srl	x24,x10,0xa
+ 10040b8:	418b0a33          	sub	x20,x22,x24
+ 10040bc:	012a0a33          	add	x20,x20,x18
+ 10040c0:	017b8bb3          	add	x23,x23,x23
+ 10040c4:	013b8ab3          	add	x21,x23,x19
+ 10040c8:	018b0b33          	add	x22,x22,x24
+ 10040cc:	00001bb7          	lui	x23,0x1
+ 10040d0:	016bc663          	blt	x23,x22,10040dc <exit_z_>
+ 10040d4:	fffd0d13          	add	x26,x26,-1
+ 10040d8:	fa0d18e3          	bnez	x26,1004088 <loop_z_>
+
+010040dc <exit_z_>:
+ 10040dc:	feffc517          	auipc	x10,0xfeffc
+ 10040e0:	f3c50513          	add	x10,x10,-196 # 18 <IO_mouse_status>
+ 10040e4:	01a50533          	add	x10,x10,x26
+ 10040e8:	00054503          	lbu	x10,0(x10)
+ 10040ec:	ffffc097          	auipc	x1,0xffffc
+ 10040f0:	630080e7          	jalr	1584(x1) # 100071c <UART_putc>
+ 10040f4:	00140413          	add	x8,x8,1
+ 10040f8:	03390913          	add	x18,x18,51
+ 10040fc:	f9b410e3          	bne	x8,x27,100407c <loop_x_>
+ 1004100:	02000513          	li	x10,32
+ 1004104:	ffffc097          	auipc	x1,0xffffc
+ 1004108:	618080e7          	jalr	1560(x1) # 100071c <UART_putc>
+ 100410c:	00a00513          	li	x10,10
+ 1004110:	ffffc097          	auipc	x1,0xffffc
+ 1004114:	60c080e7          	jalr	1548(x1) # 100071c <UART_putc>
+ 1004118:	00148493          	add	x9,x9,1
+ 100411c:	03398993          	add	x19,x19,51
+ 1004120:	f5b49ae3          	bne	x9,x27,1004074 <loop_y_>
+ 1004124:	00012083          	lw	x1,0(x2)
+ 1004128:	00410113          	add	x2,x2,4
+ 100412c:	00000513          	li	x10,0
+ 1004130:	ffffc097          	auipc	x1,0xffffc
+ 1004134:	ee0080e7          	jalr	-288(x1) # 1000010 <exit>
+
+01004138 <mulsi3_>:
+ 1004138:	00050613          	mv	x12,x10
+ 100413c:	00000513          	li	x10,0
+
+01004140 <mulsi3_l0_>:
+ 1004140:	0015f693          	and	x13,x11,1
+ 1004144:	00068463          	beqz	x13,100414c <mulsi3_l1_>
+ 1004148:	00c50533          	add	x10,x10,x12
+
+0100414c <mulsi3_l1_>:
+ 100414c:	0015d593          	srl	x11,x11,0x1
+ 1004150:	00161613          	sll	x12,x12,0x1
+ 1004154:	fe0596e3          	bnez	x11,1004140 <mulsi3_l0_>
+ 1004158:	00008067          	ret
+ 100415c:	00000013          	nop
+ 1004160:	00000013          	nop
+ 1004164:	00000013          	nop
+ 1004168:	00000013          	nop
+ 100416c:	00000013          	nop
+ 1004170:	00000013          	nop
+ 1004174:	00000013          	nop
+ 1004178:	00000013          	nop
+ 100417c:	00000013          	nop
+ 1004180:	00000013          	nop
+ 1004184:	00000013          	nop
+ 1004188:	00000013          	nop
+ 100418c:	00000013          	nop
+ 1004190:	00000013          	nop
+ 1004194:	00000013          	nop
+ 1004198:	00000013          	nop
+ 100419c:	00000013          	nop
+ 10041a0:	00000013          	nop
+ 10041a4:	00000013          	nop
+ 10041a8:	00000013          	nop
+ 10041ac:	00000013          	nop
+ 10041b0:	00000013          	nop
+ 10041b4:	00000013          	nop
+ 10041b8:	00000013          	nop
+ 10041bc:	00000013          	nop
+ 10041c0:	00000013          	nop
+ 10041c4:	00000013          	nop
+ 10041c8:	00000013          	nop
+ 10041cc:	00000013          	nop
+ 10041d0:	00000013          	nop
+ 10041d4:	00000013          	nop
+ 10041d8:	00000013          	nop
+ 10041dc:	00000013          	nop
+ 10041e0:	00000013          	nop
+ 10041e4:	00000013          	nop
+ 10041e8:	00000013          	nop
+ 10041ec:	00000013          	nop
+ 10041f0:	00000013          	nop
+ 10041f4:	00000013          	nop
+ 10041f8:	00000013          	nop
+ 10041fc:	00000013          	nop
+ 1004200:	00000013          	nop
+ 1004204:	00000013          	nop
+ 1004208:	00000013          	nop
+ 100420c:	00000013          	nop
+ 1004210:	00000013          	nop
+ 1004214:	00000013          	nop
+ 1004218:	00000013          	nop
+ 100421c:	00000013          	nop
+ 1004220:	00000013          	nop
+ 1004224:	00000013          	nop
+ 1004228:	00000013          	nop
+ 100422c:	00000013          	nop
+ 1004230:	00000013          	nop
+ 1004234:	00000013          	nop
+ 1004238:	00000013          	nop
+ 100423c:	00000013          	nop
+ 1004240:	00000013          	nop
+ 1004244:	00000013          	nop
+ 1004248:	00000013          	nop
+ 100424c:	00000013          	nop
+ 1004250:	00000013          	nop
+ 1004254:	00000013          	nop
+ 1004258:	00000013          	nop
+ 100425c:	00000013          	nop
+ 1004260:	00000013          	nop
+ 1004264:	00000013          	nop
+ 1004268:	00000013          	nop
+ 100426c:	00000013          	nop
+ 1004270:	00000013          	nop
+ 1004274:	00000013          	nop
+ 1004278:	00000013          	nop
+ 100427c:	00000013          	nop
+ 1004280:	00000013          	nop
+ 1004284:	00000013          	nop
+ 1004288:	00000013          	nop
+ 100428c:	00000013          	nop
+ 1004290:	00000013          	nop
+ 1004294:	00000013          	nop
+ 1004298:	00000013          	nop
+ 100429c:	00000013          	nop
+ 10042a0:	00000013          	nop
+ 10042a4:	00000013          	nop
+ 10042a8:	00000013          	nop
+ 10042ac:	00000013          	nop
+ 10042b0:	00000013          	nop
+ 10042b4:	00000013          	nop
+ 10042b8:	00000013          	nop
+ 10042bc:	00000013          	nop
+ 10042c0:	00000013          	nop
+ 10042c4:	00000013          	nop
+ 10042c8:	00000013          	nop
+ 10042cc:	00000013          	nop
+ 10042d0:	00000013          	nop
+ 10042d4:	00000013          	nop
+ 10042d8:	00000013          	nop
+ 10042dc:	00000013          	nop
+ 10042e0:	00000013          	nop
+ 10042e4:	00000013          	nop
+ 10042e8:	00000013          	nop
+ 10042ec:	00000013          	nop
+ 10042f0:	00000013          	nop
+ 10042f4:	00000013          	nop
+ 10042f8:	00000013          	nop
+ 10042fc:	00000013          	nop
+ 1004300:	00000013          	nop
+ 1004304:	00000013          	nop
+ 1004308:	00000013          	nop
+ 100430c:	00000013          	nop
+ 1004310:	00000013          	nop
+ 1004314:	00000013          	nop
+ 1004318:	00000013          	nop
+ 100431c:	00000013          	nop
+ 1004320:	00000013          	nop
+ 1004324:	00000013          	nop
+ 1004328:	00000013          	nop
+ 100432c:	00000013          	nop
+ 1004330:	00000013          	nop
+ 1004334:	00000013          	nop
+ 1004338:	00000013          	nop
+ 100433c:	00000013          	nop
+ 1004340:	00000013          	nop
+ 1004344:	00000013          	nop
+ 1004348:	00000013          	nop
+ 100434c:	00000013          	nop
+ 1004350:	00000013          	nop
+ 1004354:	00000013          	nop
+ 1004358:	00000013          	nop
+ 100435c:	00000013          	nop
+ 1004360:	00000013          	nop
+ 1004364:	00000013          	nop
+ 1004368:	00000013          	nop
+ 100436c:	00000013          	nop
+ 1004370:	00000013          	nop
+ 1004374:	00000013          	nop
+ 1004378:	00000013          	nop
+ 100437c:	00000013          	nop
+ 1004380:	00000013          	nop
+ 1004384:	00000013          	nop
+ 1004388:	00000013          	nop
+ 100438c:	00000013          	nop
+ 1004390:	00000013          	nop
+ 1004394:	00000013          	nop
+ 1004398:	00000013          	nop
+ 100439c:	00000013          	nop
+ 10043a0:	00000013          	nop
+ 10043a4:	00000013          	nop
+ 10043a8:	00000013          	nop
+ 10043ac:	00000013          	nop
+ 10043b0:	00000013          	nop
+ 10043b4:	00000013          	nop
+ 10043b8:	00000013          	nop
+ 10043bc:	00000013          	nop
+ 10043c0:	00000013          	nop
+ 10043c4:	00000013          	nop
+ 10043c8:	00000013          	nop
+ 10043cc:	00000013          	nop
+ 10043d0:	00000013          	nop
+ 10043d4:	00000013          	nop
+ 10043d8:	00000013          	nop
+ 10043dc:	00000013          	nop
+ 10043e0:	00000013          	nop
+ 10043e4:	00000013          	nop
+ 10043e8:	00000013          	nop
+ 10043ec:	00000013          	nop
+ 10043f0:	00000013          	nop
+ 10043f4:	00000013          	nop
+ 10043f8:	00000013          	nop
+ 10043fc:	00000013          	nop
+ 1004400:	00000013          	nop
+ 1004404:	00000013          	nop
+ 1004408:	00000013          	nop
+ 100440c:	00000013          	nop
+ 1004410:	00000013          	nop
+ 1004414:	00000013          	nop
+ 1004418:	00000013          	nop
+ 100441c:	00000013          	nop
+ 1004420:	00000013          	nop
+ 1004424:	00000013          	nop
+ 1004428:	00000013          	nop
+ 100442c:	00000013          	nop
+ 1004430:	00000013          	nop
+ 1004434:	00000013          	nop
+ 1004438:	00000013          	nop
+ 100443c:	00000013          	nop
+ 1004440:	00000013          	nop
+ 1004444:	00000013          	nop
+ 1004448:	00000013          	nop
+ 100444c:	00000013          	nop
+ 1004450:	00000013          	nop
+ 1004454:	00000013          	nop
+ 1004458:	00000013          	nop
+ 100445c:	00000013          	nop
+ 1004460:	00000013          	nop
+ 1004464:	00000013          	nop
+ 1004468:	00000013          	nop
+ 100446c:	00000013          	nop
+ 1004470:	00000013          	nop
+ 1004474:	00000013          	nop
+ 1004478:	00000013          	nop
+ 100447c:	00000013          	nop
+ 1004480:	00000013          	nop
+ 1004484:	00000013          	nop
+ 1004488:	00000013          	nop
+ 100448c:	00000013          	nop
+ 1004490:	00000013          	nop
+ 1004494:	00000013          	nop
+ 1004498:	00000013          	nop
+ 100449c:	00000013          	nop
+ 10044a0:	00000013          	nop
+ 10044a4:	00000013          	nop
+ 10044a8:	00000013          	nop
+ 10044ac:	00000013          	nop
+ 10044b0:	00000013          	nop
+ 10044b4:	00000013          	nop
+ 10044b8:	00000013          	nop
+ 10044bc:	00000013          	nop
+ 10044c0:	00000013          	nop
+ 10044c4:	00000013          	nop
+ 10044c8:	00000013          	nop
+ 10044cc:	00000013          	nop
+ 10044d0:	00000013          	nop
+ 10044d4:	00000013          	nop
+ 10044d8:	00000013          	nop
+ 10044dc:	00000013          	nop
+ 10044e0:	00000013          	nop
+ 10044e4:	00000013          	nop
+ 10044e8:	00000013          	nop
+ 10044ec:	00000013          	nop
+ 10044f0:	00000013          	nop
+ 10044f4:	00000013          	nop
+ 10044f8:	00000013          	nop
+ 10044fc:	00000013          	nop
+ 1004500:	00000013          	nop
+ 1004504:	00000013          	nop
+ 1004508:	00000013          	nop
+ 100450c:	00000013          	nop
+ 1004510:	00000013          	nop
+ 1004514:	00000013          	nop
+ 1004518:	00000013          	nop
+ 100451c:	00000013          	nop
+ 1004520:	00000013          	nop
+ 1004524:	00000013          	nop
+ 1004528:	00000013          	nop
+ 100452c:	00000013          	nop
+ 1004530:	00000013          	nop
+ 1004534:	00000013          	nop
+ 1004538:	00000013          	nop
+ 100453c:	00000013          	nop
+ 1004540:	00000013          	nop
+ 1004544:	00000013          	nop
+ 1004548:	00000013          	nop
+ 100454c:	00000013          	nop
+ 1004550:	00000013          	nop
+ 1004554:	00000013          	nop
+ 1004558:	00000013          	nop
+ 100455c:	00000013          	nop
+ 1004560:	00000013          	nop
+ 1004564:	00000013          	nop
+ 1004568:	00000013          	nop
+ 100456c:	00000013          	nop
+ 1004570:	00000013          	nop
+ 1004574:	00000013          	nop
+ 1004578:	00000013          	nop
+ 100457c:	00000013          	nop
+ 1004580:	00000013          	nop
+ 1004584:	00000013          	nop
+ 1004588:	00000013          	nop
+ 100458c:	00000013          	nop
+ 1004590:	00000013          	nop
+ 1004594:	00000013          	nop
+ 1004598:	00000013          	nop
+ 100459c:	00000013          	nop
+ 10045a0:	00000013          	nop
+ 10045a4:	00000013          	nop
+ 10045a8:	00000013          	nop
+ 10045ac:	00000013          	nop
+ 10045b0:	00000013          	nop
+ 10045b4:	00000013          	nop
+ 10045b8:	00000013          	nop
+ 10045bc:	00000013          	nop
+ 10045c0:	00000013          	nop
+ 10045c4:	00000013          	nop
+ 10045c8:	00000013          	nop
+ 10045cc:	00000013          	nop
+ 10045d0:	00000013          	nop
+ 10045d4:	00000013          	nop
+ 10045d8:	00000013          	nop
+ 10045dc:	00000013          	nop
+ 10045e0:	00000013          	nop
+ 10045e4:	00000013          	nop
+ 10045e8:	00000013          	nop
+ 10045ec:	00000013          	nop
+ 10045f0:	00000013          	nop
+ 10045f4:	00000013          	nop
+ 10045f8:	00000013          	nop
+ 10045fc:	00000013          	nop
+ 1004600:	00000013          	nop
+ 1004604:	00000013          	nop
+ 1004608:	00000013          	nop
+ 100460c:	00000013          	nop
+ 1004610:	00000013          	nop
+ 1004614:	00000013          	nop
+ 1004618:	00000013          	nop
+ 100461c:	00000013          	nop
+ 1004620:	00000013          	nop
+ 1004624:	00000013          	nop
+ 1004628:	00000013          	nop
+ 100462c:	00000013          	nop
+ 1004630:	00000013          	nop
+ 1004634:	00000013          	nop
+ 1004638:	00000013          	nop
+ 100463c:	00000013          	nop
+ 1004640:	00000013          	nop
+ 1004644:	00000013          	nop
+ 1004648:	00000013          	nop
+ 100464c:	00000013          	nop
+ 1004650:	00000013          	nop
+ 1004654:	00000013          	nop
+ 1004658:	00000013          	nop
+ 100465c:	00000013          	nop
+ 1004660:	00000013          	nop
+ 1004664:	00000013          	nop
+ 1004668:	00000013          	nop
+ 100466c:	00000013          	nop
+ 1004670:	00000013          	nop
+ 1004674:	00000013          	nop
+ 1004678:	00000013          	nop
+ 100467c:	00000013          	nop
+ 1004680:	00000013          	nop
+ 1004684:	00000013          	nop
+ 1004688:	00000013          	nop
+ 100468c:	00000013          	nop
+ 1004690:	00000013          	nop
+ 1004694:	00000013          	nop
+ 1004698:	00000013          	nop
+ 100469c:	00000013          	nop
+ 10046a0:	00000013          	nop
+ 10046a4:	00000013          	nop
+ 10046a8:	00000013          	nop
+ 10046ac:	00000013          	nop
+ 10046b0:	00000013          	nop
+ 10046b4:	00000013          	nop
+ 10046b8:	00000013          	nop
+ 10046bc:	00000013          	nop
+ 10046c0:	00000013          	nop
+ 10046c4:	00000013          	nop
+ 10046c8:	00000013          	nop
+ 10046cc:	00000013          	nop
+ 10046d0:	00000013          	nop
+ 10046d4:	00000013          	nop
+ 10046d8:	00000013          	nop
+ 10046dc:	00000013          	nop
+ 10046e0:	00000013          	nop
+ 10046e4:	00000013          	nop
+ 10046e8:	00000013          	nop
+ 10046ec:	00000013          	nop
+ 10046f0:	00000013          	nop
+ 10046f4:	00000013          	nop
+ 10046f8:	00000013          	nop
+ 10046fc:	00000013          	nop
+ 1004700:	00000013          	nop
+ 1004704:	00000013          	nop
+ 1004708:	00000013          	nop
+ 100470c:	00000013          	nop
+ 1004710:	00000013          	nop
+ 1004714:	00000013          	nop
+ 1004718:	00000013          	nop
+ 100471c:	00000013          	nop
+ 1004720:	00000013          	nop
+ 1004724:	00000013          	nop
+ 1004728:	00000013          	nop
+ 100472c:	00000013          	nop
+ 1004730:	00000013          	nop
+ 1004734:	00000013          	nop
+ 1004738:	00000013          	nop
+ 100473c:	00000013          	nop
+ 1004740:	00000013          	nop
+ 1004744:	00000013          	nop
+ 1004748:	00000013          	nop
+ 100474c:	00000013          	nop
+ 1004750:	00000013          	nop
+ 1004754:	00000013          	nop
+ 1004758:	00000013          	nop
+ 100475c:	00000013          	nop
+ 1004760:	00000013          	nop
+ 1004764:	00000013          	nop
+ 1004768:	00000013          	nop
+ 100476c:	00000013          	nop
+ 1004770:	00000013          	nop
+ 1004774:	00000013          	nop
+ 1004778:	00000013          	nop
+ 100477c:	00000013          	nop
+ 1004780:	00000013          	nop
+ 1004784:	00000013          	nop
+ 1004788:	00000013          	nop
+ 100478c:	00000013          	nop
+ 1004790:	00000013          	nop
+ 1004794:	00000013          	nop
+ 1004798:	00000013          	nop
+ 100479c:	00000013          	nop
+ 10047a0:	00000013          	nop
+ 10047a4:	00000013          	nop
+ 10047a8:	00000013          	nop
+ 10047ac:	00000013          	nop
+ 10047b0:	00000013          	nop
+ 10047b4:	00000013          	nop
+ 10047b8:	00000013          	nop
+ 10047bc:	00000013          	nop
+ 10047c0:	00000013          	nop
+ 10047c4:	00000013          	nop
+ 10047c8:	00000013          	nop
+ 10047cc:	00000013          	nop
+ 10047d0:	00000013          	nop
+ 10047d4:	00000013          	nop
+ 10047d8:	00000013          	nop
+ 10047dc:	00000013          	nop
+ 10047e0:	00000013          	nop
+ 10047e4:	00000013          	nop
+ 10047e8:	00000013          	nop
+ 10047ec:	00000013          	nop
+ 10047f0:	00000013          	nop
+ 10047f4:	00000013          	nop
+ 10047f8:	00000013          	nop
+ 10047fc:	00000013          	nop
+ 1004800:	00000013          	nop
+ 1004804:	00000013          	nop
+ 1004808:	00000013          	nop
+ 100480c:	00000013          	nop
+ 1004810:	00000013          	nop
+ 1004814:	00000013          	nop
+ 1004818:	00000013          	nop
+ 100481c:	00000013          	nop
+ 1004820:	00000013          	nop
+ 1004824:	00000013          	nop
+ 1004828:	00000013          	nop
+ 100482c:	00000013          	nop
+ 1004830:	00000013          	nop
+ 1004834:	00000013          	nop
+ 1004838:	00000013          	nop
+ 100483c:	00000013          	nop
+ 1004840:	00000013          	nop
+ 1004844:	00000013          	nop
+ 1004848:	00000013          	nop
+ 100484c:	00000013          	nop
+ 1004850:	00000013          	nop
+ 1004854:	00000013          	nop
+ 1004858:	00000013          	nop
+ 100485c:	00000013          	nop
+ 1004860:	00000013          	nop
+ 1004864:	00000013          	nop
+ 1004868:	00000013          	nop
+ 100486c:	00000013          	nop
+ 1004870:	00000013          	nop
+ 1004874:	00000013          	nop
+ 1004878:	00000013          	nop
+ 100487c:	00000013          	nop
+ 1004880:	00000013          	nop
+ 1004884:	00000013          	nop
+ 1004888:	00000013          	nop
+ 100488c:	00000013          	nop
+ 1004890:	00000013          	nop
+ 1004894:	00000013          	nop
+ 1004898:	00000013          	nop
+ 100489c:	00000013          	nop
+ 10048a0:	00000013          	nop
+ 10048a4:	00000013          	nop
+ 10048a8:	00000013          	nop
+ 10048ac:	00000013          	nop
+ 10048b0:	00000013          	nop
+ 10048b4:	00000013          	nop
+ 10048b8:	00000013          	nop
+ 10048bc:	00000013          	nop
+ 10048c0:	00000013          	nop
+ 10048c4:	00000013          	nop
+ 10048c8:	00000013          	nop
+ 10048cc:	00000013          	nop
+ 10048d0:	00000013          	nop
+ 10048d4:	00000013          	nop
+ 10048d8:	00000013          	nop
+ 10048dc:	00000013          	nop
+ 10048e0:	00000013          	nop
+ 10048e4:	00000013          	nop
+ 10048e8:	00000013          	nop
+ 10048ec:	00000013          	nop
+ 10048f0:	00000013          	nop
+ 10048f4:	00000013          	nop
+ 10048f8:	00000013          	nop
+ 10048fc:	00000013          	nop
+ 1004900:	00000013          	nop
+ 1004904:	00000013          	nop
+ 1004908:	00000013          	nop
+ 100490c:	00000013          	nop
+ 1004910:	00000013          	nop
+ 1004914:	00000013          	nop
+ 1004918:	00000013          	nop
+ 100491c:	00000013          	nop
+ 1004920:	00000013          	nop
+ 1004924:	00000013          	nop
+ 1004928:	00000013          	nop
+ 100492c:	00000013          	nop
+ 1004930:	00000013          	nop
+ 1004934:	00000013          	nop
+ 1004938:	00000013          	nop
+ 100493c:	00000013          	nop
+ 1004940:	00000013          	nop
+ 1004944:	00000013          	nop
+ 1004948:	00000013          	nop
+ 100494c:	00000013          	nop
+ 1004950:	00000013          	nop
+ 1004954:	00000013          	nop
+ 1004958:	00000013          	nop
+ 100495c:	00000013          	nop
+ 1004960:	00000013          	nop
+ 1004964:	00000013          	nop
+ 1004968:	00000013          	nop
+ 100496c:	00000013          	nop
+ 1004970:	00000013          	nop
+ 1004974:	00000013          	nop
+ 1004978:	00000013          	nop
+ 100497c:	00000013          	nop
+ 1004980:	00000013          	nop
+ 1004984:	00000013          	nop
+ 1004988:	00000013          	nop
+ 100498c:	00000013          	nop
+ 1004990:	00000013          	nop
+ 1004994:	00000013          	nop
+ 1004998:	00000013          	nop
+ 100499c:	00000013          	nop
+ 10049a0:	00000013          	nop
+ 10049a4:	00000013          	nop
+ 10049a8:	00000013          	nop
+ 10049ac:	00000013          	nop
+ 10049b0:	00000013          	nop
+ 10049b4:	00000013          	nop
+ 10049b8:	00000013          	nop
+ 10049bc:	00000013          	nop
+ 10049c0:	00000013          	nop
+ 10049c4:	00000013          	nop
+ 10049c8:	00000013          	nop
+ 10049cc:	00000013          	nop
+ 10049d0:	00000013          	nop
+ 10049d4:	00000013          	nop
+ 10049d8:	00000013          	nop
+ 10049dc:	00000013          	nop
+ 10049e0:	00000013          	nop
+ 10049e4:	00000013          	nop
+ 10049e8:	00000013          	nop
+ 10049ec:	00000013          	nop
+ 10049f0:	00000013          	nop
+ 10049f4:	00000013          	nop
+ 10049f8:	00000013          	nop
+ 10049fc:	00000013          	nop
+ 1004a00:	00000013          	nop
+ 1004a04:	00000013          	nop
+ 1004a08:	00000013          	nop
+ 1004a0c:	00000013          	nop
+ 1004a10:	00000013          	nop
+ 1004a14:	00000013          	nop
+ 1004a18:	00000013          	nop
+ 1004a1c:	00000013          	nop
+ 1004a20:	00000013          	nop
+ 1004a24:	00000013          	nop
+ 1004a28:	00000013          	nop
+ 1004a2c:	00000013          	nop
+ 1004a30:	00000013          	nop
+ 1004a34:	00000013          	nop
+ 1004a38:	00000013          	nop
+ 1004a3c:	00000013          	nop
+ 1004a40:	00000013          	nop
+ 1004a44:	00000013          	nop
+ 1004a48:	00000013          	nop
+ 1004a4c:	00000013          	nop
+ 1004a50:	00000013          	nop
+ 1004a54:	00000013          	nop
+ 1004a58:	00000013          	nop
+ 1004a5c:	00000013          	nop
+ 1004a60:	00000013          	nop
+ 1004a64:	00000013          	nop
+ 1004a68:	00000013          	nop
+ 1004a6c:	00000013          	nop
+ 1004a70:	00000013          	nop
+ 1004a74:	00000013          	nop
+ 1004a78:	00000013          	nop
+ 1004a7c:	00000013          	nop
+ 1004a80:	00000013          	nop
+ 1004a84:	00000013          	nop
+ 1004a88:	00000013          	nop
+ 1004a8c:	00000013          	nop
+ 1004a90:	00000013          	nop
+ 1004a94:	00000013          	nop
+ 1004a98:	00000013          	nop
+ 1004a9c:	00000013          	nop
+ 1004aa0:	00000013          	nop
+ 1004aa4:	00000013          	nop
+ 1004aa8:	00000013          	nop
+ 1004aac:	00000013          	nop
+ 1004ab0:	00000013          	nop
+ 1004ab4:	00000013          	nop
+ 1004ab8:	00000013          	nop
+ 1004abc:	00000013          	nop
+ 1004ac0:	00000013          	nop
+ 1004ac4:	00000013          	nop
+ 1004ac8:	00000013          	nop
+ 1004acc:	00000013          	nop
+ 1004ad0:	00000013          	nop
+ 1004ad4:	00000013          	nop
+ 1004ad8:	00000013          	nop
+ 1004adc:	00000013          	nop
+ 1004ae0:	00000013          	nop
+ 1004ae4:	00000013          	nop
+ 1004ae8:	00000013          	nop
+ 1004aec:	00000013          	nop
+ 1004af0:	00000013          	nop
+ 1004af4:	00000013          	nop
+ 1004af8:	00000013          	nop
+ 1004afc:	00000013          	nop
+ 1004b00:	00000013          	nop
+ 1004b04:	00000013          	nop
+ 1004b08:	00000013          	nop
+ 1004b0c:	00000013          	nop
+ 1004b10:	00000013          	nop
+ 1004b14:	00000013          	nop
+ 1004b18:	00000013          	nop
+ 1004b1c:	00000013          	nop
+ 1004b20:	00000013          	nop
+ 1004b24:	00000013          	nop
+ 1004b28:	00000013          	nop
+ 1004b2c:	00000013          	nop
+ 1004b30:	00000013          	nop
+ 1004b34:	00000013          	nop
+ 1004b38:	00000013          	nop
+ 1004b3c:	00000013          	nop
+ 1004b40:	00000013          	nop
+ 1004b44:	00000013          	nop
+ 1004b48:	00000013          	nop
+ 1004b4c:	00000013          	nop
+ 1004b50:	00000013          	nop
+ 1004b54:	00000013          	nop
+ 1004b58:	00000013          	nop
+ 1004b5c:	00000013          	nop
+ 1004b60:	00000013          	nop
+ 1004b64:	00000013          	nop
+ 1004b68:	00000013          	nop
+ 1004b6c:	00000013          	nop
+ 1004b70:	00000013          	nop
+ 1004b74:	00000013          	nop
+ 1004b78:	00000013          	nop
+ 1004b7c:	00000013          	nop
+ 1004b80:	00000013          	nop
+ 1004b84:	00000013          	nop
+ 1004b88:	00000013          	nop
+ 1004b8c:	00000013          	nop
+ 1004b90:	00000013          	nop
+ 1004b94:	00000013          	nop
+ 1004b98:	00000013          	nop
+ 1004b9c:	00000013          	nop
+ 1004ba0:	00000013          	nop
+ 1004ba4:	00000013          	nop
+ 1004ba8:	00000013          	nop
+ 1004bac:	00000013          	nop
+ 1004bb0:	00000013          	nop
+ 1004bb4:	00000013          	nop
+ 1004bb8:	00000013          	nop
+ 1004bbc:	00000013          	nop
+ 1004bc0:	00000013          	nop
+ 1004bc4:	00000013          	nop
+ 1004bc8:	00000013          	nop
+ 1004bcc:	00000013          	nop
+ 1004bd0:	00000013          	nop
+ 1004bd4:	00000013          	nop
+ 1004bd8:	00000013          	nop
+ 1004bdc:	00000013          	nop
+ 1004be0:	00000013          	nop
+ 1004be4:	00000013          	nop
+ 1004be8:	00000013          	nop
+ 1004bec:	00000013          	nop
+ 1004bf0:	00000013          	nop
+ 1004bf4:	00000013          	nop
+ 1004bf8:	00000013          	nop
+ 1004bfc:	00000013          	nop
+ 1004c00:	00000013          	nop
+ 1004c04:	00000013          	nop
+ 1004c08:	00000013          	nop
+ 1004c0c:	00000013          	nop
+ 1004c10:	00000013          	nop
+ 1004c14:	00000013          	nop
+ 1004c18:	00000013          	nop
+ 1004c1c:	00000013          	nop
+ 1004c20:	00000013          	nop
+ 1004c24:	00000013          	nop
+ 1004c28:	00000013          	nop
+ 1004c2c:	00000013          	nop
+ 1004c30:	00000013          	nop
+ 1004c34:	00000013          	nop
+ 1004c38:	00000013          	nop
+ 1004c3c:	00000013          	nop
+ 1004c40:	00000013          	nop
+ 1004c44:	00000013          	nop
+ 1004c48:	00000013          	nop
+ 1004c4c:	00000013          	nop
+ 1004c50:	00000013          	nop
+ 1004c54:	00000013          	nop
+ 1004c58:	00000013          	nop
+ 1004c5c:	00000013          	nop
+ 1004c60:	00000013          	nop
+ 1004c64:	00000013          	nop
+ 1004c68:	00000013          	nop
+ 1004c6c:	00000013          	nop
+ 1004c70:	00000013          	nop
+ 1004c74:	00000013          	nop
+ 1004c78:	00000013          	nop
+ 1004c7c:	00000013          	nop
+ 1004c80:	00000013          	nop
+ 1004c84:	00000013          	nop
+ 1004c88:	00000013          	nop
+ 1004c8c:	00000013          	nop
+ 1004c90:	00000013          	nop
+ 1004c94:	00000013          	nop
+ 1004c98:	00000013          	nop
+ 1004c9c:	00000013          	nop
+ 1004ca0:	00000013          	nop
+ 1004ca4:	00000013          	nop
+ 1004ca8:	00000013          	nop
+ 1004cac:	00000013          	nop
+ 1004cb0:	00000013          	nop
+ 1004cb4:	00000013          	nop
+ 1004cb8:	00000013          	nop
+ 1004cbc:	00000013          	nop
+ 1004cc0:	00000013          	nop
+ 1004cc4:	00000013          	nop
+ 1004cc8:	00000013          	nop
+ 1004ccc:	00000013          	nop
+ 1004cd0:	00000013          	nop
+ 1004cd4:	00000013          	nop
+ 1004cd8:	00000013          	nop
+ 1004cdc:	00000013          	nop
+ 1004ce0:	00000013          	nop
+ 1004ce4:	00000013          	nop
+ 1004ce8:	00000013          	nop
+ 1004cec:	00000013          	nop
+ 1004cf0:	00000013          	nop
+ 1004cf4:	00000013          	nop
+ 1004cf8:	00000013          	nop
+ 1004cfc:	00000013          	nop
+ 1004d00:	00000013          	nop
+ 1004d04:	00000013          	nop
+ 1004d08:	00000013          	nop
+ 1004d0c:	00000013          	nop
+ 1004d10:	00000013          	nop
+ 1004d14:	00000013          	nop
+ 1004d18:	00000013          	nop
+ 1004d1c:	00000013          	nop
+ 1004d20:	00000013          	nop
+ 1004d24:	00000013          	nop
+ 1004d28:	00000013          	nop
+ 1004d2c:	00000013          	nop
+ 1004d30:	00000013          	nop
+ 1004d34:	00000013          	nop
+ 1004d38:	00000013          	nop
+ 1004d3c:	00000013          	nop
+ 1004d40:	00000013          	nop
+ 1004d44:	00000013          	nop
+ 1004d48:	00000013          	nop
+ 1004d4c:	00000013          	nop
+ 1004d50:	00000013          	nop
+ 1004d54:	00000013          	nop
+ 1004d58:	00000013          	nop
+ 1004d5c:	00000013          	nop
+ 1004d60:	00000013          	nop
+ 1004d64:	00000013          	nop
+ 1004d68:	00000013          	nop
+ 1004d6c:	00000013          	nop
+ 1004d70:	00000013          	nop
+ 1004d74:	00000013          	nop
+ 1004d78:	00000013          	nop
+ 1004d7c:	00000013          	nop
+ 1004d80:	00000013          	nop
+ 1004d84:	00000013          	nop
+ 1004d88:	00000013          	nop
+ 1004d8c:	00000013          	nop
+ 1004d90:	00000013          	nop
+ 1004d94:	00000013          	nop
+ 1004d98:	00000013          	nop
+ 1004d9c:	00000013          	nop
+ 1004da0:	00000013          	nop
+ 1004da4:	00000013          	nop
+ 1004da8:	00000013          	nop
+ 1004dac:	00000013          	nop
+ 1004db0:	00000013          	nop
+ 1004db4:	00000013          	nop
+ 1004db8:	00000013          	nop
+ 1004dbc:	00000013          	nop
+ 1004dc0:	00000013          	nop
+ 1004dc4:	00000013          	nop
+ 1004dc8:	00000013          	nop
+ 1004dcc:	00000013          	nop
+ 1004dd0:	00000013          	nop
+ 1004dd4:	00000013          	nop
+ 1004dd8:	00000013          	nop
+ 1004ddc:	00000013          	nop
+ 1004de0:	00000013          	nop
+ 1004de4:	00000013          	nop
+ 1004de8:	00000013          	nop
+ 1004dec:	00000013          	nop
+ 1004df0:	00000013          	nop
+ 1004df4:	00000013          	nop
+ 1004df8:	00000013          	nop
+ 1004dfc:	00000013          	nop
+ 1004e00:	00000013          	nop
+ 1004e04:	00000013          	nop
+ 1004e08:	00000013          	nop
+ 1004e0c:	00000013          	nop
+ 1004e10:	00000013          	nop
+ 1004e14:	00000013          	nop
+ 1004e18:	00000013          	nop
+ 1004e1c:	00000013          	nop
+ 1004e20:	00000013          	nop
+ 1004e24:	00000013          	nop
+ 1004e28:	00000013          	nop
+ 1004e2c:	00000013          	nop
+ 1004e30:	00000013          	nop
+ 1004e34:	00000013          	nop
+ 1004e38:	00000013          	nop
+ 1004e3c:	00000013          	nop
+ 1004e40:	00000013          	nop
+ 1004e44:	00000013          	nop
+ 1004e48:	00000013          	nop
+ 1004e4c:	00000013          	nop
+ 1004e50:	00000013          	nop
+ 1004e54:	00000013          	nop
+ 1004e58:	00000013          	nop
+ 1004e5c:	00000013          	nop
+ 1004e60:	00000013          	nop
+ 1004e64:	00000013          	nop
+ 1004e68:	00000013          	nop
+ 1004e6c:	00000013          	nop
+ 1004e70:	00000013          	nop
+ 1004e74:	00000013          	nop
+ 1004e78:	00000013          	nop
+ 1004e7c:	00000013          	nop
+ 1004e80:	00000013          	nop
+ 1004e84:	00000013          	nop
+ 1004e88:	00000013          	nop
+ 1004e8c:	00000013          	nop
+ 1004e90:	00000013          	nop
+ 1004e94:	00000013          	nop
+ 1004e98:	00000013          	nop
+ 1004e9c:	00000013          	nop
+ 1004ea0:	00000013          	nop
+ 1004ea4:	00000013          	nop
+ 1004ea8:	00000013          	nop
+ 1004eac:	00000013          	nop
+ 1004eb0:	00000013          	nop
+ 1004eb4:	00000013          	nop
+ 1004eb8:	00000013          	nop
+ 1004ebc:	00000013          	nop
+ 1004ec0:	00000013          	nop
+ 1004ec4:	00000013          	nop
+ 1004ec8:	00000013          	nop
+ 1004ecc:	00000013          	nop
+ 1004ed0:	00000013          	nop
+ 1004ed4:	00000013          	nop
+ 1004ed8:	00000013          	nop
+ 1004edc:	00000013          	nop
+ 1004ee0:	00000013          	nop
+ 1004ee4:	00000013          	nop
+ 1004ee8:	00000013          	nop
+ 1004eec:	00000013          	nop
+ 1004ef0:	00000013          	nop
+ 1004ef4:	00000013          	nop
+ 1004ef8:	00000013          	nop
+ 1004efc:	00000013          	nop
+ 1004f00:	00000013          	nop
+ 1004f04:	00000013          	nop
+ 1004f08:	00000013          	nop
+ 1004f0c:	00000013          	nop
+ 1004f10:	00000013          	nop
+ 1004f14:	00000013          	nop
+ 1004f18:	00000013          	nop
+ 1004f1c:	00000013          	nop
+ 1004f20:	00000013          	nop
+ 1004f24:	00000013          	nop
+ 1004f28:	00000013          	nop
+ 1004f2c:	00000013          	nop
+ 1004f30:	00000013          	nop
+ 1004f34:	00000013          	nop
+ 1004f38:	00000013          	nop
+ 1004f3c:	00000013          	nop
+ 1004f40:	00000013          	nop
+ 1004f44:	00000013          	nop
+ 1004f48:	00000013          	nop
+ 1004f4c:	00000013          	nop
+ 1004f50:	00000013          	nop
+ 1004f54:	00000013          	nop
+ 1004f58:	00000013          	nop
+ 1004f5c:	00000013          	nop
+ 1004f60:	00000013          	nop
+ 1004f64:	00000013          	nop
+ 1004f68:	00000013          	nop
+ 1004f6c:	00000013          	nop
+ 1004f70:	00000013          	nop
+ 1004f74:	00000013          	nop
+ 1004f78:	00000013          	nop
+ 1004f7c:	00000013          	nop
+ 1004f80:	00000013          	nop
+ 1004f84:	00000013          	nop
+ 1004f88:	00000013          	nop
+ 1004f8c:	00000013          	nop
+ 1004f90:	00000013          	nop
+ 1004f94:	00000013          	nop
+ 1004f98:	00000013          	nop
+ 1004f9c:	00000013          	nop
+ 1004fa0:	00000013          	nop
+ 1004fa4:	00000013          	nop
+ 1004fa8:	00000013          	nop
+ 1004fac:	00000013          	nop
+ 1004fb0:	00000013          	nop
+ 1004fb4:	00000013          	nop
+ 1004fb8:	00000013          	nop
+ 1004fbc:	00000013          	nop
+ 1004fc0:	00000013          	nop
+ 1004fc4:	00000013          	nop
+ 1004fc8:	00000013          	nop
+ 1004fcc:	00000013          	nop
+ 1004fd0:	00000013          	nop
+ 1004fd4:	00000013          	nop
+ 1004fd8:	00000013          	nop
+ 1004fdc:	00000013          	nop
+ 1004fe0:	00000013          	nop
+ 1004fe4:	00000013          	nop
+ 1004fe8:	00000013          	nop
+ 1004fec:	00000013          	nop
+ 1004ff0:	00000013          	nop
+ 1004ff4:	00000013          	nop
+ 1004ff8:	00000013          	nop
+ 1004ffc:	00000013          	nop
+ 1005000:	00000013          	nop
+ 1005004:	00000013          	nop
+ 1005008:	00000013          	nop
+ 100500c:	00000013          	nop
+ 1005010:	00000013          	nop
+ 1005014:	00000013          	nop
+ 1005018:	00000013          	nop
+ 100501c:	00000013          	nop
+ 1005020:	00000013          	nop
+ 1005024:	00000013          	nop
+ 1005028:	00000013          	nop
+ 100502c:	00000013          	nop
+ 1005030:	00000013          	nop
+ 1005034:	00000013          	nop
+ 1005038:	00000013          	nop
+ 100503c:	00000013          	nop
+ 1005040:	00000013          	nop
+ 1005044:	00000013          	nop
+ 1005048:	00000013          	nop
+ 100504c:	00000013          	nop
+ 1005050:	00000013          	nop
+ 1005054:	00000013          	nop
+ 1005058:	00000013          	nop
+ 100505c:	00000013          	nop
+ 1005060:	00000013          	nop
+ 1005064:	00000013          	nop
+ 1005068:	00000013          	nop
+ 100506c:	00000013          	nop
+ 1005070:	00000013          	nop
+ 1005074:	00000013          	nop
+ 1005078:	00000013          	nop
+ 100507c:	00000013          	nop
+ 1005080:	00000013          	nop
+ 1005084:	00000013          	nop
+ 1005088:	00000013          	nop
+ 100508c:	00000013          	nop
+ 1005090:	00000013          	nop
+ 1005094:	00000013          	nop
+ 1005098:	00000013          	nop
+ 100509c:	00000013          	nop
+ 10050a0:	00000013          	nop
+ 10050a4:	00000013          	nop
+ 10050a8:	00000013          	nop
+ 10050ac:	00000013          	nop
+ 10050b0:	00000013          	nop
+ 10050b4:	00000013          	nop
+ 10050b8:	00000013          	nop
+ 10050bc:	00000013          	nop
+ 10050c0:	00000013          	nop
+ 10050c4:	00000013          	nop
+ 10050c8:	00000013          	nop
+ 10050cc:	00000013          	nop
+ 10050d0:	00000013          	nop
+ 10050d4:	00000013          	nop
+ 10050d8:	00000013          	nop
+ 10050dc:	00000013          	nop
+ 10050e0:	00000013          	nop
+ 10050e4:	00000013          	nop
+ 10050e8:	00000013          	nop
+ 10050ec:	00000013          	nop
+ 10050f0:	00000013          	nop
+ 10050f4:	00000013          	nop
+ 10050f8:	00000013          	nop
+ 10050fc:	00000013          	nop
+ 1005100:	00000013          	nop
+ 1005104:	00000013          	nop
+ 1005108:	00000013          	nop
+ 100510c:	00000013          	nop
+ 1005110:	00000013          	nop
+ 1005114:	00000013          	nop
+ 1005118:	00000013          	nop
+ 100511c:	00000013          	nop
+ 1005120:	00000013          	nop
+ 1005124:	00000013          	nop
+ 1005128:	00000013          	nop
+ 100512c:	00000013          	nop
+ 1005130:	00000013          	nop
+ 1005134:	00000013          	nop
+ 1005138:	00000013          	nop
+ 100513c:	00000013          	nop
+ 1005140:	00000013          	nop
+ 1005144:	00000013          	nop
+ 1005148:	00000013          	nop
+ 100514c:	00000013          	nop
+ 1005150:	00000013          	nop
+ 1005154:	00000013          	nop
+ 1005158:	00000013          	nop
+ 100515c:	00000013          	nop
+ 1005160:	00000013          	nop
+ 1005164:	00000013          	nop
+ 1005168:	00000013          	nop
+ 100516c:	00000013          	nop
+ 1005170:	00000013          	nop
+ 1005174:	00000013          	nop
+ 1005178:	00000013          	nop
+ 100517c:	00000013          	nop
+ 1005180:	00000013          	nop
+ 1005184:	00000013          	nop
+ 1005188:	00000013          	nop
+ 100518c:	00000013          	nop
+ 1005190:	00000013          	nop
+ 1005194:	00000013          	nop
+ 1005198:	00000013          	nop
+ 100519c:	00000013          	nop
+ 10051a0:	00000013          	nop
+ 10051a4:	00000013          	nop
+ 10051a8:	00000013          	nop
+ 10051ac:	00000013          	nop
+ 10051b0:	00000013          	nop
+ 10051b4:	00000013          	nop
+ 10051b8:	00000013          	nop
+ 10051bc:	00000013          	nop
+ 10051c0:	00000013          	nop
+ 10051c4:	00000013          	nop
+ 10051c8:	00000013          	nop
+ 10051cc:	00000013          	nop
+ 10051d0:	00000013          	nop
+ 10051d4:	00000013          	nop
+ 10051d8:	00000013          	nop
+ 10051dc:	00000013          	nop
+ 10051e0:	00000013          	nop
+ 10051e4:	00000013          	nop
+ 10051e8:	00000013          	nop
+ 10051ec:	00000013          	nop
+ 10051f0:	00000013          	nop
+ 10051f4:	00000013          	nop
+ 10051f8:	00000013          	nop
+ 10051fc:	00000013          	nop
+ 1005200:	00000013          	nop
+ 1005204:	00000013          	nop
+ 1005208:	00000013          	nop
+ 100520c:	00000013          	nop
+ 1005210:	00000013          	nop
+ 1005214:	00000013          	nop
+ 1005218:	00000013          	nop
+ 100521c:	00000013          	nop
+ 1005220:	00000013          	nop
+ 1005224:	00000013          	nop
+ 1005228:	00000013          	nop
+ 100522c:	00000013          	nop
+ 1005230:	00000013          	nop
+ 1005234:	00000013          	nop
+ 1005238:	00000013          	nop
+ 100523c:	00000013          	nop
+ 1005240:	00000013          	nop
+ 1005244:	00000013          	nop
+ 1005248:	00000013          	nop
+ 100524c:	00000013          	nop
+ 1005250:	00000013          	nop
+ 1005254:	00000013          	nop
+ 1005258:	00000013          	nop
+ 100525c:	00000013          	nop
+ 1005260:	00000013          	nop
+ 1005264:	00000013          	nop
+ 1005268:	00000013          	nop
+ 100526c:	00000013          	nop
+ 1005270:	00000013          	nop
+ 1005274:	00000013          	nop
+ 1005278:	00000013          	nop
+ 100527c:	00000013          	nop
+ 1005280:	00000013          	nop
+ 1005284:	00000013          	nop
+ 1005288:	00000013          	nop
+ 100528c:	00000013          	nop
+ 1005290:	00000013          	nop
+ 1005294:	00000013          	nop
+ 1005298:	00000013          	nop
+ 100529c:	00000013          	nop
+ 10052a0:	00000013          	nop
+ 10052a4:	00000013          	nop
+ 10052a8:	00000013          	nop
+ 10052ac:	00000013          	nop
+ 10052b0:	00000013          	nop
+ 10052b4:	00000013          	nop
+ 10052b8:	00000013          	nop
+ 10052bc:	00000013          	nop
+ 10052c0:	00000013          	nop
+ 10052c4:	00000013          	nop
+ 10052c8:	00000013          	nop
+ 10052cc:	00000013          	nop
+ 10052d0:	00000013          	nop
+ 10052d4:	00000013          	nop
+ 10052d8:	00000013          	nop
+ 10052dc:	00000013          	nop
+ 10052e0:	00000013          	nop
+ 10052e4:	00000013          	nop
+ 10052e8:	00000013          	nop
+ 10052ec:	00000013          	nop
+ 10052f0:	00000013          	nop
+ 10052f4:	00000013          	nop
+ 10052f8:	00000013          	nop
+ 10052fc:	00000013          	nop
+ 1005300:	00000013          	nop
+ 1005304:	00000013          	nop
+ 1005308:	00000013          	nop
+ 100530c:	00000013          	nop
+ 1005310:	00000013          	nop
+ 1005314:	00000013          	nop
+ 1005318:	00000013          	nop
+ 100531c:	00000013          	nop
+ 1005320:	00000013          	nop
+ 1005324:	00000013          	nop
+ 1005328:	00000013          	nop
+ 100532c:	00000013          	nop
+ 1005330:	00000013          	nop
+ 1005334:	00000013          	nop
+ 1005338:	00000013          	nop
+ 100533c:	00000013          	nop
+ 1005340:	00000013          	nop
+ 1005344:	00000013          	nop
+ 1005348:	00000013          	nop
+ 100534c:	00000013          	nop
+ 1005350:	00000013          	nop
+ 1005354:	00000013          	nop
+ 1005358:	00000013          	nop
+ 100535c:	00000013          	nop
+ 1005360:	00000013          	nop
+ 1005364:	00000013          	nop
+ 1005368:	00000013          	nop
+ 100536c:	00000013          	nop
+ 1005370:	00000013          	nop
+ 1005374:	00000013          	nop
+ 1005378:	00000013          	nop
+ 100537c:	00000013          	nop
+ 1005380:	00000013          	nop
+ 1005384:	00000013          	nop
+ 1005388:	00000013          	nop
+ 100538c:	00000013          	nop
+ 1005390:	00000013          	nop
+ 1005394:	00000013          	nop
+ 1005398:	00000013          	nop
+ 100539c:	00000013          	nop
+ 10053a0:	00000013          	nop
+ 10053a4:	00000013          	nop
+ 10053a8:	00000013          	nop
+ 10053ac:	00000013          	nop
+ 10053b0:	00000013          	nop
+ 10053b4:	00000013          	nop
+ 10053b8:	00000013          	nop
+ 10053bc:	00000013          	nop
+ 10053c0:	00000013          	nop
+ 10053c4:	00000013          	nop
+ 10053c8:	00000013          	nop
+ 10053cc:	00000013          	nop
+ 10053d0:	00000013          	nop
+ 10053d4:	00000013          	nop
+ 10053d8:	00000013          	nop
+ 10053dc:	00000013          	nop
+ 10053e0:	00000013          	nop
+ 10053e4:	00000013          	nop
+ 10053e8:	00000013          	nop
+ 10053ec:	00000013          	nop
+ 10053f0:	00000013          	nop
+ 10053f4:	00000013          	nop
+ 10053f8:	00000013          	nop
+ 10053fc:	00000013          	nop
+ 1005400:	00000013          	nop
+ 1005404:	00000013          	nop
+ 1005408:	00000013          	nop
+ 100540c:	00000013          	nop
+ 1005410:	00000013          	nop
+ 1005414:	00000013          	nop
+ 1005418:	00000013          	nop
+ 100541c:	00000013          	nop
+ 1005420:	00000013          	nop
+ 1005424:	00000013          	nop
+ 1005428:	00000013          	nop
+ 100542c:	00000013          	nop
+ 1005430:	00000013          	nop
+ 1005434:	00000013          	nop
+ 1005438:	00000013          	nop
+ 100543c:	00000013          	nop
+ 1005440:	00000013          	nop
+ 1005444:	00000013          	nop
+ 1005448:	00000013          	nop
+ 100544c:	00000013          	nop
+ 1005450:	00000013          	nop
+ 1005454:	00000013          	nop
+ 1005458:	00000013          	nop
+ 100545c:	00000013          	nop
+ 1005460:	00000013          	nop
+ 1005464:	00000013          	nop
+ 1005468:	00000013          	nop
+ 100546c:	00000013          	nop
+ 1005470:	00000013          	nop
+ 1005474:	00000013          	nop
+ 1005478:	00000013          	nop
+ 100547c:	00000013          	nop
+ 1005480:	00000013          	nop
+ 1005484:	00000013          	nop
+ 1005488:	00000013          	nop
+ 100548c:	00000013          	nop
+ 1005490:	00000013          	nop
+ 1005494:	00000013          	nop
+ 1005498:	00000013          	nop
+ 100549c:	00000013          	nop
+ 10054a0:	00000013          	nop
+ 10054a4:	00000013          	nop
+ 10054a8:	00000013          	nop
+ 10054ac:	00000013          	nop
+ 10054b0:	00000013          	nop
+ 10054b4:	00000013          	nop
+ 10054b8:	00000013          	nop
+ 10054bc:	00000013          	nop
+ 10054c0:	00000013          	nop
+ 10054c4:	00000013          	nop
+ 10054c8:	00000013          	nop
+ 10054cc:	00000013          	nop
+ 10054d0:	00000013          	nop
+ 10054d4:	00000013          	nop
+ 10054d8:	00000013          	nop
+ 10054dc:	00000013          	nop
+ 10054e0:	00000013          	nop
+ 10054e4:	00000013          	nop
+ 10054e8:	00000013          	nop
+ 10054ec:	00000013          	nop
+ 10054f0:	00000013          	nop
+ 10054f4:	00000013          	nop
+ 10054f8:	00000013          	nop
+ 10054fc:	00000013          	nop
+ 1005500:	00000013          	nop
+ 1005504:	00000013          	nop
+ 1005508:	00000013          	nop
+ 100550c:	00000013          	nop
+ 1005510:	00000013          	nop
+ 1005514:	00000013          	nop
+ 1005518:	00000013          	nop
+ 100551c:	00000013          	nop
+ 1005520:	00000013          	nop
+ 1005524:	00000013          	nop
+ 1005528:	00000013          	nop
+ 100552c:	00000013          	nop
+ 1005530:	00000013          	nop
+ 1005534:	00000013          	nop
+ 1005538:	00000013          	nop
+ 100553c:	00000013          	nop
+ 1005540:	00000013          	nop
+ 1005544:	00000013          	nop
+ 1005548:	00000013          	nop
+ 100554c:	00000013          	nop
+ 1005550:	00000013          	nop
+ 1005554:	00000013          	nop
+ 1005558:	00000013          	nop
+ 100555c:	00000013          	nop
+ 1005560:	00000013          	nop
+ 1005564:	00000013          	nop
+ 1005568:	00000013          	nop
+ 100556c:	00000013          	nop
+ 1005570:	00000013          	nop
+ 1005574:	00000013          	nop
+ 1005578:	00000013          	nop
+ 100557c:	00000013          	nop
+ 1005580:	00000013          	nop
+ 1005584:	00000013          	nop
+ 1005588:	00000013          	nop
+ 100558c:	00000013          	nop
+ 1005590:	00000013          	nop
+ 1005594:	00000013          	nop
+ 1005598:	00000013          	nop
+ 100559c:	00000013          	nop
+ 10055a0:	00000013          	nop
+ 10055a4:	00000013          	nop
+ 10055a8:	00000013          	nop
+ 10055ac:	00000013          	nop
+ 10055b0:	00000013          	nop
+ 10055b4:	00000013          	nop
+ 10055b8:	00000013          	nop
+ 10055bc:	00000013          	nop
+ 10055c0:	00000013          	nop
+ 10055c4:	00000013          	nop
+ 10055c8:	00000013          	nop
+ 10055cc:	00000013          	nop
+ 10055d0:	00000013          	nop
+ 10055d4:	00000013          	nop
+ 10055d8:	00000013          	nop
+ 10055dc:	00000013          	nop
+ 10055e0:	00000013          	nop
+ 10055e4:	00000013          	nop
+ 10055e8:	00000013          	nop
+ 10055ec:	00000013          	nop
+ 10055f0:	00000013          	nop
+ 10055f4:	00000013          	nop
+ 10055f8:	00000013          	nop
+ 10055fc:	00000013          	nop
+ 1005600:	00000013          	nop
+ 1005604:	00000013          	nop
+ 1005608:	00000013          	nop
+ 100560c:	00000013          	nop
+ 1005610:	00000013          	nop
+ 1005614:	00000013          	nop
+ 1005618:	00000013          	nop
+ 100561c:	00000013          	nop
+ 1005620:	00000013          	nop
+ 1005624:	00000013          	nop
+ 1005628:	00000013          	nop
+ 100562c:	00000013          	nop
+ 1005630:	00000013          	nop
+ 1005634:	00000013          	nop
+ 1005638:	00000013          	nop
+ 100563c:	00000013          	nop
+ 1005640:	00000013          	nop
+ 1005644:	00000013          	nop
+ 1005648:	00000013          	nop
+ 100564c:	00000013          	nop
+ 1005650:	00000013          	nop
+ 1005654:	00000013          	nop
+ 1005658:	00000013          	nop
+ 100565c:	00000013          	nop
+ 1005660:	00000013          	nop
+ 1005664:	00000013          	nop
+ 1005668:	00000013          	nop
+ 100566c:	00000013          	nop
+ 1005670:	00000013          	nop
+ 1005674:	00000013          	nop
+ 1005678:	00000013          	nop
+ 100567c:	00000013          	nop
+ 1005680:	00000013          	nop
+ 1005684:	00000013          	nop
+ 1005688:	00000013          	nop
+ 100568c:	00000013          	nop
+ 1005690:	00000013          	nop
+ 1005694:	00000013          	nop
+ 1005698:	00000013          	nop
+ 100569c:	00000013          	nop
+ 10056a0:	00000013          	nop
+ 10056a4:	00000013          	nop
+ 10056a8:	00000013          	nop
+ 10056ac:	00000013          	nop
+ 10056b0:	00000013          	nop
+ 10056b4:	00000013          	nop
+ 10056b8:	00000013          	nop
+ 10056bc:	00000013          	nop
+ 10056c0:	00000013          	nop
+ 10056c4:	00000013          	nop
+ 10056c8:	00000013          	nop
+ 10056cc:	00000013          	nop
+ 10056d0:	00000013          	nop
+ 10056d4:	00000013          	nop
+ 10056d8:	00000013          	nop
+ 10056dc:	00000013          	nop
+ 10056e0:	00000013          	nop
+ 10056e4:	00000013          	nop
+ 10056e8:	00000013          	nop
+ 10056ec:	00000013          	nop
+ 10056f0:	00000013          	nop
+ 10056f4:	00000013          	nop
+ 10056f8:	00000013          	nop
+ 10056fc:	00000013          	nop
+ 1005700:	00000013          	nop
+ 1005704:	00000013          	nop
+ 1005708:	00000013          	nop
+ 100570c:	00000013          	nop
+ 1005710:	00000013          	nop
+ 1005714:	00000013          	nop
+ 1005718:	00000013          	nop
+ 100571c:	00000013          	nop
+ 1005720:	00000013          	nop
+ 1005724:	00000013          	nop
+ 1005728:	00000013          	nop
+ 100572c:	00000013          	nop
+ 1005730:	00000013          	nop
+ 1005734:	00000013          	nop
+ 1005738:	00000013          	nop
+ 100573c:	00000013          	nop
+ 1005740:	00000013          	nop
+ 1005744:	00000013          	nop
+ 1005748:	00000013          	nop
+ 100574c:	00000013          	nop
+ 1005750:	00000013          	nop
+ 1005754:	00000013          	nop
+ 1005758:	00000013          	nop
+ 100575c:	00000013          	nop
+ 1005760:	00000013          	nop
+ 1005764:	00000013          	nop
+ 1005768:	00000013          	nop
+ 100576c:	00000013          	nop
+ 1005770:	00000013          	nop
+ 1005774:	00000013          	nop
+ 1005778:	00000013          	nop
+ 100577c:	00000013          	nop
+ 1005780:	00000013          	nop
+ 1005784:	00000013          	nop
+ 1005788:	00000013          	nop
+ 100578c:	00000013          	nop
+ 1005790:	00000013          	nop
+ 1005794:	00000013          	nop
+ 1005798:	00000013          	nop
+ 100579c:	00000013          	nop
+ 10057a0:	00000013          	nop
+ 10057a4:	00000013          	nop
+ 10057a8:	00000013          	nop
+ 10057ac:	00000013          	nop
+ 10057b0:	00000013          	nop
+ 10057b4:	00000013          	nop
+ 10057b8:	00000013          	nop
+ 10057bc:	00000013          	nop
+ 10057c0:	00000013          	nop
+ 10057c4:	00000013          	nop
+ 10057c8:	00000013          	nop
+ 10057cc:	00000013          	nop
+ 10057d0:	00000013          	nop
+ 10057d4:	00000013          	nop
+ 10057d8:	00000013          	nop
+ 10057dc:	00000013          	nop
+ 10057e0:	00000013          	nop
+ 10057e4:	00000013          	nop
+ 10057e8:	00000013          	nop
+ 10057ec:	00000013          	nop
+ 10057f0:	00000013          	nop
+ 10057f4:	00000013          	nop
+ 10057f8:	00000013          	nop
+ 10057fc:	00000013          	nop
+ 1005800:	00000013          	nop
+ 1005804:	00000013          	nop
+ 1005808:	00000013          	nop
+ 100580c:	00000013          	nop
+ 1005810:	00000013          	nop
+ 1005814:	00000013          	nop
+ 1005818:	00000013          	nop
+ 100581c:	00000013          	nop
+ 1005820:	00000013          	nop
+ 1005824:	00000013          	nop
+ 1005828:	00000013          	nop
+ 100582c:	00000013          	nop
+ 1005830:	00000013          	nop
+ 1005834:	00000013          	nop
+ 1005838:	00000013          	nop
+ 100583c:	00000013          	nop
+ 1005840:	00000013          	nop
+ 1005844:	00000013          	nop
+ 1005848:	00000013          	nop
+ 100584c:	00000013          	nop
+ 1005850:	00000013          	nop
+ 1005854:	00000013          	nop
+ 1005858:	00000013          	nop
+ 100585c:	00000013          	nop
+ 1005860:	00000013          	nop
+ 1005864:	00000013          	nop
+ 1005868:	00000013          	nop
+ 100586c:	00000013          	nop
+ 1005870:	00000013          	nop
+ 1005874:	00000013          	nop
+ 1005878:	00000013          	nop
+ 100587c:	00000013          	nop
+ 1005880:	00000013          	nop
+ 1005884:	00000013          	nop
+ 1005888:	00000013          	nop
+ 100588c:	00000013          	nop
+ 1005890:	00000013          	nop
+ 1005894:	00000013          	nop
+ 1005898:	00000013          	nop
+ 100589c:	00000013          	nop
+ 10058a0:	00000013          	nop
+ 10058a4:	00000013          	nop
+ 10058a8:	00000013          	nop
+ 10058ac:	00000013          	nop
+ 10058b0:	00000013          	nop
+ 10058b4:	00000013          	nop
+ 10058b8:	00000013          	nop
+ 10058bc:	00000013          	nop
+ 10058c0:	00000013          	nop
+ 10058c4:	00000013          	nop
+ 10058c8:	00000013          	nop
+ 10058cc:	00000013          	nop
+ 10058d0:	00000013          	nop
+ 10058d4:	00000013          	nop
+ 10058d8:	00000013          	nop
+ 10058dc:	00000013          	nop
+ 10058e0:	00000013          	nop
+ 10058e4:	00000013          	nop
+ 10058e8:	00000013          	nop
+ 10058ec:	00000013          	nop
+ 10058f0:	00000013          	nop
+ 10058f4:	00000013          	nop
+ 10058f8:	00000013          	nop
+ 10058fc:	00000013          	nop
+ 1005900:	00000013          	nop
+ 1005904:	00000013          	nop
+ 1005908:	00000013          	nop
+ 100590c:	00000013          	nop
+ 1005910:	00000013          	nop
+ 1005914:	00000013          	nop
+ 1005918:	00000013          	nop
+ 100591c:	00000013          	nop
+ 1005920:	00000013          	nop
+ 1005924:	00000013          	nop
+ 1005928:	00000013          	nop
+ 100592c:	00000013          	nop
+ 1005930:	00000013          	nop
+ 1005934:	00000013          	nop
+ 1005938:	00000013          	nop
+ 100593c:	00000013          	nop
+ 1005940:	00000013          	nop
+ 1005944:	00000013          	nop
+ 1005948:	00000013          	nop
+ 100594c:	00000013          	nop
+ 1005950:	00000013          	nop
+ 1005954:	00000013          	nop
+ 1005958:	00000013          	nop
+ 100595c:	00000013          	nop
+ 1005960:	00000013          	nop
+ 1005964:	00000013          	nop
+ 1005968:	00000013          	nop
+ 100596c:	00000013          	nop
+ 1005970:	00000013          	nop
+ 1005974:	00000013          	nop
+ 1005978:	00000013          	nop
+ 100597c:	00000013          	nop
+ 1005980:	00000013          	nop
+ 1005984:	00000013          	nop
+ 1005988:	00000013          	nop
+ 100598c:	00000013          	nop
+ 1005990:	00000013          	nop
+ 1005994:	00000013          	nop
+ 1005998:	00000013          	nop
+ 100599c:	00000013          	nop
+ 10059a0:	00000013          	nop
+ 10059a4:	00000013          	nop
+ 10059a8:	00000013          	nop
+ 10059ac:	00000013          	nop
+ 10059b0:	00000013          	nop
+ 10059b4:	00000013          	nop
+ 10059b8:	00000013          	nop
+ 10059bc:	00000013          	nop
+ 10059c0:	00000013          	nop
+ 10059c4:	00000013          	nop
+ 10059c8:	00000013          	nop
+ 10059cc:	00000013          	nop
+ 10059d0:	00000013          	nop
+ 10059d4:	00000013          	nop
+ 10059d8:	00000013          	nop
+ 10059dc:	00000013          	nop
+ 10059e0:	00000013          	nop
+ 10059e4:	00000013          	nop
+ 10059e8:	00000013          	nop
+ 10059ec:	00000013          	nop
+ 10059f0:	00000013          	nop
+ 10059f4:	00000013          	nop
+ 10059f8:	00000013          	nop
+ 10059fc:	00000013          	nop
+ 1005a00:	00000013          	nop
+ 1005a04:	00000013          	nop
+ 1005a08:	00000013          	nop
+ 1005a0c:	00000013          	nop
+ 1005a10:	00000013          	nop
+ 1005a14:	00000013          	nop
+ 1005a18:	00000013          	nop
+ 1005a1c:	00000013          	nop
+ 1005a20:	00000013          	nop
+ 1005a24:	00000013          	nop
+ 1005a28:	00000013          	nop
+ 1005a2c:	00000013          	nop
+ 1005a30:	00000013          	nop
+ 1005a34:	00000013          	nop
+ 1005a38:	00000013          	nop
+ 1005a3c:	00000013          	nop
+ 1005a40:	00000013          	nop
+ 1005a44:	00000013          	nop
+ 1005a48:	00000013          	nop
+ 1005a4c:	00000013          	nop
+ 1005a50:	00000013          	nop
+ 1005a54:	00000013          	nop
+ 1005a58:	00000013          	nop
+ 1005a5c:	00000013          	nop
+ 1005a60:	00000013          	nop
+ 1005a64:	00000013          	nop
+ 1005a68:	00000013          	nop
+ 1005a6c:	00000013          	nop
+ 1005a70:	00000013          	nop
+ 1005a74:	00000013          	nop
+ 1005a78:	00000013          	nop
+ 1005a7c:	00000013          	nop
+ 1005a80:	00000013          	nop
+ 1005a84:	00000013          	nop
+ 1005a88:	00000013          	nop
+ 1005a8c:	00000013          	nop
+ 1005a90:	00000013          	nop
+ 1005a94:	00000013          	nop
+ 1005a98:	00000013          	nop
+ 1005a9c:	00000013          	nop
+ 1005aa0:	00000013          	nop
+ 1005aa4:	00000013          	nop
+ 1005aa8:	00000013          	nop
+ 1005aac:	00000013          	nop
+ 1005ab0:	00000013          	nop
+ 1005ab4:	00000013          	nop
+ 1005ab8:	00000013          	nop
+ 1005abc:	00000013          	nop
+ 1005ac0:	00000013          	nop
+ 1005ac4:	00000013          	nop
+ 1005ac8:	00000013          	nop
+ 1005acc:	00000013          	nop
+ 1005ad0:	00000013          	nop
+ 1005ad4:	00000013          	nop
+ 1005ad8:	00000013          	nop
+ 1005adc:	00000013          	nop
+ 1005ae0:	00000013          	nop
+ 1005ae4:	00000013          	nop
+ 1005ae8:	00000013          	nop
+ 1005aec:	00000013          	nop
+ 1005af0:	00000013          	nop
+ 1005af4:	00000013          	nop
+ 1005af8:	00000013          	nop
+ 1005afc:	00000013          	nop
+ 1005b00:	00000013          	nop
+ 1005b04:	00000013          	nop
+ 1005b08:	00000013          	nop
+ 1005b0c:	00000013          	nop
+ 1005b10:	00000013          	nop
+ 1005b14:	00000013          	nop
+ 1005b18:	00000013          	nop
+ 1005b1c:	00000013          	nop
+ 1005b20:	00000013          	nop
+ 1005b24:	00000013          	nop
+ 1005b28:	00000013          	nop
+ 1005b2c:	00000013          	nop
+ 1005b30:	00000013          	nop
+ 1005b34:	00000013          	nop
+ 1005b38:	00000013          	nop
+ 1005b3c:	00000013          	nop
+ 1005b40:	00000013          	nop
+ 1005b44:	00000013          	nop
+ 1005b48:	00000013          	nop
+ 1005b4c:	00000013          	nop
+ 1005b50:	00000013          	nop
+ 1005b54:	00000013          	nop
+ 1005b58:	00000013          	nop
+ 1005b5c:	00000013          	nop
+ 1005b60:	00000013          	nop
+ 1005b64:	00000013          	nop
+ 1005b68:	00000013          	nop
+ 1005b6c:	00000013          	nop
+ 1005b70:	00000013          	nop
+ 1005b74:	00000013          	nop
+ 1005b78:	00000013          	nop
+ 1005b7c:	00000013          	nop
+ 1005b80:	00000013          	nop
+ 1005b84:	00000013          	nop
+ 1005b88:	00000013          	nop
+ 1005b8c:	00000013          	nop
+ 1005b90:	00000013          	nop
+ 1005b94:	00000013          	nop
+ 1005b98:	00000013          	nop
+ 1005b9c:	00000013          	nop
+ 1005ba0:	00000013          	nop
+ 1005ba4:	00000013          	nop
+ 1005ba8:	00000013          	nop
+ 1005bac:	00000013          	nop
+ 1005bb0:	00000013          	nop
+ 1005bb4:	00000013          	nop
+ 1005bb8:	00000013          	nop
+ 1005bbc:	00000013          	nop
+ 1005bc0:	00000013          	nop
+ 1005bc4:	00000013          	nop
+ 1005bc8:	00000013          	nop
+ 1005bcc:	00000013          	nop
+ 1005bd0:	00000013          	nop
+ 1005bd4:	00000013          	nop
+ 1005bd8:	00000013          	nop
+ 1005bdc:	00000013          	nop
+ 1005be0:	00000013          	nop
+ 1005be4:	00000013          	nop
+ 1005be8:	00000013          	nop
+ 1005bec:	00000013          	nop
+ 1005bf0:	00000013          	nop
+ 1005bf4:	00000013          	nop
+ 1005bf8:	00000013          	nop
+ 1005bfc:	00000013          	nop
+ 1005c00:	00000013          	nop
+ 1005c04:	00000013          	nop
+ 1005c08:	00000013          	nop
+ 1005c0c:	00000013          	nop
+ 1005c10:	00000013          	nop
+ 1005c14:	00000013          	nop
+ 1005c18:	00000013          	nop
+ 1005c1c:	00000013          	nop
+ 1005c20:	00000013          	nop
+ 1005c24:	00000013          	nop
+ 1005c28:	00000013          	nop
+ 1005c2c:	00000013          	nop
+ 1005c30:	00000013          	nop
+ 1005c34:	00000013          	nop
+ 1005c38:	00000013          	nop
+ 1005c3c:	00000013          	nop
+ 1005c40:	00000013          	nop
+ 1005c44:	00000013          	nop
+ 1005c48:	00000013          	nop
+ 1005c4c:	00000013          	nop
+ 1005c50:	00000013          	nop
+ 1005c54:	00000013          	nop
+ 1005c58:	00000013          	nop
+ 1005c5c:	00000013          	nop
+ 1005c60:	00000013          	nop
+ 1005c64:	00000013          	nop
+ 1005c68:	00000013          	nop
+ 1005c6c:	00000013          	nop
+ 1005c70:	00000013          	nop
+ 1005c74:	00000013          	nop
+ 1005c78:	00000013          	nop
+ 1005c7c:	00000013          	nop
+ 1005c80:	00000013          	nop
+ 1005c84:	00000013          	nop
+ 1005c88:	00000013          	nop
+ 1005c8c:	00000013          	nop
+ 1005c90:	00000013          	nop
+ 1005c94:	00000013          	nop
+ 1005c98:	00000013          	nop
+ 1005c9c:	00000013          	nop
+ 1005ca0:	00000013          	nop
+ 1005ca4:	00000013          	nop
+ 1005ca8:	00000013          	nop
+ 1005cac:	00000013          	nop
+ 1005cb0:	00000013          	nop
+ 1005cb4:	00000013          	nop
+ 1005cb8:	00000013          	nop
+ 1005cbc:	00000013          	nop
+ 1005cc0:	00000013          	nop
+ 1005cc4:	00000013          	nop
+ 1005cc8:	00000013          	nop
+ 1005ccc:	00000013          	nop
+ 1005cd0:	00000013          	nop
+ 1005cd4:	00000013          	nop
+ 1005cd8:	00000013          	nop
+ 1005cdc:	00000013          	nop
+ 1005ce0:	00000013          	nop
+ 1005ce4:	00000013          	nop
+ 1005ce8:	00000013          	nop
+ 1005cec:	00000013          	nop
+ 1005cf0:	00000013          	nop
+ 1005cf4:	00000013          	nop
+ 1005cf8:	00000013          	nop
+ 1005cfc:	00000013          	nop
+ 1005d00:	00000013          	nop
+ 1005d04:	00000013          	nop
+ 1005d08:	00000013          	nop
+ 1005d0c:	00000013          	nop
+ 1005d10:	00000013          	nop
+ 1005d14:	00000013          	nop
+ 1005d18:	00000013          	nop
+ 1005d1c:	00000013          	nop
+ 1005d20:	00000013          	nop
+ 1005d24:	00000013          	nop
+ 1005d28:	00000013          	nop
+ 1005d2c:	00000013          	nop
+ 1005d30:	00000013          	nop
+ 1005d34:	00000013          	nop
+ 1005d38:	00000013          	nop
+ 1005d3c:	00000013          	nop
+ 1005d40:	00000013          	nop
+ 1005d44:	00000013          	nop
+ 1005d48:	00000013          	nop
+ 1005d4c:	00000013          	nop
+ 1005d50:	00000013          	nop
+ 1005d54:	00000013          	nop
+ 1005d58:	00000013          	nop
+ 1005d5c:	00000013          	nop
+ 1005d60:	00000013          	nop
+ 1005d64:	00000013          	nop
+ 1005d68:	00000013          	nop
+ 1005d6c:	00000013          	nop
+ 1005d70:	00000013          	nop
+ 1005d74:	00000013          	nop
+ 1005d78:	00000013          	nop
+ 1005d7c:	00000013          	nop
+ 1005d80:	00000013          	nop
+ 1005d84:	00000013          	nop
+ 1005d88:	00000013          	nop
+ 1005d8c:	00000013          	nop
+ 1005d90:	00000013          	nop
+ 1005d94:	00000013          	nop
+ 1005d98:	00000013          	nop
+ 1005d9c:	00000013          	nop
+ 1005da0:	00000013          	nop
+ 1005da4:	00000013          	nop
+ 1005da8:	00000013          	nop
+ 1005dac:	00000013          	nop
+ 1005db0:	00000013          	nop
+ 1005db4:	00000013          	nop
+ 1005db8:	00000013          	nop
+ 1005dbc:	00000013          	nop
+ 1005dc0:	00000013          	nop
+ 1005dc4:	00000013          	nop
+ 1005dc8:	00000013          	nop
+ 1005dcc:	00000013          	nop
+ 1005dd0:	00000013          	nop
+ 1005dd4:	00000013          	nop
+ 1005dd8:	00000013          	nop
+ 1005ddc:	00000013          	nop
+ 1005de0:	00000013          	nop
+ 1005de4:	00000013          	nop
+ 1005de8:	00000013          	nop
+ 1005dec:	00000013          	nop
+ 1005df0:	00000013          	nop
+ 1005df4:	00000013          	nop
+ 1005df8:	00000013          	nop
+ 1005dfc:	00000013          	nop
+ 1005e00:	00000013          	nop
+ 1005e04:	00000013          	nop
+ 1005e08:	00000013          	nop
+ 1005e0c:	00000013          	nop
+ 1005e10:	00000013          	nop
+ 1005e14:	00000013          	nop
+ 1005e18:	00000013          	nop
+ 1005e1c:	00000013          	nop
+ 1005e20:	00000013          	nop
+ 1005e24:	00000013          	nop
+ 1005e28:	00000013          	nop
+ 1005e2c:	00000013          	nop
+ 1005e30:	00000013          	nop
+ 1005e34:	00000013          	nop
+ 1005e38:	00000013          	nop
+ 1005e3c:	00000013          	nop
+ 1005e40:	00000013          	nop
+ 1005e44:	00000013          	nop
+ 1005e48:	00000013          	nop
+ 1005e4c:	00000013          	nop
+ 1005e50:	00000013          	nop
+ 1005e54:	00000013          	nop
+ 1005e58:	00000013          	nop
+ 1005e5c:	00000013          	nop
+ 1005e60:	00000013          	nop
+ 1005e64:	00000013          	nop
+ 1005e68:	00000013          	nop
+ 1005e6c:	00000013          	nop
+ 1005e70:	00000013          	nop
+ 1005e74:	00000013          	nop
+ 1005e78:	00000013          	nop
+ 1005e7c:	00000013          	nop
+ 1005e80:	00000013          	nop
+ 1005e84:	00000013          	nop
+ 1005e88:	00000013          	nop
+ 1005e8c:	00000013          	nop
+ 1005e90:	00000013          	nop
+ 1005e94:	00000013          	nop
+ 1005e98:	00000013          	nop
+ 1005e9c:	00000013          	nop
+ 1005ea0:	00000013          	nop
+ 1005ea4:	00000013          	nop
+ 1005ea8:	00000013          	nop
+ 1005eac:	00000013          	nop
+ 1005eb0:	00000013          	nop
+ 1005eb4:	00000013          	nop
+ 1005eb8:	00000013          	nop
+ 1005ebc:	00000013          	nop
+ 1005ec0:	00000013          	nop
+ 1005ec4:	00000013          	nop
+ 1005ec8:	00000013          	nop
+ 1005ecc:	00000013          	nop
+ 1005ed0:	00000013          	nop
+ 1005ed4:	00000013          	nop
+ 1005ed8:	00000013          	nop
+ 1005edc:	00000013          	nop
+ 1005ee0:	00000013          	nop
+ 1005ee4:	00000013          	nop
+ 1005ee8:	00000013          	nop
+ 1005eec:	00000013          	nop
+ 1005ef0:	00000013          	nop
+ 1005ef4:	00000013          	nop
+ 1005ef8:	00000013          	nop
+ 1005efc:	00000013          	nop
+ 1005f00:	00000013          	nop
+ 1005f04:	00000013          	nop
+ 1005f08:	00000013          	nop
+ 1005f0c:	00000013          	nop
+ 1005f10:	00000013          	nop
+ 1005f14:	00000013          	nop
+ 1005f18:	00000013          	nop
+ 1005f1c:	00000013          	nop
+ 1005f20:	00000013          	nop
+ 1005f24:	00000013          	nop
+ 1005f28:	00000013          	nop
+ 1005f2c:	00000013          	nop
+ 1005f30:	00000013          	nop
+ 1005f34:	00000013          	nop
+ 1005f38:	00000013          	nop
+ 1005f3c:	00000013          	nop
+ 1005f40:	00000013          	nop
+ 1005f44:	00000013          	nop
+ 1005f48:	00000013          	nop
+ 1005f4c:	00000013          	nop
+ 1005f50:	00000013          	nop
+ 1005f54:	00000013          	nop
+ 1005f58:	00000013          	nop
+ 1005f5c:	00000013          	nop
+ 1005f60:	00000013          	nop
+ 1005f64:	00000013          	nop
+ 1005f68:	00000013          	nop
+ 1005f6c:	00000013          	nop
+ 1005f70:	00000013          	nop
+ 1005f74:	00000013          	nop
+ 1005f78:	00000013          	nop
+ 1005f7c:	00000013          	nop
+ 1005f80:	00000013          	nop
+ 1005f84:	00000013          	nop
+ 1005f88:	00000013          	nop
+ 1005f8c:	00000013          	nop
+ 1005f90:	00000013          	nop
+ 1005f94:	00000013          	nop
+ 1005f98:	00000013          	nop
+ 1005f9c:	00000013          	nop
+ 1005fa0:	00000013          	nop
+ 1005fa4:	00000013          	nop
+ 1005fa8:	00000013          	nop
+ 1005fac:	00000013          	nop
+ 1005fb0:	00000013          	nop
+ 1005fb4:	00000013          	nop
+ 1005fb8:	00000013          	nop
+ 1005fbc:	00000013          	nop
+ 1005fc0:	00000013          	nop
+ 1005fc4:	00000013          	nop
+ 1005fc8:	00000013          	nop
+ 1005fcc:	00000013          	nop
+ 1005fd0:	00000013          	nop
+ 1005fd4:	00000013          	nop
+ 1005fd8:	00000013          	nop
+ 1005fdc:	00000013          	nop
+ 1005fe0:	00000013          	nop
+ 1005fe4:	00000013          	nop
+ 1005fe8:	00000013          	nop
+ 1005fec:	00000013          	nop
+ 1005ff0:	00000013          	nop
+ 1005ff4:	00000013          	nop
+ 1005ff8:	00000013          	nop
+ 1005ffc:	00000013          	nop
+ 1006000:	00000013          	nop
+ 1006004:	00000013          	nop
+ 1006008:	00000013          	nop
+ 100600c:	00000013          	nop
+ 1006010:	00000013          	nop
+ 1006014:	00000013          	nop
+ 1006018:	00000013          	nop
+ 100601c:	00000013          	nop
+ 1006020:	00000013          	nop
+ 1006024:	00000013          	nop
+ 1006028:	00000013          	nop
+ 100602c:	00000013          	nop
+ 1006030:	00000013          	nop
+ 1006034:	00000013          	nop
+ 1006038:	00000013          	nop
+ 100603c:	00000013          	nop
+ 1006040:	00000013          	nop
+ 1006044:	00000013          	nop
+ 1006048:	00000013          	nop
+ 100604c:	00000013          	nop
+ 1006050:	00000013          	nop
+ 1006054:	00000013          	nop
+ 1006058:	00000013          	nop
+ 100605c:	00000013          	nop
+ 1006060:	00000013          	nop
+ 1006064:	00000013          	nop
+ 1006068:	00000013          	nop
+ 100606c:	00000013          	nop
+ 1006070:	00000013          	nop
+ 1006074:	00000013          	nop
+ 1006078:	00000013          	nop
+ 100607c:	00000013          	nop
+ 1006080:	00000013          	nop
+ 1006084:	00000013          	nop
+ 1006088:	00000013          	nop
+ 100608c:	00000013          	nop
+ 1006090:	00000013          	nop
+ 1006094:	00000013          	nop
+ 1006098:	00000013          	nop
+ 100609c:	00000013          	nop
+ 10060a0:	00000013          	nop
+ 10060a4:	00000013          	nop
+ 10060a8:	00000013          	nop
+ 10060ac:	00000013          	nop
+ 10060b0:	00000013          	nop
+ 10060b4:	00000013          	nop
+ 10060b8:	00000013          	nop
+ 10060bc:	00000013          	nop
+ 10060c0:	00000013          	nop
+ 10060c4:	00000013          	nop
+ 10060c8:	00000013          	nop
+ 10060cc:	00000013          	nop
+ 10060d0:	00000013          	nop
+ 10060d4:	00000013          	nop
+ 10060d8:	00000013          	nop
+ 10060dc:	00000013          	nop
+ 10060e0:	00000013          	nop
+ 10060e4:	00000013          	nop
+ 10060e8:	00000013          	nop
+ 10060ec:	00000013          	nop
+ 10060f0:	00000013          	nop
+ 10060f4:	00000013          	nop
+ 10060f8:	00000013          	nop
+ 10060fc:	00000013          	nop
+ 1006100:	00000013          	nop
+ 1006104:	00000013          	nop
+ 1006108:	00000013          	nop
+ 100610c:	00000013          	nop
+ 1006110:	00000013          	nop
+ 1006114:	00000013          	nop
+ 1006118:	00000013          	nop
+ 100611c:	00000013          	nop
+ 1006120:	00000013          	nop
+ 1006124:	00000013          	nop
+ 1006128:	00000013          	nop
+ 100612c:	00000013          	nop
+ 1006130:	00000013          	nop
+ 1006134:	00000013          	nop
+ 1006138:	00000013          	nop
+ 100613c:	00000013          	nop
+ 1006140:	00000013          	nop
+ 1006144:	00000013          	nop
+ 1006148:	00000013          	nop
+ 100614c:	00000013          	nop
+ 1006150:	00000013          	nop
+ 1006154:	00000013          	nop
+ 1006158:	00000013          	nop
+ 100615c:	00000013          	nop
+ 1006160:	00000013          	nop
+ 1006164:	00000013          	nop
+ 1006168:	00000013          	nop
+ 100616c:	00000013          	nop
+ 1006170:	00000013          	nop
+ 1006174:	00000013          	nop
+ 1006178:	00000013          	nop
+ 100617c:	00000013          	nop
+ 1006180:	00000013          	nop
+ 1006184:	00000013          	nop
+ 1006188:	00000013          	nop
+ 100618c:	00000013          	nop
+ 1006190:	00000013          	nop
+ 1006194:	00000013          	nop
+ 1006198:	00000013          	nop
+ 100619c:	00000013          	nop
+ 10061a0:	00000013          	nop
+ 10061a4:	00000013          	nop
+ 10061a8:	00000013          	nop
+ 10061ac:	00000013          	nop
+ 10061b0:	00000013          	nop
+ 10061b4:	00000013          	nop
+ 10061b8:	00000013          	nop
+ 10061bc:	00000013          	nop
+ 10061c0:	00000013          	nop
+ 10061c4:	00000013          	nop
+ 10061c8:	00000013          	nop
+ 10061cc:	00000013          	nop
+ 10061d0:	00000013          	nop
+ 10061d4:	00000013          	nop
+ 10061d8:	00000013          	nop
+ 10061dc:	00000013          	nop
+ 10061e0:	00000013          	nop
+ 10061e4:	00000013          	nop
+ 10061e8:	00000013          	nop
+ 10061ec:	00000013          	nop
+ 10061f0:	00000013          	nop
+ 10061f4:	00000013          	nop
+ 10061f8:	00000013          	nop
+ 10061fc:	00000013          	nop
+ 1006200:	00000013          	nop
+ 1006204:	00000013          	nop
+ 1006208:	00000013          	nop
+ 100620c:	00000013          	nop
+ 1006210:	00000013          	nop
+ 1006214:	00000013          	nop
+ 1006218:	00000013          	nop
+ 100621c:	00000013          	nop
+ 1006220:	00000013          	nop
+ 1006224:	00000013          	nop
+ 1006228:	00000013          	nop
+ 100622c:	00000013          	nop
+ 1006230:	00000013          	nop
+ 1006234:	00000013          	nop
+ 1006238:	00000013          	nop
+ 100623c:	00000013          	nop
+ 1006240:	00000013          	nop
+ 1006244:	00000013          	nop
+ 1006248:	00000013          	nop
+ 100624c:	00000013          	nop
+ 1006250:	00000013          	nop
+ 1006254:	00000013          	nop
+ 1006258:	00000013          	nop
+ 100625c:	00000013          	nop
+ 1006260:	00000013          	nop
+ 1006264:	00000013          	nop
+ 1006268:	00000013          	nop
+ 100626c:	00000013          	nop
+ 1006270:	00000013          	nop
+ 1006274:	00000013          	nop
+ 1006278:	00000013          	nop
+ 100627c:	00000013          	nop
+ 1006280:	00000013          	nop
+ 1006284:	00000013          	nop
+ 1006288:	00000013          	nop
+ 100628c:	00000013          	nop
+ 1006290:	00000013          	nop
+ 1006294:	00000013          	nop
+ 1006298:	00000013          	nop
+ 100629c:	00000013          	nop
+ 10062a0:	00000013          	nop
+ 10062a4:	00000013          	nop
+ 10062a8:	00000013          	nop
+ 10062ac:	00000013          	nop
+ 10062b0:	00000013          	nop
+ 10062b4:	00000013          	nop
+ 10062b8:	00000013          	nop
+ 10062bc:	00000013          	nop
+ 10062c0:	00000013          	nop
+ 10062c4:	00000013          	nop
+ 10062c8:	00000013          	nop
+ 10062cc:	00000013          	nop
+ 10062d0:	00000013          	nop
+ 10062d4:	00000013          	nop
+ 10062d8:	00000013          	nop
+ 10062dc:	00000013          	nop
+ 10062e0:	00000013          	nop
+ 10062e4:	00000013          	nop
+ 10062e8:	00000013          	nop
+ 10062ec:	00000013          	nop
+ 10062f0:	00000013          	nop
+ 10062f4:	00000013          	nop
+ 10062f8:	00000013          	nop
+ 10062fc:	00000013          	nop
+ 1006300:	00000013          	nop
+ 1006304:	00000013          	nop
+ 1006308:	00000013          	nop
+ 100630c:	00000013          	nop
+ 1006310:	00000013          	nop
+ 1006314:	00000013          	nop
+ 1006318:	00000013          	nop
+ 100631c:	00000013          	nop
+ 1006320:	00000013          	nop
+ 1006324:	00000013          	nop
+ 1006328:	00000013          	nop
+ 100632c:	00000013          	nop
+ 1006330:	00000013          	nop
+ 1006334:	00000013          	nop
+ 1006338:	00000013          	nop
+ 100633c:	00000013          	nop
+ 1006340:	00000013          	nop
+ 1006344:	00000013          	nop
+ 1006348:	00000013          	nop
+ 100634c:	00000013          	nop
+ 1006350:	00000013          	nop
+ 1006354:	00000013          	nop
+ 1006358:	00000013          	nop
+ 100635c:	00000013          	nop
+ 1006360:	00000013          	nop
+ 1006364:	00000013          	nop
+ 1006368:	00000013          	nop
+ 100636c:	00000013          	nop
+ 1006370:	00000013          	nop
+ 1006374:	00000013          	nop
+ 1006378:	00000013          	nop
+ 100637c:	00000013          	nop
+ 1006380:	00000013          	nop
+ 1006384:	00000013          	nop
+ 1006388:	00000013          	nop
+ 100638c:	00000013          	nop
+ 1006390:	00000013          	nop
+ 1006394:	00000013          	nop
+ 1006398:	00000013          	nop
+ 100639c:	00000013          	nop
+ 10063a0:	00000013          	nop
+ 10063a4:	00000013          	nop
+ 10063a8:	00000013          	nop
+ 10063ac:	00000013          	nop
+ 10063b0:	00000013          	nop
+ 10063b4:	00000013          	nop
+ 10063b8:	00000013          	nop
+ 10063bc:	00000013          	nop
+ 10063c0:	00000013          	nop
+ 10063c4:	00000013          	nop
+ 10063c8:	00000013          	nop
+ 10063cc:	00000013          	nop
+ 10063d0:	00000013          	nop
+ 10063d4:	00000013          	nop
+ 10063d8:	00000013          	nop
+ 10063dc:	00000013          	nop
+ 10063e0:	00000013          	nop
+ 10063e4:	00000013          	nop
+ 10063e8:	00000013          	nop
+ 10063ec:	00000013          	nop
+ 10063f0:	00000013          	nop
+ 10063f4:	00000013          	nop
+ 10063f8:	00000013          	nop
+ 10063fc:	00000013          	nop
+ 1006400:	00000013          	nop
+ 1006404:	00000013          	nop
+ 1006408:	00000013          	nop
+ 100640c:	00000013          	nop
+ 1006410:	00000013          	nop
+ 1006414:	00000013          	nop
+ 1006418:	00000013          	nop
+ 100641c:	00000013          	nop
+ 1006420:	00000013          	nop
+ 1006424:	00000013          	nop
+ 1006428:	00000013          	nop
+ 100642c:	00000013          	nop
+ 1006430:	00000013          	nop
+ 1006434:	00000013          	nop
+ 1006438:	00000013          	nop
+ 100643c:	00000013          	nop
+ 1006440:	00000013          	nop
+ 1006444:	00000013          	nop
+ 1006448:	00000013          	nop
+ 100644c:	00000013          	nop
+ 1006450:	00000013          	nop
+ 1006454:	00000013          	nop
+ 1006458:	00000013          	nop
+ 100645c:	00000013          	nop
+ 1006460:	00000013          	nop
+ 1006464:	00000013          	nop
+ 1006468:	00000013          	nop
+ 100646c:	00000013          	nop
+ 1006470:	00000013          	nop
+ 1006474:	00000013          	nop
+ 1006478:	00000013          	nop
+ 100647c:	00000013          	nop
+ 1006480:	00000013          	nop
+ 1006484:	00000013          	nop
+ 1006488:	00000013          	nop
+ 100648c:	00000013          	nop
+ 1006490:	00000013          	nop
+ 1006494:	00000013          	nop
+ 1006498:	00000013          	nop
+ 100649c:	00000013          	nop
+ 10064a0:	00000013          	nop
+ 10064a4:	00000013          	nop
+ 10064a8:	00000013          	nop
+ 10064ac:	00000013          	nop
+ 10064b0:	00000013          	nop
+ 10064b4:	00000013          	nop
+ 10064b8:	00000013          	nop
+ 10064bc:	00000013          	nop
+ 10064c0:	00000013          	nop
+ 10064c4:	00000013          	nop
+ 10064c8:	00000013          	nop
+ 10064cc:	00000013          	nop
+ 10064d0:	00000013          	nop
+ 10064d4:	00000013          	nop
+ 10064d8:	00000013          	nop
+ 10064dc:	00000013          	nop
+ 10064e0:	00000013          	nop
+ 10064e4:	00000013          	nop
+ 10064e8:	00000013          	nop
+ 10064ec:	00000013          	nop
+ 10064f0:	00000013          	nop
+ 10064f4:	00000013          	nop
+ 10064f8:	00000013          	nop
+ 10064fc:	00000013          	nop
+ 1006500:	00000013          	nop
+ 1006504:	00000013          	nop
+ 1006508:	00000013          	nop
+ 100650c:	00000013          	nop
+ 1006510:	00000013          	nop
+ 1006514:	00000013          	nop
+ 1006518:	00000013          	nop
+ 100651c:	00000013          	nop
+ 1006520:	00000013          	nop
+ 1006524:	00000013          	nop
+ 1006528:	00000013          	nop
+ 100652c:	00000013          	nop
+ 1006530:	00000013          	nop
+ 1006534:	00000013          	nop
+ 1006538:	00000013          	nop
+ 100653c:	00000013          	nop
+ 1006540:	00000013          	nop
+ 1006544:	00000013          	nop
+ 1006548:	00000013          	nop
+ 100654c:	00000013          	nop
+ 1006550:	00000013          	nop
+ 1006554:	00000013          	nop
+ 1006558:	00000013          	nop
+ 100655c:	00000013          	nop
+ 1006560:	00000013          	nop
+ 1006564:	00000013          	nop
+ 1006568:	00000013          	nop
+ 100656c:	00000013          	nop
+ 1006570:	00000013          	nop
+ 1006574:	00000013          	nop
+ 1006578:	00000013          	nop
+ 100657c:	00000013          	nop
+ 1006580:	00000013          	nop
+ 1006584:	00000013          	nop
+ 1006588:	00000013          	nop
+ 100658c:	00000013          	nop
+ 1006590:	00000013          	nop
+ 1006594:	00000013          	nop
+ 1006598:	00000013          	nop
+ 100659c:	00000013          	nop
+ 10065a0:	00000013          	nop
+ 10065a4:	00000013          	nop
+ 10065a8:	00000013          	nop
+ 10065ac:	00000013          	nop
+ 10065b0:	00000013          	nop
+ 10065b4:	00000013          	nop
+ 10065b8:	00000013          	nop
+ 10065bc:	00000013          	nop
+ 10065c0:	00000013          	nop
+ 10065c4:	00000013          	nop
+ 10065c8:	00000013          	nop
+ 10065cc:	00000013          	nop
+ 10065d0:	00000013          	nop
+ 10065d4:	00000013          	nop
+ 10065d8:	00000013          	nop
+ 10065dc:	00000013          	nop
+ 10065e0:	00000013          	nop
+ 10065e4:	00000013          	nop
+ 10065e8:	00000013          	nop
+ 10065ec:	00000013          	nop
+ 10065f0:	00000013          	nop
+ 10065f4:	00000013          	nop
+ 10065f8:	00000013          	nop
+ 10065fc:	00000013          	nop
+ 1006600:	00000013          	nop
+ 1006604:	00000013          	nop
+ 1006608:	00000013          	nop
+ 100660c:	00000013          	nop
+ 1006610:	00000013          	nop
+ 1006614:	00000013          	nop
+ 1006618:	00000013          	nop
+ 100661c:	00000013          	nop
+ 1006620:	00000013          	nop
+ 1006624:	00000013          	nop
+ 1006628:	00000013          	nop
+ 100662c:	00000013          	nop
+ 1006630:	00000013          	nop
+ 1006634:	00000013          	nop
+ 1006638:	00000013          	nop
+ 100663c:	00000013          	nop
+ 1006640:	00000013          	nop
+ 1006644:	00000013          	nop
+ 1006648:	00000013          	nop
+ 100664c:	00000013          	nop
+ 1006650:	00000013          	nop
+ 1006654:	00000013          	nop
+ 1006658:	00000013          	nop
+ 100665c:	00000013          	nop
+ 1006660:	00000013          	nop
+ 1006664:	00000013          	nop
+ 1006668:	00000013          	nop
+ 100666c:	00000013          	nop
+ 1006670:	00000013          	nop
+ 1006674:	00000013          	nop
+ 1006678:	00000013          	nop
+ 100667c:	00000013          	nop
+ 1006680:	00000013          	nop
+ 1006684:	00000013          	nop
+ 1006688:	00000013          	nop
+ 100668c:	00000013          	nop
+ 1006690:	00000013          	nop
+ 1006694:	00000013          	nop
+ 1006698:	00000013          	nop
+ 100669c:	00000013          	nop
+ 10066a0:	00000013          	nop
+ 10066a4:	00000013          	nop
+ 10066a8:	00000013          	nop
+ 10066ac:	00000013          	nop
+ 10066b0:	00000013          	nop
+ 10066b4:	00000013          	nop
+ 10066b8:	00000013          	nop
+ 10066bc:	00000013          	nop
+ 10066c0:	00000013          	nop
+ 10066c4:	00000013          	nop
+ 10066c8:	00000013          	nop
+ 10066cc:	00000013          	nop
+ 10066d0:	00000013          	nop
+ 10066d4:	00000013          	nop
+ 10066d8:	00000013          	nop
+ 10066dc:	00000013          	nop
+ 10066e0:	00000013          	nop
+ 10066e4:	00000013          	nop
+ 10066e8:	00000013          	nop
+ 10066ec:	00000013          	nop
+ 10066f0:	00000013          	nop
+ 10066f4:	00000013          	nop
+ 10066f8:	00000013          	nop
+ 10066fc:	00000013          	nop
+ 1006700:	00000013          	nop
+ 1006704:	00000013          	nop
+ 1006708:	00000013          	nop
+ 100670c:	00000013          	nop
+ 1006710:	00000013          	nop
+ 1006714:	00000013          	nop
+ 1006718:	00000013          	nop
+ 100671c:	00000013          	nop
+ 1006720:	00000013          	nop
+ 1006724:	00000013          	nop
+ 1006728:	00000013          	nop
+ 100672c:	00000013          	nop
+ 1006730:	00000013          	nop
+ 1006734:	00000013          	nop
+ 1006738:	00000013          	nop
+ 100673c:	00000013          	nop
+ 1006740:	00000013          	nop
+ 1006744:	00000013          	nop
+ 1006748:	00000013          	nop
+ 100674c:	00000013          	nop
+ 1006750:	00000013          	nop
+ 1006754:	00000013          	nop
+ 1006758:	00000013          	nop
+ 100675c:	00000013          	nop
+ 1006760:	00000013          	nop
+ 1006764:	00000013          	nop
+ 1006768:	00000013          	nop
+ 100676c:	00000013          	nop
+ 1006770:	00000013          	nop
+ 1006774:	00000013          	nop
+ 1006778:	00000013          	nop
+ 100677c:	00000013          	nop
+ 1006780:	00000013          	nop
+ 1006784:	00000013          	nop
+ 1006788:	00000013          	nop
+ 100678c:	00000013          	nop
+ 1006790:	00000013          	nop
+ 1006794:	00000013          	nop
+ 1006798:	00000013          	nop
+ 100679c:	00000013          	nop
+ 10067a0:	00000013          	nop
+ 10067a4:	00000013          	nop
+ 10067a8:	00000013          	nop
+ 10067ac:	00000013          	nop
+ 10067b0:	00000013          	nop
+ 10067b4:	00000013          	nop
+ 10067b8:	00000013          	nop
+ 10067bc:	00000013          	nop
+ 10067c0:	00000013          	nop
+ 10067c4:	00000013          	nop
+ 10067c8:	00000013          	nop
+ 10067cc:	00000013          	nop
+ 10067d0:	00000013          	nop
+ 10067d4:	00000013          	nop
+ 10067d8:	00000013          	nop
+ 10067dc:	00000013          	nop
+ 10067e0:	00000013          	nop
+ 10067e4:	00000013          	nop
+ 10067e8:	00000013          	nop
+ 10067ec:	00000013          	nop
+ 10067f0:	00000013          	nop
+ 10067f4:	00000013          	nop
+ 10067f8:	00000013          	nop
+ 10067fc:	00000013          	nop
+ 1006800:	00000013          	nop
+ 1006804:	00000013          	nop
+ 1006808:	00000013          	nop
+ 100680c:	00000013          	nop
+ 1006810:	00000013          	nop
+ 1006814:	00000013          	nop
+ 1006818:	00000013          	nop
+ 100681c:	00000013          	nop
+ 1006820:	00000013          	nop
+ 1006824:	00000013          	nop
+ 1006828:	00000013          	nop
+ 100682c:	00000013          	nop
+ 1006830:	00000013          	nop
+ 1006834:	00000013          	nop
+ 1006838:	00000013          	nop
+ 100683c:	00000013          	nop
+ 1006840:	00000013          	nop
+ 1006844:	00000013          	nop
+ 1006848:	00000013          	nop
+ 100684c:	00000013          	nop
+ 1006850:	00000013          	nop
+ 1006854:	00000013          	nop
+ 1006858:	00000013          	nop
+ 100685c:	00000013          	nop
+ 1006860:	00000013          	nop
+ 1006864:	00000013          	nop
+ 1006868:	00000013          	nop
+ 100686c:	00000013          	nop
+ 1006870:	00000013          	nop
+ 1006874:	00000013          	nop
+ 1006878:	00000013          	nop
+ 100687c:	00000013          	nop
+ 1006880:	00000013          	nop
+ 1006884:	00000013          	nop
+ 1006888:	00000013          	nop
+ 100688c:	00000013          	nop
+ 1006890:	00000013          	nop
+ 1006894:	00000013          	nop
+ 1006898:	00000013          	nop
+ 100689c:	00000013          	nop
+ 10068a0:	00000013          	nop
+ 10068a4:	00000013          	nop
+ 10068a8:	00000013          	nop
+ 10068ac:	00000013          	nop
+ 10068b0:	00000013          	nop
+ 10068b4:	00000013          	nop
+ 10068b8:	00000013          	nop
+ 10068bc:	00000013          	nop
+ 10068c0:	00000013          	nop
+ 10068c4:	00000013          	nop
+ 10068c8:	00000013          	nop
+ 10068cc:	00000013          	nop
+ 10068d0:	00000013          	nop
+ 10068d4:	00000013          	nop
+ 10068d8:	00000013          	nop
+ 10068dc:	00000013          	nop
+ 10068e0:	00000013          	nop
+ 10068e4:	00000013          	nop
+ 10068e8:	00000013          	nop
+ 10068ec:	00000013          	nop
+ 10068f0:	00000013          	nop
+ 10068f4:	00000013          	nop
+ 10068f8:	00000013          	nop
+ 10068fc:	00000013          	nop
+ 1006900:	00000013          	nop
+ 1006904:	00000013          	nop
+ 1006908:	00000013          	nop
+ 100690c:	00000013          	nop
+ 1006910:	00000013          	nop
+ 1006914:	00000013          	nop
+ 1006918:	00000013          	nop
+ 100691c:	00000013          	nop
+ 1006920:	00000013          	nop
+ 1006924:	00000013          	nop
+ 1006928:	00000013          	nop
+ 100692c:	00000013          	nop
+ 1006930:	00000013          	nop
+ 1006934:	00000013          	nop
+ 1006938:	00000013          	nop
+ 100693c:	00000013          	nop
+ 1006940:	00000013          	nop
+ 1006944:	00000013          	nop
+ 1006948:	00000013          	nop
+ 100694c:	00000013          	nop
+ 1006950:	00000013          	nop
+ 1006954:	00000013          	nop
+ 1006958:	00000013          	nop
+ 100695c:	00000013          	nop
+ 1006960:	00000013          	nop
+ 1006964:	00000013          	nop
+ 1006968:	00000013          	nop
+ 100696c:	00000013          	nop
+ 1006970:	00000013          	nop
+ 1006974:	00000013          	nop
+ 1006978:	00000013          	nop
+ 100697c:	00000013          	nop
+ 1006980:	00000013          	nop
+ 1006984:	00000013          	nop
+ 1006988:	00000013          	nop
+ 100698c:	00000013          	nop
+ 1006990:	00000013          	nop
+ 1006994:	00000013          	nop
+ 1006998:	00000013          	nop
+ 100699c:	00000013          	nop
+ 10069a0:	00000013          	nop
+ 10069a4:	00000013          	nop
+ 10069a8:	00000013          	nop
+ 10069ac:	00000013          	nop
+ 10069b0:	00000013          	nop
+ 10069b4:	00000013          	nop
+ 10069b8:	00000013          	nop
+ 10069bc:	00000013          	nop
+ 10069c0:	00000013          	nop
+ 10069c4:	00000013          	nop
+ 10069c8:	00000013          	nop
+ 10069cc:	00000013          	nop
+ 10069d0:	00000013          	nop
+ 10069d4:	00000013          	nop
+ 10069d8:	00000013          	nop
+ 10069dc:	00000013          	nop
+ 10069e0:	00000013          	nop
+ 10069e4:	00000013          	nop
+ 10069e8:	00000013          	nop
+ 10069ec:	00000013          	nop
+ 10069f0:	00000013          	nop
+ 10069f4:	00000013          	nop
+ 10069f8:	00000013          	nop
+ 10069fc:	00000013          	nop
+ 1006a00:	00000013          	nop
+ 1006a04:	00000013          	nop
+ 1006a08:	00000013          	nop
+ 1006a0c:	00000013          	nop
+ 1006a10:	00000013          	nop
+ 1006a14:	00000013          	nop
+ 1006a18:	00000013          	nop
+ 1006a1c:	00000013          	nop
+ 1006a20:	00000013          	nop
+ 1006a24:	00000013          	nop
+ 1006a28:	00000013          	nop
+ 1006a2c:	00000013          	nop
+ 1006a30:	00000013          	nop
+ 1006a34:	00000013          	nop
+ 1006a38:	00000013          	nop
+ 1006a3c:	00000013          	nop
+ 1006a40:	00000013          	nop
+ 1006a44:	00000013          	nop
+ 1006a48:	00000013          	nop
+ 1006a4c:	00000013          	nop
+ 1006a50:	00000013          	nop
+ 1006a54:	00000013          	nop
+ 1006a58:	00000013          	nop
+ 1006a5c:	00000013          	nop
+ 1006a60:	00000013          	nop
+ 1006a64:	00000013          	nop
+ 1006a68:	00000013          	nop
+ 1006a6c:	00000013          	nop
+ 1006a70:	00000013          	nop
+ 1006a74:	00000013          	nop
+ 1006a78:	00000013          	nop
+ 1006a7c:	00000013          	nop
+ 1006a80:	00000013          	nop
+ 1006a84:	00000013          	nop
+ 1006a88:	00000013          	nop
+ 1006a8c:	00000013          	nop
+ 1006a90:	00000013          	nop
+ 1006a94:	00000013          	nop
+ 1006a98:	00000013          	nop
+ 1006a9c:	00000013          	nop
+ 1006aa0:	00000013          	nop
+ 1006aa4:	00000013          	nop
+ 1006aa8:	00000013          	nop
+ 1006aac:	00000013          	nop
+ 1006ab0:	00000013          	nop
+ 1006ab4:	00000013          	nop
+ 1006ab8:	00000013          	nop
+ 1006abc:	00000013          	nop
+ 1006ac0:	00000013          	nop
+ 1006ac4:	00000013          	nop
+ 1006ac8:	00000013          	nop
+ 1006acc:	00000013          	nop
+ 1006ad0:	00000013          	nop
+ 1006ad4:	00000013          	nop
+ 1006ad8:	00000013          	nop
+ 1006adc:	00000013          	nop
+ 1006ae0:	00000013          	nop
+ 1006ae4:	00000013          	nop
+ 1006ae8:	00000013          	nop
+ 1006aec:	00000013          	nop
+ 1006af0:	00000013          	nop
+ 1006af4:	00000013          	nop
+ 1006af8:	00000013          	nop
+ 1006afc:	00000013          	nop
+ 1006b00:	00000013          	nop
+ 1006b04:	00000013          	nop
+ 1006b08:	00000013          	nop
+ 1006b0c:	00000013          	nop
+ 1006b10:	00000013          	nop
+ 1006b14:	00000013          	nop
+ 1006b18:	00000013          	nop
+ 1006b1c:	00000013          	nop
+ 1006b20:	00000013          	nop
+ 1006b24:	00000013          	nop
+ 1006b28:	00000013          	nop
+ 1006b2c:	00000013          	nop
+ 1006b30:	00000013          	nop
+ 1006b34:	00000013          	nop
+ 1006b38:	00000013          	nop
+ 1006b3c:	00000013          	nop
+ 1006b40:	00000013          	nop
+ 1006b44:	00000013          	nop
+ 1006b48:	00000013          	nop
+ 1006b4c:	00000013          	nop
+ 1006b50:	00000013          	nop
+ 1006b54:	00000013          	nop
+ 1006b58:	00000013          	nop
+ 1006b5c:	00000013          	nop
+ 1006b60:	00000013          	nop
+ 1006b64:	00000013          	nop
+ 1006b68:	00000013          	nop
+ 1006b6c:	00000013          	nop
+ 1006b70:	00000013          	nop
+ 1006b74:	00000013          	nop
+ 1006b78:	00000013          	nop
+ 1006b7c:	00000013          	nop
+ 1006b80:	00000013          	nop
+ 1006b84:	00000013          	nop
+ 1006b88:	00000013          	nop
+ 1006b8c:	00000013          	nop
+ 1006b90:	00000013          	nop
+ 1006b94:	00000013          	nop
+ 1006b98:	00000013          	nop
+ 1006b9c:	00000013          	nop
+ 1006ba0:	00000013          	nop
+ 1006ba4:	00000013          	nop
+ 1006ba8:	00000013          	nop
+ 1006bac:	00000013          	nop
+ 1006bb0:	00000013          	nop
+ 1006bb4:	00000013          	nop
+ 1006bb8:	00000013          	nop
+ 1006bbc:	00000013          	nop
+ 1006bc0:	00000013          	nop
+ 1006bc4:	00000013          	nop
+ 1006bc8:	00000013          	nop
+ 1006bcc:	00000013          	nop
+ 1006bd0:	00000013          	nop
+ 1006bd4:	00000013          	nop
+ 1006bd8:	00000013          	nop
+ 1006bdc:	00000013          	nop
+ 1006be0:	00000013          	nop
+ 1006be4:	00000013          	nop
+ 1006be8:	00000013          	nop
+ 1006bec:	00000013          	nop
+ 1006bf0:	00000013          	nop
+ 1006bf4:	00000013          	nop
+ 1006bf8:	00000013          	nop
+ 1006bfc:	00000013          	nop
+ 1006c00:	00000013          	nop
+ 1006c04:	00000013          	nop
+ 1006c08:	00000013          	nop
+ 1006c0c:	00000013          	nop
+ 1006c10:	00000013          	nop
+ 1006c14:	00000013          	nop
+ 1006c18:	00000013          	nop
+ 1006c1c:	00000013          	nop
+ 1006c20:	00000013          	nop
+ 1006c24:	00000013          	nop
+ 1006c28:	00000013          	nop
+ 1006c2c:	00000013          	nop
+ 1006c30:	00000013          	nop
+ 1006c34:	00000013          	nop
+ 1006c38:	00000013          	nop
+ 1006c3c:	00000013          	nop
+ 1006c40:	00000013          	nop
+ 1006c44:	00000013          	nop
+ 1006c48:	00000013          	nop
+ 1006c4c:	00000013          	nop
+ 1006c50:	00000013          	nop
+ 1006c54:	00000013          	nop
+ 1006c58:	00000013          	nop
+ 1006c5c:	00000013          	nop
+ 1006c60:	00000013          	nop
+ 1006c64:	00000013          	nop
+ 1006c68:	00000013          	nop
+ 1006c6c:	00000013          	nop
+ 1006c70:	00000013          	nop
+ 1006c74:	00000013          	nop
+ 1006c78:	00000013          	nop
+ 1006c7c:	00000013          	nop
+ 1006c80:	00000013          	nop
+ 1006c84:	00000013          	nop
+ 1006c88:	00000013          	nop
+ 1006c8c:	00000013          	nop
+ 1006c90:	00000013          	nop
+ 1006c94:	00000013          	nop
+ 1006c98:	00000013          	nop
+ 1006c9c:	00000013          	nop
+ 1006ca0:	00000013          	nop
+ 1006ca4:	00000013          	nop
+ 1006ca8:	00000013          	nop
+ 1006cac:	00000013          	nop
+ 1006cb0:	00000013          	nop
+ 1006cb4:	00000013          	nop
+ 1006cb8:	00000013          	nop
+ 1006cbc:	00000013          	nop
+ 1006cc0:	00000013          	nop
+ 1006cc4:	00000013          	nop
+ 1006cc8:	00000013          	nop
+ 1006ccc:	00000013          	nop
+ 1006cd0:	00000013          	nop
+ 1006cd4:	00000013          	nop
+ 1006cd8:	00000013          	nop
+ 1006cdc:	00000013          	nop
+ 1006ce0:	00000013          	nop
+ 1006ce4:	00000013          	nop
+ 1006ce8:	00000013          	nop
+ 1006cec:	00000013          	nop
+ 1006cf0:	00000013          	nop
+ 1006cf4:	00000013          	nop
+ 1006cf8:	00000013          	nop
+ 1006cfc:	00000013          	nop
+ 1006d00:	00000013          	nop
+ 1006d04:	00000013          	nop
+ 1006d08:	00000013          	nop
+ 1006d0c:	00000013          	nop
+ 1006d10:	00000013          	nop
+ 1006d14:	00000013          	nop
+ 1006d18:	00000013          	nop
+ 1006d1c:	00000013          	nop
+ 1006d20:	00000013          	nop
+ 1006d24:	00000013          	nop
+ 1006d28:	00000013          	nop
+ 1006d2c:	00000013          	nop
+ 1006d30:	00000013          	nop
+ 1006d34:	00000013          	nop
+ 1006d38:	00000013          	nop
+ 1006d3c:	00000013          	nop
+ 1006d40:	00000013          	nop
+ 1006d44:	00000013          	nop
+ 1006d48:	00000013          	nop
+ 1006d4c:	00000013          	nop
+ 1006d50:	00000013          	nop
+ 1006d54:	00000013          	nop
+ 1006d58:	00000013          	nop
+ 1006d5c:	00000013          	nop
+ 1006d60:	00000013          	nop
+ 1006d64:	00000013          	nop
+ 1006d68:	00000013          	nop
+ 1006d6c:	00000013          	nop
+ 1006d70:	00000013          	nop
+ 1006d74:	00000013          	nop
+ 1006d78:	00000013          	nop
+ 1006d7c:	00000013          	nop
+ 1006d80:	00000013          	nop
+ 1006d84:	00000013          	nop
+ 1006d88:	00000013          	nop
+ 1006d8c:	00000013          	nop
+ 1006d90:	00000013          	nop
+ 1006d94:	00000013          	nop
+ 1006d98:	00000013          	nop
+ 1006d9c:	00000013          	nop
+ 1006da0:	00000013          	nop
+ 1006da4:	00000013          	nop
+ 1006da8:	00000013          	nop
+ 1006dac:	00000013          	nop
+ 1006db0:	00000013          	nop
+ 1006db4:	00000013          	nop
+ 1006db8:	00000013          	nop
+ 1006dbc:	00000013          	nop
+ 1006dc0:	00000013          	nop
+ 1006dc4:	00000013          	nop
+ 1006dc8:	00000013          	nop
+ 1006dcc:	00000013          	nop
+ 1006dd0:	00000013          	nop
+ 1006dd4:	00000013          	nop
+ 1006dd8:	00000013          	nop
+ 1006ddc:	00000013          	nop
+ 1006de0:	00000013          	nop
+ 1006de4:	00000013          	nop
+ 1006de8:	00000013          	nop
+ 1006dec:	00000013          	nop
+ 1006df0:	00000013          	nop
+ 1006df4:	00000013          	nop
+ 1006df8:	00000013          	nop
+ 1006dfc:	00000013          	nop
+ 1006e00:	00000013          	nop
+ 1006e04:	00000013          	nop
+ 1006e08:	00000013          	nop
+ 1006e0c:	00000013          	nop
+ 1006e10:	00000013          	nop
+ 1006e14:	00000013          	nop
+ 1006e18:	00000013          	nop
+ 1006e1c:	00000013          	nop
+ 1006e20:	00000013          	nop
+ 1006e24:	00000013          	nop
+ 1006e28:	00000013          	nop
+ 1006e2c:	00000013          	nop
+ 1006e30:	00000013          	nop
+ 1006e34:	00000013          	nop
+ 1006e38:	00000013          	nop
+ 1006e3c:	00000013          	nop
+ 1006e40:	00000013          	nop
+ 1006e44:	00000013          	nop
+ 1006e48:	00000013          	nop
+ 1006e4c:	00000013          	nop
+ 1006e50:	00000013          	nop
+ 1006e54:	00000013          	nop
+ 1006e58:	00000013          	nop
+ 1006e5c:	00000013          	nop
+ 1006e60:	00000013          	nop
+ 1006e64:	00000013          	nop
+ 1006e68:	00000013          	nop
+ 1006e6c:	00000013          	nop
+ 1006e70:	00000013          	nop
+ 1006e74:	00000013          	nop
+ 1006e78:	00000013          	nop
+ 1006e7c:	00000013          	nop
+ 1006e80:	00000013          	nop
+ 1006e84:	00000013          	nop
+ 1006e88:	00000013          	nop
+ 1006e8c:	00000013          	nop
+ 1006e90:	00000013          	nop
+ 1006e94:	00000013          	nop
+ 1006e98:	00000013          	nop
+ 1006e9c:	00000013          	nop
+ 1006ea0:	00000013          	nop
+ 1006ea4:	00000013          	nop
+ 1006ea8:	00000013          	nop
+ 1006eac:	00000013          	nop
+ 1006eb0:	00000013          	nop
+ 1006eb4:	00000013          	nop
+ 1006eb8:	00000013          	nop
+ 1006ebc:	00000013          	nop
+ 1006ec0:	00000013          	nop
+ 1006ec4:	00000013          	nop
+ 1006ec8:	00000013          	nop
+ 1006ecc:	00000013          	nop
+ 1006ed0:	00000013          	nop
+ 1006ed4:	00000013          	nop
+ 1006ed8:	00000013          	nop
+ 1006edc:	00000013          	nop
+ 1006ee0:	00000013          	nop
+ 1006ee4:	00000013          	nop
+ 1006ee8:	00000013          	nop
+ 1006eec:	00000013          	nop
+ 1006ef0:	00000013          	nop
+ 1006ef4:	00000013          	nop
+ 1006ef8:	00000013          	nop
+ 1006efc:	00000013          	nop
+ 1006f00:	00000013          	nop
+ 1006f04:	00000013          	nop
+ 1006f08:	00000013          	nop
+ 1006f0c:	00000013          	nop
+ 1006f10:	00000013          	nop
+ 1006f14:	00000013          	nop
+ 1006f18:	00000013          	nop
+ 1006f1c:	00000013          	nop
+ 1006f20:	00000013          	nop
+ 1006f24:	00000013          	nop
+ 1006f28:	00000013          	nop
+ 1006f2c:	00000013          	nop
+ 1006f30:	00000013          	nop
+ 1006f34:	00000013          	nop
+ 1006f38:	00000013          	nop
+ 1006f3c:	00000013          	nop
+ 1006f40:	00000013          	nop
+ 1006f44:	00000013          	nop
+ 1006f48:	00000013          	nop
+ 1006f4c:	00000013          	nop
+ 1006f50:	00000013          	nop
+ 1006f54:	00000013          	nop
+ 1006f58:	00000013          	nop
+ 1006f5c:	00000013          	nop
+ 1006f60:	00000013          	nop
+ 1006f64:	00000013          	nop
+ 1006f68:	00000013          	nop
+ 1006f6c:	00000013          	nop
+ 1006f70:	00000013          	nop
+ 1006f74:	00000013          	nop
+ 1006f78:	00000013          	nop
+ 1006f7c:	00000013          	nop
+ 1006f80:	00000013          	nop
+ 1006f84:	00000013          	nop
+ 1006f88:	00000013          	nop
+ 1006f8c:	00000013          	nop
+ 1006f90:	00000013          	nop
+ 1006f94:	00000013          	nop
+ 1006f98:	00000013          	nop
+ 1006f9c:	00000013          	nop
+ 1006fa0:	00000013          	nop
+ 1006fa4:	00000013          	nop
+ 1006fa8:	00000013          	nop
+ 1006fac:	00000013          	nop
+ 1006fb0:	00000013          	nop
+ 1006fb4:	00000013          	nop
+ 1006fb8:	00000013          	nop
+ 1006fbc:	00000013          	nop
+ 1006fc0:	00000013          	nop
+ 1006fc4:	00000013          	nop
+ 1006fc8:	00000013          	nop
+ 1006fcc:	00000013          	nop
+ 1006fd0:	00000013          	nop
+ 1006fd4:	00000013          	nop
+ 1006fd8:	00000013          	nop
+ 1006fdc:	00000013          	nop
+ 1006fe0:	00000013          	nop
+ 1006fe4:	00000013          	nop
+ 1006fe8:	00000013          	nop
+ 1006fec:	00000013          	nop
+ 1006ff0:	00000013          	nop
+ 1006ff4:	00000013          	nop
+ 1006ff8:	00000013          	nop
+ 1006ffc:	00000013          	nop
+ 1007000:	00000013          	nop
+ 1007004:	00000013          	nop
+ 1007008:	00000013          	nop
+ 100700c:	00000013          	nop
+ 1007010:	00000013          	nop
+ 1007014:	00000013          	nop
+ 1007018:	00000013          	nop
+ 100701c:	00000013          	nop
+ 1007020:	00000013          	nop
+ 1007024:	00000013          	nop
+ 1007028:	00000013          	nop
+ 100702c:	00000013          	nop
+ 1007030:	00000013          	nop
+ 1007034:	00000013          	nop
+ 1007038:	00000013          	nop
+ 100703c:	00000013          	nop
+ 1007040:	00000013          	nop
+ 1007044:	00000013          	nop
+ 1007048:	00000013          	nop
+ 100704c:	00000013          	nop
+ 1007050:	00000013          	nop
+ 1007054:	00000013          	nop
+ 1007058:	00000013          	nop
+ 100705c:	00000013          	nop
+ 1007060:	00000013          	nop
+ 1007064:	00000013          	nop
+ 1007068:	00000013          	nop
+ 100706c:	00000013          	nop
+ 1007070:	00000013          	nop
+ 1007074:	00000013          	nop
+ 1007078:	00000013          	nop
+ 100707c:	00000013          	nop
+ 1007080:	00000013          	nop
+ 1007084:	00000013          	nop
+ 1007088:	00000013          	nop
+ 100708c:	00000013          	nop
+ 1007090:	00000013          	nop
+ 1007094:	00000013          	nop
+ 1007098:	00000013          	nop
+ 100709c:	00000013          	nop
+ 10070a0:	00000013          	nop
+ 10070a4:	00000013          	nop
+ 10070a8:	00000013          	nop
+ 10070ac:	00000013          	nop
+ 10070b0:	00000013          	nop
+ 10070b4:	00000013          	nop
+ 10070b8:	00000013          	nop
+ 10070bc:	00000013          	nop
+ 10070c0:	00000013          	nop
+ 10070c4:	00000013          	nop
+ 10070c8:	00000013          	nop
+ 10070cc:	00000013          	nop
+ 10070d0:	00000013          	nop
+ 10070d4:	00000013          	nop
+ 10070d8:	00000013          	nop
+ 10070dc:	00000013          	nop
+ 10070e0:	00000013          	nop
+ 10070e4:	00000013          	nop
+ 10070e8:	00000013          	nop
+ 10070ec:	00000013          	nop
+ 10070f0:	00000013          	nop
+ 10070f4:	00000013          	nop
+ 10070f8:	00000013          	nop
+ 10070fc:	00000013          	nop
+ 1007100:	00000013          	nop
+ 1007104:	00000013          	nop
+ 1007108:	00000013          	nop
+ 100710c:	00000013          	nop
+ 1007110:	00000013          	nop
+ 1007114:	00000013          	nop
+ 1007118:	00000013          	nop
+ 100711c:	00000013          	nop
+ 1007120:	00000013          	nop
+ 1007124:	00000013          	nop
+ 1007128:	00000013          	nop
+ 100712c:	00000013          	nop
+ 1007130:	00000013          	nop
+ 1007134:	00000013          	nop
+ 1007138:	00000013          	nop
+ 100713c:	00000013          	nop
+ 1007140:	00000013          	nop
+ 1007144:	00000013          	nop
+ 1007148:	00000013          	nop
+ 100714c:	00000013          	nop
+ 1007150:	00000013          	nop
+ 1007154:	00000013          	nop
+ 1007158:	00000013          	nop
+ 100715c:	00000013          	nop
+ 1007160:	00000013          	nop
+ 1007164:	00000013          	nop
+ 1007168:	00000013          	nop
+ 100716c:	00000013          	nop
+ 1007170:	00000013          	nop
+ 1007174:	00000013          	nop
+ 1007178:	00000013          	nop
+ 100717c:	00000013          	nop
+ 1007180:	00000013          	nop
+ 1007184:	00000013          	nop
+ 1007188:	00000013          	nop
+ 100718c:	00000013          	nop
+ 1007190:	00000013          	nop
+ 1007194:	00000013          	nop
+ 1007198:	00000013          	nop
+ 100719c:	00000013          	nop
+ 10071a0:	00000013          	nop
+ 10071a4:	00000013          	nop
+ 10071a8:	00000013          	nop
+ 10071ac:	00000013          	nop
+ 10071b0:	00000013          	nop
+ 10071b4:	00000013          	nop
+ 10071b8:	00000013          	nop
+ 10071bc:	00000013          	nop
+ 10071c0:	00000013          	nop
+ 10071c4:	00000013          	nop
+ 10071c8:	00000013          	nop
+ 10071cc:	00000013          	nop
+ 10071d0:	00000013          	nop
+ 10071d4:	00000013          	nop
+ 10071d8:	00000013          	nop
+ 10071dc:	00000013          	nop
+ 10071e0:	00000013          	nop
+ 10071e4:	00000013          	nop
+ 10071e8:	00000013          	nop
+ 10071ec:	00000013          	nop
+ 10071f0:	00000013          	nop
+ 10071f4:	00000013          	nop
+ 10071f8:	00000013          	nop
+ 10071fc:	00000013          	nop
+ 1007200:	00000013          	nop
+ 1007204:	00000013          	nop
+ 1007208:	00000013          	nop
+ 100720c:	00000013          	nop
+ 1007210:	00000013          	nop
+ 1007214:	00000013          	nop
+ 1007218:	00000013          	nop
+ 100721c:	00000013          	nop
+ 1007220:	00000013          	nop
+ 1007224:	00000013          	nop
+ 1007228:	00000013          	nop
+ 100722c:	00000013          	nop
+ 1007230:	00000013          	nop
+ 1007234:	00000013          	nop
+ 1007238:	00000013          	nop
+ 100723c:	00000013          	nop
+ 1007240:	00000013          	nop
+ 1007244:	00000013          	nop
+ 1007248:	00000013          	nop
+ 100724c:	00000013          	nop
+ 1007250:	00000013          	nop
+ 1007254:	00000013          	nop
+ 1007258:	00000013          	nop
+ 100725c:	00000013          	nop
+ 1007260:	00000013          	nop
+ 1007264:	00000013          	nop
+ 1007268:	00000013          	nop
+ 100726c:	00000013          	nop
+ 1007270:	00000013          	nop
+ 1007274:	00000013          	nop
+ 1007278:	00000013          	nop
+ 100727c:	00000013          	nop
+ 1007280:	00000013          	nop
+ 1007284:	00000013          	nop
+ 1007288:	00000013          	nop
+ 100728c:	00000013          	nop
+ 1007290:	00000013          	nop
+ 1007294:	00000013          	nop
+ 1007298:	00000013          	nop
+ 100729c:	00000013          	nop
+ 10072a0:	00000013          	nop
+ 10072a4:	00000013          	nop
+ 10072a8:	00000013          	nop
+ 10072ac:	00000013          	nop
+ 10072b0:	00000013          	nop
+ 10072b4:	00000013          	nop
+ 10072b8:	00000013          	nop
+ 10072bc:	00000013          	nop
+ 10072c0:	00000013          	nop
+ 10072c4:	00000013          	nop
+ 10072c8:	00000013          	nop
+ 10072cc:	00000013          	nop
+ 10072d0:	00000013          	nop
+ 10072d4:	00000013          	nop
+ 10072d8:	00000013          	nop
+ 10072dc:	00000013          	nop
+ 10072e0:	00000013          	nop
+ 10072e4:	00000013          	nop
+ 10072e8:	00000013          	nop
+ 10072ec:	00000013          	nop
+ 10072f0:	00000013          	nop
+ 10072f4:	00000013          	nop
+ 10072f8:	00000013          	nop
+ 10072fc:	00000013          	nop
+ 1007300:	00000013          	nop
+ 1007304:	00000013          	nop
+ 1007308:	00000013          	nop
+ 100730c:	00000013          	nop
+ 1007310:	00000013          	nop
+ 1007314:	00000013          	nop
+ 1007318:	00000013          	nop
+ 100731c:	00000013          	nop
+ 1007320:	00000013          	nop
+ 1007324:	00000013          	nop
+ 1007328:	00000013          	nop
+ 100732c:	00000013          	nop
+ 1007330:	00000013          	nop
+ 1007334:	00000013          	nop
+ 1007338:	00000013          	nop
+ 100733c:	00000013          	nop
+ 1007340:	00000013          	nop
+ 1007344:	00000013          	nop
+ 1007348:	00000013          	nop
+ 100734c:	00000013          	nop
+ 1007350:	00000013          	nop
+ 1007354:	00000013          	nop
+ 1007358:	00000013          	nop
+ 100735c:	00000013          	nop
+ 1007360:	00000013          	nop
+ 1007364:	00000013          	nop
+ 1007368:	00000013          	nop
+ 100736c:	00000013          	nop
+ 1007370:	00000013          	nop
+ 1007374:	00000013          	nop
+ 1007378:	00000013          	nop
+ 100737c:	00000013          	nop
+ 1007380:	00000013          	nop
+ 1007384:	00000013          	nop
+ 1007388:	00000013          	nop
+ 100738c:	00000013          	nop
+ 1007390:	00000013          	nop
+ 1007394:	00000013          	nop
+ 1007398:	00000013          	nop
+ 100739c:	00000013          	nop
+ 10073a0:	00000013          	nop
+ 10073a4:	00000013          	nop
+ 10073a8:	00000013          	nop
+ 10073ac:	00000013          	nop
+ 10073b0:	00000013          	nop
+ 10073b4:	00000013          	nop
+ 10073b8:	00000013          	nop
+ 10073bc:	00000013          	nop
+ 10073c0:	00000013          	nop
+ 10073c4:	00000013          	nop
+ 10073c8:	00000013          	nop
+ 10073cc:	00000013          	nop
+ 10073d0:	00000013          	nop
+ 10073d4:	00000013          	nop
+ 10073d8:	00000013          	nop
+ 10073dc:	00000013          	nop
+ 10073e0:	00000013          	nop
+ 10073e4:	00000013          	nop
+ 10073e8:	00000013          	nop
+ 10073ec:	00000013          	nop
+ 10073f0:	00000013          	nop
+ 10073f4:	00000013          	nop
+ 10073f8:	00000013          	nop
+ 10073fc:	00000013          	nop
+ 1007400:	00000013          	nop
+ 1007404:	00000013          	nop
+ 1007408:	00000013          	nop
+ 100740c:	00000013          	nop
+ 1007410:	00000013          	nop
+ 1007414:	00000013          	nop
+ 1007418:	00000013          	nop
+ 100741c:	00000013          	nop
+ 1007420:	00000013          	nop
+ 1007424:	00000013          	nop
+ 1007428:	00000013          	nop
+ 100742c:	00000013          	nop
+ 1007430:	00000013          	nop
+ 1007434:	00000013          	nop
+ 1007438:	00000013          	nop
+ 100743c:	00000013          	nop
+ 1007440:	00000013          	nop
+ 1007444:	00000013          	nop
+ 1007448:	00000013          	nop
+ 100744c:	00000013          	nop
+ 1007450:	00000013          	nop
+ 1007454:	00000013          	nop
+ 1007458:	00000013          	nop
+ 100745c:	00000013          	nop
+ 1007460:	00000013          	nop
+ 1007464:	00000013          	nop
+ 1007468:	00000013          	nop
+ 100746c:	00000013          	nop
+ 1007470:	00000013          	nop
+ 1007474:	00000013          	nop
+ 1007478:	00000013          	nop
+ 100747c:	00000013          	nop
+ 1007480:	00000013          	nop
+ 1007484:	00000013          	nop
+ 1007488:	00000013          	nop
+ 100748c:	00000013          	nop
+ 1007490:	00000013          	nop
+ 1007494:	00000013          	nop
+ 1007498:	00000013          	nop
+ 100749c:	00000013          	nop
+ 10074a0:	00000013          	nop
+ 10074a4:	00000013          	nop
+ 10074a8:	00000013          	nop
+ 10074ac:	00000013          	nop
+ 10074b0:	00000013          	nop
+ 10074b4:	00000013          	nop
+ 10074b8:	00000013          	nop
+ 10074bc:	00000013          	nop
+ 10074c0:	00000013          	nop
+ 10074c4:	00000013          	nop
+ 10074c8:	00000013          	nop
+ 10074cc:	00000013          	nop
+ 10074d0:	00000013          	nop
+ 10074d4:	00000013          	nop
+ 10074d8:	00000013          	nop
+ 10074dc:	00000013          	nop
+ 10074e0:	00000013          	nop
+ 10074e4:	00000013          	nop
+ 10074e8:	00000013          	nop
+ 10074ec:	00000013          	nop
+ 10074f0:	00000013          	nop
+ 10074f4:	00000013          	nop
+ 10074f8:	00000013          	nop
+ 10074fc:	00000013          	nop
+ 1007500:	00000013          	nop
+ 1007504:	00000013          	nop
+ 1007508:	00000013          	nop
+ 100750c:	00000013          	nop
+ 1007510:	00000013          	nop
+ 1007514:	00000013          	nop
+ 1007518:	00000013          	nop
+ 100751c:	00000013          	nop
+ 1007520:	00000013          	nop
+ 1007524:	00000013          	nop
+ 1007528:	00000013          	nop
+ 100752c:	00000013          	nop
+ 1007530:	00000013          	nop
+ 1007534:	00000013          	nop
+ 1007538:	00000013          	nop
+ 100753c:	00000013          	nop
+ 1007540:	00000013          	nop
+ 1007544:	00000013          	nop
+ 1007548:	00000013          	nop
+ 100754c:	00000013          	nop
+ 1007550:	00000013          	nop
+ 1007554:	00000013          	nop
+ 1007558:	00000013          	nop
+ 100755c:	00000013          	nop
+ 1007560:	00000013          	nop
+ 1007564:	00000013          	nop
+ 1007568:	00000013          	nop
+ 100756c:	00000013          	nop
+ 1007570:	00000013          	nop
+ 1007574:	00000013          	nop
+ 1007578:	00000013          	nop
+ 100757c:	00000013          	nop
+ 1007580:	00000013          	nop
+ 1007584:	00000013          	nop
+ 1007588:	00000013          	nop
+ 100758c:	00000013          	nop
+ 1007590:	00000013          	nop
+ 1007594:	00000013          	nop
+ 1007598:	00000013          	nop
+ 100759c:	00000013          	nop
+ 10075a0:	00000013          	nop
+ 10075a4:	00000013          	nop
+ 10075a8:	00000013          	nop
+ 10075ac:	00000013          	nop
+ 10075b0:	00000013          	nop
+ 10075b4:	00000013          	nop
+ 10075b8:	00000013          	nop
+ 10075bc:	00000013          	nop
+ 10075c0:	00000013          	nop
+ 10075c4:	00000013          	nop
+ 10075c8:	00000013          	nop
+ 10075cc:	00000013          	nop
+ 10075d0:	00000013          	nop
+ 10075d4:	00000013          	nop
+ 10075d8:	00000013          	nop
+ 10075dc:	00000013          	nop
+ 10075e0:	00000013          	nop
+ 10075e4:	00000013          	nop
+ 10075e8:	00000013          	nop
+ 10075ec:	00000013          	nop
+ 10075f0:	00000013          	nop
+ 10075f4:	00000013          	nop
+ 10075f8:	00000013          	nop
+ 10075fc:	00000013          	nop
+ 1007600:	00000013          	nop
+ 1007604:	00000013          	nop
+ 1007608:	00000013          	nop
+ 100760c:	00000013          	nop
+ 1007610:	00000013          	nop
+ 1007614:	00000013          	nop
+ 1007618:	00000013          	nop
+ 100761c:	00000013          	nop
+ 1007620:	00000013          	nop
+ 1007624:	00000013          	nop
+ 1007628:	00000013          	nop
+ 100762c:	00000013          	nop
+ 1007630:	00000013          	nop
+ 1007634:	00000013          	nop
+ 1007638:	00000013          	nop
+ 100763c:	00000013          	nop
+ 1007640:	00000013          	nop
+ 1007644:	00000013          	nop
+ 1007648:	00000013          	nop
+ 100764c:	00000013          	nop
+ 1007650:	00000013          	nop
+ 1007654:	00000013          	nop
+ 1007658:	00000013          	nop
+ 100765c:	00000013          	nop
+ 1007660:	00000013          	nop
+ 1007664:	00000013          	nop
+ 1007668:	00000013          	nop
+ 100766c:	00000013          	nop
+ 1007670:	00000013          	nop
+ 1007674:	00000013          	nop
+ 1007678:	00000013          	nop
+ 100767c:	00000013          	nop
+ 1007680:	00000013          	nop
+ 1007684:	00000013          	nop
+ 1007688:	00000013          	nop
+ 100768c:	00000013          	nop
+ 1007690:	00000013          	nop
+ 1007694:	00000013          	nop
+ 1007698:	00000013          	nop
+ 100769c:	00000013          	nop
+ 10076a0:	00000013          	nop
+ 10076a4:	00000013          	nop
+ 10076a8:	00000013          	nop
+ 10076ac:	00000013          	nop
+ 10076b0:	00000013          	nop
+ 10076b4:	00000013          	nop
+ 10076b8:	00000013          	nop
+ 10076bc:	00000013          	nop
+ 10076c0:	00000013          	nop
+ 10076c4:	00000013          	nop
+ 10076c8:	00000013          	nop
+ 10076cc:	00000013          	nop
+ 10076d0:	00000013          	nop
+ 10076d4:	00000013          	nop
+ 10076d8:	00000013          	nop
+ 10076dc:	00000013          	nop
+ 10076e0:	00000013          	nop
+ 10076e4:	00000013          	nop
+ 10076e8:	00000013          	nop
+ 10076ec:	00000013          	nop
+ 10076f0:	00000013          	nop
+ 10076f4:	00000013          	nop
+ 10076f8:	00000013          	nop
+ 10076fc:	00000013          	nop
+ 1007700:	00000013          	nop
+ 1007704:	00000013          	nop
+ 1007708:	00000013          	nop
+ 100770c:	00000013          	nop
+ 1007710:	00000013          	nop
+ 1007714:	00000013          	nop
+ 1007718:	00000013          	nop
+ 100771c:	00000013          	nop
+ 1007720:	00000013          	nop
+ 1007724:	00000013          	nop
+ 1007728:	00000013          	nop
+ 100772c:	00000013          	nop
+ 1007730:	00000013          	nop
+ 1007734:	00000013          	nop
+ 1007738:	00000013          	nop
+ 100773c:	00000013          	nop
+ 1007740:	00000013          	nop
+ 1007744:	00000013          	nop
+ 1007748:	00000013          	nop
+ 100774c:	00000013          	nop
+ 1007750:	00000013          	nop
+ 1007754:	00000013          	nop
+ 1007758:	00000013          	nop
+ 100775c:	00000013          	nop
+ 1007760:	00000013          	nop
+ 1007764:	00000013          	nop
+ 1007768:	00000013          	nop
+ 100776c:	00000013          	nop
+ 1007770:	00000013          	nop
+ 1007774:	00000013          	nop
+ 1007778:	00000013          	nop
+ 100777c:	00000013          	nop
+ 1007780:	00000013          	nop
+ 1007784:	00000013          	nop
+ 1007788:	00000013          	nop
+ 100778c:	00000013          	nop
+ 1007790:	00000013          	nop
+ 1007794:	00000013          	nop
+ 1007798:	00000013          	nop
+ 100779c:	00000013          	nop
+ 10077a0:	00000013          	nop
+ 10077a4:	00000013          	nop
+ 10077a8:	00000013          	nop
+ 10077ac:	00000013          	nop
+ 10077b0:	00000013          	nop
+ 10077b4:	00000013          	nop
+ 10077b8:	00000013          	nop
+ 10077bc:	00000013          	nop
+ 10077c0:	00000013          	nop
+ 10077c4:	00000013          	nop
+ 10077c8:	00000013          	nop
+ 10077cc:	00000013          	nop
+ 10077d0:	00000013          	nop
+ 10077d4:	00000013          	nop
+ 10077d8:	00000013          	nop
+ 10077dc:	00000013          	nop
+ 10077e0:	00000013          	nop
+ 10077e4:	00000013          	nop
+ 10077e8:	00000013          	nop
+ 10077ec:	00000013          	nop
+ 10077f0:	00000013          	nop
+ 10077f4:	00000013          	nop
+ 10077f8:	00000013          	nop
+ 10077fc:	00000013          	nop
+ 1007800:	00000013          	nop
+ 1007804:	00000013          	nop
+ 1007808:	00000013          	nop
+ 100780c:	00000013          	nop
+ 1007810:	00000013          	nop
+ 1007814:	00000013          	nop
+ 1007818:	00000013          	nop
+ 100781c:	00000013          	nop
+ 1007820:	00000013          	nop
+ 1007824:	00000013          	nop
+ 1007828:	00000013          	nop
+ 100782c:	00000013          	nop
+ 1007830:	00000013          	nop
+ 1007834:	00000013          	nop
+ 1007838:	00000013          	nop
+ 100783c:	00000013          	nop
+ 1007840:	00000013          	nop
+ 1007844:	00000013          	nop
+ 1007848:	00000013          	nop
+ 100784c:	00000013          	nop
+ 1007850:	00000013          	nop
+ 1007854:	00000013          	nop
+ 1007858:	00000013          	nop
+ 100785c:	00000013          	nop
+ 1007860:	00000013          	nop
+ 1007864:	00000013          	nop
+ 1007868:	00000013          	nop
+ 100786c:	00000013          	nop
+ 1007870:	00000013          	nop
+ 1007874:	00000013          	nop
+ 1007878:	00000013          	nop
+ 100787c:	00000013          	nop
+ 1007880:	00000013          	nop
+ 1007884:	00000013          	nop
+ 1007888:	00000013          	nop
+ 100788c:	00000013          	nop
+ 1007890:	00000013          	nop
+ 1007894:	00000013          	nop
+ 1007898:	00000013          	nop
+ 100789c:	00000013          	nop
+ 10078a0:	00000013          	nop
+ 10078a4:	00000013          	nop
+ 10078a8:	00000013          	nop
+ 10078ac:	00000013          	nop
+ 10078b0:	00000013          	nop
+ 10078b4:	00000013          	nop
+ 10078b8:	00000013          	nop
+ 10078bc:	00000013          	nop
+ 10078c0:	00000013          	nop
+ 10078c4:	00000013          	nop
+ 10078c8:	00000013          	nop
+ 10078cc:	00000013          	nop
+ 10078d0:	00000013          	nop
+ 10078d4:	00000013          	nop
+ 10078d8:	00000013          	nop
+ 10078dc:	00000013          	nop
+ 10078e0:	00000013          	nop
+ 10078e4:	00000013          	nop
+ 10078e8:	00000013          	nop
+ 10078ec:	00000013          	nop
+ 10078f0:	00000013          	nop
+ 10078f4:	00000013          	nop
+ 10078f8:	00000013          	nop
+ 10078fc:	00000013          	nop
+ 1007900:	00000013          	nop
+ 1007904:	00000013          	nop
+ 1007908:	00000013          	nop
+ 100790c:	00000013          	nop
+ 1007910:	00000013          	nop
+ 1007914:	00000013          	nop
+ 1007918:	00000013          	nop
+ 100791c:	00000013          	nop
+ 1007920:	00000013          	nop
+ 1007924:	00000013          	nop
+ 1007928:	00000013          	nop
+ 100792c:	00000013          	nop
+ 1007930:	00000013          	nop
+ 1007934:	00000013          	nop
+ 1007938:	00000013          	nop
+ 100793c:	00000013          	nop
+ 1007940:	00000013          	nop
+ 1007944:	00000013          	nop
+ 1007948:	00000013          	nop
+ 100794c:	00000013          	nop
+ 1007950:	00000013          	nop
+ 1007954:	00000013          	nop
+ 1007958:	00000013          	nop
+ 100795c:	00000013          	nop
+ 1007960:	00000013          	nop
+ 1007964:	00000013          	nop
+ 1007968:	00000013          	nop
+ 100796c:	00000013          	nop
+ 1007970:	00000013          	nop
+ 1007974:	00000013          	nop
+ 1007978:	00000013          	nop
+ 100797c:	00000013          	nop
+ 1007980:	00000013          	nop
+ 1007984:	00000013          	nop
+ 1007988:	00000013          	nop
+ 100798c:	00000013          	nop
+ 1007990:	00000013          	nop
+ 1007994:	00000013          	nop
+ 1007998:	00000013          	nop
+ 100799c:	00000013          	nop
+ 10079a0:	00000013          	nop
+ 10079a4:	00000013          	nop
+ 10079a8:	00000013          	nop
+ 10079ac:	00000013          	nop
+ 10079b0:	00000013          	nop
+ 10079b4:	00000013          	nop
+ 10079b8:	00000013          	nop
+ 10079bc:	00000013          	nop
+ 10079c0:	00000013          	nop
+ 10079c4:	00000013          	nop
+ 10079c8:	00000013          	nop
+ 10079cc:	00000013          	nop
+ 10079d0:	00000013          	nop
+ 10079d4:	00000013          	nop
+ 10079d8:	00000013          	nop
+ 10079dc:	00000013          	nop
+ 10079e0:	00000013          	nop
+ 10079e4:	00000013          	nop
+ 10079e8:	00000013          	nop
+ 10079ec:	00000013          	nop
+ 10079f0:	00000013          	nop
+ 10079f4:	00000013          	nop
+ 10079f8:	00000013          	nop
+ 10079fc:	00000013          	nop
+ 1007a00:	00000013          	nop
+ 1007a04:	00000013          	nop
+ 1007a08:	00000013          	nop
+ 1007a0c:	00000013          	nop
+ 1007a10:	00000013          	nop
+ 1007a14:	00000013          	nop
+ 1007a18:	00000013          	nop
+ 1007a1c:	00000013          	nop
+ 1007a20:	00000013          	nop
+ 1007a24:	00000013          	nop
+ 1007a28:	00000013          	nop
+ 1007a2c:	00000013          	nop
+ 1007a30:	00000013          	nop
+ 1007a34:	00000013          	nop
+ 1007a38:	00000013          	nop
+ 1007a3c:	00000013          	nop
+ 1007a40:	00000013          	nop
+ 1007a44:	00000013          	nop
+ 1007a48:	00000013          	nop
+ 1007a4c:	00000013          	nop
+ 1007a50:	00000013          	nop
+ 1007a54:	00000013          	nop
+ 1007a58:	00000013          	nop
+ 1007a5c:	00000013          	nop
+ 1007a60:	00000013          	nop
+ 1007a64:	00000013          	nop
+ 1007a68:	00000013          	nop
+ 1007a6c:	00000013          	nop
+ 1007a70:	00000013          	nop
+ 1007a74:	00000013          	nop
+ 1007a78:	00000013          	nop
+ 1007a7c:	00000013          	nop
+ 1007a80:	00000013          	nop
+ 1007a84:	00000013          	nop
+ 1007a88:	00000013          	nop
+ 1007a8c:	00000013          	nop
+ 1007a90:	00000013          	nop
+ 1007a94:	00000013          	nop
+ 1007a98:	00000013          	nop
+ 1007a9c:	00000013          	nop
+ 1007aa0:	00000013          	nop
+ 1007aa4:	00000013          	nop
+ 1007aa8:	00000013          	nop
+ 1007aac:	00000013          	nop
+ 1007ab0:	00000013          	nop
+ 1007ab4:	00000013          	nop
+ 1007ab8:	00000013          	nop
+ 1007abc:	00000013          	nop
+ 1007ac0:	00000013          	nop
+ 1007ac4:	00000013          	nop
+ 1007ac8:	00000013          	nop
+ 1007acc:	00000013          	nop
+ 1007ad0:	00000013          	nop
+ 1007ad4:	00000013          	nop
+ 1007ad8:	00000013          	nop
+ 1007adc:	00000013          	nop
+ 1007ae0:	00000013          	nop
+ 1007ae4:	00000013          	nop
+ 1007ae8:	00000013          	nop
+ 1007aec:	00000013          	nop
+ 1007af0:	00000013          	nop
+ 1007af4:	00000013          	nop
+ 1007af8:	00000013          	nop
+ 1007afc:	00000013          	nop
+ 1007b00:	00000013          	nop
+ 1007b04:	00000013          	nop
+ 1007b08:	00000013          	nop
+ 1007b0c:	00000013          	nop
+ 1007b10:	00000013          	nop
+ 1007b14:	00000013          	nop
+ 1007b18:	00000013          	nop
+ 1007b1c:	00000013          	nop
+ 1007b20:	00000013          	nop
+ 1007b24:	00000013          	nop
+ 1007b28:	00000013          	nop
+ 1007b2c:	00000013          	nop
+ 1007b30:	00000013          	nop
+ 1007b34:	00000013          	nop
+ 1007b38:	00000013          	nop
+ 1007b3c:	00000013          	nop
+ 1007b40:	00000013          	nop
+ 1007b44:	00000013          	nop
+ 1007b48:	00000013          	nop
+ 1007b4c:	00000013          	nop
+ 1007b50:	00000013          	nop
+ 1007b54:	00000013          	nop
+ 1007b58:	00000013          	nop
+ 1007b5c:	00000013          	nop
+ 1007b60:	00000013          	nop
+ 1007b64:	00000013          	nop
+ 1007b68:	00000013          	nop
+ 1007b6c:	00000013          	nop
+ 1007b70:	00000013          	nop
+ 1007b74:	00000013          	nop
+ 1007b78:	00000013          	nop
+ 1007b7c:	00000013          	nop
+ 1007b80:	00000013          	nop
+ 1007b84:	00000013          	nop
+ 1007b88:	00000013          	nop
+ 1007b8c:	00000013          	nop
+ 1007b90:	00000013          	nop
+ 1007b94:	00000013          	nop
+ 1007b98:	00000013          	nop
+ 1007b9c:	00000013          	nop
+ 1007ba0:	00000013          	nop
+ 1007ba4:	00000013          	nop
+ 1007ba8:	00000013          	nop
+ 1007bac:	00000013          	nop
+ 1007bb0:	00000013          	nop
+ 1007bb4:	00000013          	nop
+ 1007bb8:	00000013          	nop
+ 1007bbc:	00000013          	nop
+ 1007bc0:	00000013          	nop
+ 1007bc4:	00000013          	nop
+ 1007bc8:	00000013          	nop
+ 1007bcc:	00000013          	nop
+ 1007bd0:	00000013          	nop
+ 1007bd4:	00000013          	nop
+ 1007bd8:	00000013          	nop
+ 1007bdc:	00000013          	nop
+ 1007be0:	00000013          	nop
+ 1007be4:	00000013          	nop
+ 1007be8:	00000013          	nop
+ 1007bec:	00000013          	nop
+ 1007bf0:	00000013          	nop
+ 1007bf4:	00000013          	nop
+ 1007bf8:	00000013          	nop
+ 1007bfc:	00000013          	nop
+ 1007c00:	00000013          	nop
+ 1007c04:	00000013          	nop
+ 1007c08:	00000013          	nop
+ 1007c0c:	00000013          	nop
+ 1007c10:	00000013          	nop
+ 1007c14:	00000013          	nop
+ 1007c18:	00000013          	nop
+ 1007c1c:	00000013          	nop
+ 1007c20:	00000013          	nop
+ 1007c24:	00000013          	nop
+ 1007c28:	00000013          	nop
+ 1007c2c:	00000013          	nop
+ 1007c30:	00000013          	nop
+ 1007c34:	00000013          	nop
+ 1007c38:	00000013          	nop
+ 1007c3c:	00000013          	nop
+ 1007c40:	00000013          	nop
+ 1007c44:	00000013          	nop
+ 1007c48:	00000013          	nop
+ 1007c4c:	00000013          	nop
+ 1007c50:	00000013          	nop
+ 1007c54:	00000013          	nop
+ 1007c58:	00000013          	nop
+ 1007c5c:	00000013          	nop
+ 1007c60:	00000013          	nop
+ 1007c64:	00000013          	nop
+ 1007c68:	00000013          	nop
+ 1007c6c:	00000013          	nop
+ 1007c70:	00000013          	nop
+ 1007c74:	00000013          	nop
+ 1007c78:	00000013          	nop
+ 1007c7c:	00000013          	nop
+ 1007c80:	00000013          	nop
+ 1007c84:	00000013          	nop
+ 1007c88:	00000013          	nop
+ 1007c8c:	00000013          	nop
+ 1007c90:	00000013          	nop
+ 1007c94:	00000013          	nop
+ 1007c98:	00000013          	nop
+ 1007c9c:	00000013          	nop
+ 1007ca0:	00000013          	nop
+ 1007ca4:	00000013          	nop
+ 1007ca8:	00000013          	nop
+ 1007cac:	00000013          	nop
+ 1007cb0:	00000013          	nop
+ 1007cb4:	00000013          	nop
+ 1007cb8:	00000013          	nop
+ 1007cbc:	00000013          	nop
+ 1007cc0:	00000013          	nop
+ 1007cc4:	00000013          	nop
+ 1007cc8:	00000013          	nop
+ 1007ccc:	00000013          	nop
+ 1007cd0:	00000013          	nop
+ 1007cd4:	00000013          	nop
+ 1007cd8:	00000013          	nop
+ 1007cdc:	00000013          	nop
+ 1007ce0:	00000013          	nop
+ 1007ce4:	00000013          	nop
+ 1007ce8:	00000013          	nop
+ 1007cec:	00000013          	nop
+ 1007cf0:	00000013          	nop
+ 1007cf4:	00000013          	nop
+ 1007cf8:	00000013          	nop
+ 1007cfc:	00000013          	nop
+ 1007d00:	00000013          	nop
+ 1007d04:	00000013          	nop
+ 1007d08:	00000013          	nop
+ 1007d0c:	00000013          	nop
+ 1007d10:	00000013          	nop
+ 1007d14:	00000013          	nop
+ 1007d18:	00000013          	nop
+ 1007d1c:	00000013          	nop
+ 1007d20:	00000013          	nop
+ 1007d24:	00000013          	nop
+ 1007d28:	00000013          	nop
+ 1007d2c:	00000013          	nop
+ 1007d30:	00000013          	nop
+ 1007d34:	00000013          	nop
+ 1007d38:	00000013          	nop
+ 1007d3c:	00000013          	nop
+ 1007d40:	00000013          	nop
+ 1007d44:	00000013          	nop
+ 1007d48:	00000013          	nop
+ 1007d4c:	00000013          	nop
+ 1007d50:	00000013          	nop
+ 1007d54:	00000013          	nop
+ 1007d58:	00000013          	nop
+ 1007d5c:	00000013          	nop
+ 1007d60:	00000013          	nop
+ 1007d64:	00000013          	nop
+ 1007d68:	00000013          	nop
+ 1007d6c:	00000013          	nop
+ 1007d70:	00000013          	nop
+ 1007d74:	00000013          	nop
+ 1007d78:	00000013          	nop
+ 1007d7c:	00000013          	nop
+ 1007d80:	00000013          	nop
+ 1007d84:	00000013          	nop
+ 1007d88:	00000013          	nop
+ 1007d8c:	00000013          	nop
+ 1007d90:	00000013          	nop
+ 1007d94:	00000013          	nop
+ 1007d98:	00000013          	nop
+ 1007d9c:	00000013          	nop
+ 1007da0:	00000013          	nop
+ 1007da4:	00000013          	nop
+ 1007da8:	00000013          	nop
+ 1007dac:	00000013          	nop
+ 1007db0:	00000013          	nop
+ 1007db4:	00000013          	nop
+ 1007db8:	00000013          	nop
+ 1007dbc:	00000013          	nop
+ 1007dc0:	00000013          	nop
+ 1007dc4:	00000013          	nop
+ 1007dc8:	00000013          	nop
+ 1007dcc:	00000013          	nop
+ 1007dd0:	00000013          	nop
+ 1007dd4:	00000013          	nop
+ 1007dd8:	00000013          	nop
+ 1007ddc:	00000013          	nop
+ 1007de0:	00000013          	nop
+ 1007de4:	00000013          	nop
+ 1007de8:	00000013          	nop
+ 1007dec:	00000013          	nop
+ 1007df0:	00000013          	nop
+ 1007df4:	00000013          	nop
+ 1007df8:	00000013          	nop
+ 1007dfc:	00000013          	nop
+ 1007e00:	00000013          	nop
+ 1007e04:	00000013          	nop
+ 1007e08:	00000013          	nop
+ 1007e0c:	00000013          	nop
+ 1007e10:	00000013          	nop
+ 1007e14:	00000013          	nop
+ 1007e18:	00000013          	nop
+ 1007e1c:	00000013          	nop
+ 1007e20:	00000013          	nop
+ 1007e24:	00000013          	nop
+ 1007e28:	00000013          	nop
+ 1007e2c:	00000013          	nop
+ 1007e30:	00000013          	nop
+ 1007e34:	00000013          	nop
+ 1007e38:	00000013          	nop
+ 1007e3c:	00000013          	nop
+ 1007e40:	00000013          	nop
+ 1007e44:	00000013          	nop
+ 1007e48:	00000013          	nop
+ 1007e4c:	00000013          	nop
+ 1007e50:	00000013          	nop
+ 1007e54:	00000013          	nop
+ 1007e58:	00000013          	nop
+ 1007e5c:	00000013          	nop
+ 1007e60:	00000013          	nop
+ 1007e64:	00000013          	nop
+ 1007e68:	00000013          	nop
+ 1007e6c:	00000013          	nop
+ 1007e70:	00000013          	nop
+ 1007e74:	00000013          	nop
+ 1007e78:	00000013          	nop
+ 1007e7c:	00000013          	nop
+ 1007e80:	00000013          	nop
+ 1007e84:	00000013          	nop
+ 1007e88:	00000013          	nop
+ 1007e8c:	00000013          	nop
+ 1007e90:	00000013          	nop
+ 1007e94:	00000013          	nop
+ 1007e98:	00000013          	nop
+ 1007e9c:	00000013          	nop
+ 1007ea0:	00000013          	nop
+ 1007ea4:	00000013          	nop
+ 1007ea8:	00000013          	nop
+ 1007eac:	00000013          	nop
+ 1007eb0:	00000013          	nop
+ 1007eb4:	00000013          	nop
+ 1007eb8:	00000013          	nop
+ 1007ebc:	00000013          	nop
+ 1007ec0:	00000013          	nop
+ 1007ec4:	00000013          	nop
+ 1007ec8:	00000013          	nop
+ 1007ecc:	00000013          	nop
+ 1007ed0:	00000013          	nop
+ 1007ed4:	00000013          	nop
+ 1007ed8:	00000013          	nop
+ 1007edc:	00000013          	nop
+ 1007ee0:	00000013          	nop
+ 1007ee4:	00000013          	nop
+ 1007ee8:	00000013          	nop
+ 1007eec:	00000013          	nop
+ 1007ef0:	00000013          	nop
+ 1007ef4:	00000013          	nop
+ 1007ef8:	00000013          	nop
+ 1007efc:	00000013          	nop
+ 1007f00:	00000013          	nop
+ 1007f04:	00000013          	nop
+ 1007f08:	00000013          	nop
+ 1007f0c:	00000013          	nop
+ 1007f10:	00000013          	nop
+ 1007f14:	00000013          	nop
+ 1007f18:	00000013          	nop
+ 1007f1c:	00000013          	nop
+ 1007f20:	00000013          	nop
+ 1007f24:	00000013          	nop
+ 1007f28:	00000013          	nop
+ 1007f2c:	00000013          	nop
+ 1007f30:	00000013          	nop
+ 1007f34:	00000013          	nop
+ 1007f38:	00000013          	nop
+ 1007f3c:	00000013          	nop
+ 1007f40:	00000013          	nop
+ 1007f44:	00000013          	nop
+ 1007f48:	00000013          	nop
+ 1007f4c:	00000013          	nop
+ 1007f50:	00000013          	nop
+ 1007f54:	00000013          	nop
+ 1007f58:	00000013          	nop
+ 1007f5c:	00000013          	nop
+ 1007f60:	00000013          	nop
+ 1007f64:	00000013          	nop
+ 1007f68:	00000013          	nop
+ 1007f6c:	00000013          	nop
+ 1007f70:	00000013          	nop
+ 1007f74:	00000013          	nop
+ 1007f78:	00000013          	nop
+ 1007f7c:	00000013          	nop
+ 1007f80:	00000013          	nop
+ 1007f84:	00000013          	nop
+ 1007f88:	00000013          	nop
+ 1007f8c:	00000013          	nop
+ 1007f90:	00000013          	nop
+ 1007f94:	00000013          	nop
+ 1007f98:	00000013          	nop
+ 1007f9c:	00000013          	nop
+ 1007fa0:	00000013          	nop
+ 1007fa4:	00000013          	nop
+ 1007fa8:	00000013          	nop
+ 1007fac:	00000013          	nop
+ 1007fb0:	00000013          	nop
+ 1007fb4:	00000013          	nop
+ 1007fb8:	00000013          	nop
+ 1007fbc:	00000013          	nop
+ 1007fc0:	00000013          	nop
+ 1007fc4:	00000013          	nop
+ 1007fc8:	00000013          	nop
+ 1007fcc:	00000013          	nop
+ 1007fd0:	00000013          	nop
+ 1007fd4:	00000013          	nop
+ 1007fd8:	00000013          	nop
+ 1007fdc:	00000013          	nop
+ 1007fe0:	00000013          	nop
+ 1007fe4:	00000013          	nop
+ 1007fe8:	00000013          	nop
+ 1007fec:	00000013          	nop
+ 1007ff0:	00000013          	nop
+ 1007ff4:	00000013          	nop
+ 1007ff8:	00000013          	nop
+ 1007ffc:	00000013          	nop
+
+Disassembly of section .data:
+
+00000000 <mouse_x>:
+   0:	0000                	.2byte	0x0
+	...
+
+00000004 <mouse_y>:
+   4:	0000                	.2byte	0x0
+	...
+
+00000008 <mouse_btn>:
+   8:	0000                	.2byte	0x0
+	...
+
+0000000c <teclas>:
+	...
+
+00000014 <special>:
+  14:	0000                	.2byte	0x0
+	...
+
+00000018 <colormap_>:
+  18:	2e20                	.2byte	0x2e20
+  1a:	3a2c                	.2byte	0x3a2c
+  1c:	25786f3b          	.4byte	0x25786f3b
+  20:	00004023          	.4byte	0x4023
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1941                	.2byte	0x1941
+   2:	0000                	.2byte	0x0
+   4:	7200                	.2byte	0x7200
+   6:	7369                	.2byte	0x7369
+   8:	01007663          	bgeu	x0,x16,14 <IO_KBRD_key0>
+   c:	0000000f          	fence	unknown,unknown
+  10:	7205                	.2byte	0x7205
+  12:	3376                	.2byte	0x3376
+  14:	6932                	.2byte	0x6932
+  16:	7032                	.2byte	0x7032
+  18:	0031                	.2byte	0x31

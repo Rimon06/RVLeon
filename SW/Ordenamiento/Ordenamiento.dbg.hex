@@ -1,0 +1,865 @@
+
+Ordenamiento.flash.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+01000000 <_start>:
+ 1000000:	800001b7          	lui	x3,0x80000
+ 1000004:	00001137          	lui	x2,0x1
+ 1000008:	00001097          	auipc	x1,0x1
+ 100000c:	84c080e7          	jalr	-1972(x1) # 1000854 <main>
+
+01000010 <exit>:
+ 1000010:	00a1a223          	sw	x10,4(x3) # 80000004 <IO_BASE+0x4>
+
+01000014 <exitl1>:
+ 1000014:	00051063          	bnez	x10,1000014 <exitl1>
+ 1000018:	00100313          	li	x6,1
+
+0100001c <exitl>:
+ 100001c:	0061a223          	sw	x6,4(x3)
+ 1000020:	00018537          	lui	x10,0x18
+ 1000024:	6a050513          	add	x10,x10,1696 # 186a0 <IO_VGA_RAM_BASE+0x166a0>
+ 1000028:	00000097          	auipc	x1,0x0
+ 100002c:	178080e7          	jalr	376(x1) # 10001a0 <microwait>
+ 1000030:	00131313          	sll	x6,x6,0x1
+ 1000034:	fe0314e3          	bnez	x6,100001c <exitl>
+ 1000038:	00100313          	li	x6,1
+ 100003c:	fe1ff06f          	j	100001c <exitl>
+
+01000040 <abort>:
+ 1000040:	0000a537          	lui	x10,0xa
+ 1000044:	0a050513          	add	x10,x10,160 # a0a0 <IO_VGA_RAM_BASE+0x80a0>
+ 1000048:	00100073          	ebreak
+ 100004c:	fc5ff06f          	j	1000010 <exit>
+ 1000050:	00008067          	ret
+
+01000054 <VGAtextmode>:
+ 1000054:	0281a283          	lw	x5,40(x3)
+ 1000058:	0fd2f293          	and	x5,x5,253
+ 100005c:	02518423          	sb	x5,40(x3)
+ 1000060:	00008067          	ret
+
+01000064 <VGAcolormode>:
+ 1000064:	0281a283          	lw	x5,40(x3)
+ 1000068:	0022e293          	or	x5,x5,2
+ 100006c:	02518423          	sb	x5,40(x3)
+ 1000070:	00008067          	ret
+
+01000074 <VGAActivate>:
+ 1000074:	0281a283          	lw	x5,40(x3)
+ 1000078:	0012e293          	or	x5,x5,1
+ 100007c:	0251a423          	sw	x5,40(x3)
+ 1000080:	00008067          	ret
+
+01000084 <VGADeactivate>:
+ 1000084:	0281a283          	lw	x5,40(x3)
+ 1000088:	0fe2f293          	and	x5,x5,254
+ 100008c:	02518423          	sb	x5,40(x3)
+ 1000090:	00008067          	ret
+
+01000094 <PrintInVGA>:
+ 1000094:	ffc10113          	add	x2,x2,-4 # ffc <KEY_MOD_RMETA+0xf7c>
+ 1000098:	00812023          	sw	x8,0(x2)
+ 100009c:	00461293          	sll	x5,x12,0x4
+ 10000a0:	00661313          	sll	x6,x12,0x6
+ 10000a4:	00628433          	add	x8,x5,x6
+ 10000a8:	00b40433          	add	x8,x8,x11
+ 10000ac:	000023b7          	lui	x7,0x2
+ 10000b0:	00740433          	add	x8,x8,x7
+ 10000b4:	00340433          	add	x8,x8,x3
+ 10000b8:	00a40023          	sb	x10,0(x8)
+ 10000bc:	00012403          	lw	x8,0(x2)
+ 10000c0:	00410113          	add	x2,x2,4
+ 10000c4:	00008067          	ret
+
+010000c8 <VGAClean>:
+ 10000c8:	00000513          	li	x10,0
+ 10000cc:	0040006f          	j	10000d0 <VGAPaintAll>
+
+010000d0 <VGAPaintAll>:
+ 10000d0:	ffc10113          	add	x2,x2,-4
+ 10000d4:	00812023          	sw	x8,0(x2)
+ 10000d8:	00002437          	lui	x8,0x2
+ 10000dc:	00340433          	add	x8,x8,x3
+ 10000e0:	00001337          	lui	x6,0x1
+ 10000e4:	40030313          	add	x6,x6,1024 # 1400 <STACKTOP+0x400>
+ 10000e8:	00830333          	add	x6,x6,x8
+
+010000ec <.VGAPaintAllloop>:
+ 10000ec:	00a40023          	sb	x10,0(x8) # 2000 <IO_VGA_RAM_BASE>
+ 10000f0:	00a400a3          	sb	x10,1(x8)
+ 10000f4:	00a40123          	sb	x10,2(x8)
+ 10000f8:	00a401a3          	sb	x10,3(x8)
+ 10000fc:	00440413          	add	x8,x8,4
+ 1000100:	fe6446e3          	blt	x8,x6,10000ec <.VGAPaintAllloop>
+ 1000104:	00012403          	lw	x8,0(x2)
+ 1000108:	00410113          	add	x2,x2,4
+ 100010c:	00008067          	ret
+
+01000110 <DibujaMarco>:
+ 1000110:	ff010113          	add	x2,x2,-16
+ 1000114:	00112023          	sw	x1,0(x2)
+ 1000118:	00812223          	sw	x8,4(x2)
+ 100011c:	00912423          	sw	x9,8(x2)
+ 1000120:	01212623          	sw	x18,12(x2)
+ 1000124:	00002937          	lui	x18,0x2
+ 1000128:	01218933          	add	x18,x3,x18
+ 100012c:	00000493          	li	x9,0
+ 1000130:	00000413          	li	x8,0
+ 1000134:	04f00293          	li	x5,79
+ 1000138:	03b00313          	li	x6,59
+ 100013c:	000013b7          	lui	x7,0x1
+ 1000140:	2c038393          	add	x7,x7,704 # 12c0 <STACKTOP+0x2c0>
+
+01000144 <DibujarMarco_Loop>:
+ 1000144:	00040c63          	beqz	x8,100015c <DibujarMarco_marco>
+ 1000148:	00048a63          	beqz	x9,100015c <DibujarMarco_marco>
+ 100014c:	00540863          	beq	x8,x5,100015c <DibujarMarco_marco>
+ 1000150:	00648663          	beq	x9,x6,100015c <DibujarMarco_marco>
+ 1000154:	00b90023          	sb	x11,0(x18) # 2000 <IO_VGA_RAM_BASE>
+ 1000158:	0080006f          	j	1000160 <DibujarMarco_incX>
+
+0100015c <DibujarMarco_marco>:
+ 100015c:	00a90023          	sb	x10,0(x18)
+
+01000160 <DibujarMarco_incX>:
+ 1000160:	00190913          	add	x18,x18,1
+ 1000164:	02790063          	beq	x18,x7,1000184 <DibujarMarco_Fin>
+ 1000168:	00545663          	bge	x8,x5,1000174 <DibujarMarco_incY>
+ 100016c:	00140413          	add	x8,x8,1
+ 1000170:	fd5ff06f          	j	1000144 <DibujarMarco_Loop>
+
+01000174 <DibujarMarco_incY>:
+ 1000174:	00648863          	beq	x9,x6,1000184 <DibujarMarco_Fin>
+ 1000178:	00000413          	li	x8,0
+ 100017c:	00148493          	add	x9,x9,1
+ 1000180:	fc5ff06f          	j	1000144 <DibujarMarco_Loop>
+
+01000184 <DibujarMarco_Fin>:
+ 1000184:	00c12903          	lw	x18,12(x2)
+ 1000188:	00812483          	lw	x9,8(x2)
+ 100018c:	00412403          	lw	x8,4(x2)
+ 1000190:	00012083          	lw	x1,0(x2)
+ 1000194:	01010113          	add	x2,x2,16
+ 1000198:	00008067          	ret
+
+0100019c <milliwait>:
+ 100019c:	00008067          	ret
+
+010001a0 <microwait>:
+ 10001a0:	00a502b3          	add	x5,x10,x10
+
+010001a4 <.loop_microwait>:
+ 10001a4:	00028663          	beqz	x5,10001b0 <.out_microwait>
+ 10001a8:	fff28293          	add	x5,x5,-1
+ 10001ac:	ff9ff06f          	j	10001a4 <.loop_microwait>
+
+010001b0 <.out_microwait>:
+ 10001b0:	00008067          	ret
+
+010001b4 <conectado_mouse_USB>:
+ 10001b4:	0181a283          	lw	x5,24(x3)
+ 10001b8:	00100513          	li	x10,1
+ 10001bc:	0012f293          	and	x5,x5,1
+ 10001c0:	00029463          	bnez	x5,10001c8 <conectado_mouse_USB_fin>
+ 10001c4:	00000513          	li	x10,0
+
+010001c8 <conectado_mouse_USB_fin>:
+ 10001c8:	00008067          	ret
+
+010001cc <init_mouse>:
+ 10001cc:	ffc10113          	add	x2,x2,-4
+ 10001d0:	00112023          	sw	x1,0(x2)
+ 10001d4:	ff000297          	auipc	x5,0xff000
+ 10001d8:	e2c28293          	add	x5,x5,-468 # 0 <IO_BUTTON>
+ 10001dc:	ff000317          	auipc	x6,0xff000
+ 10001e0:	e2830313          	add	x6,x6,-472 # 4 <IO_LEDS>
+ 10001e4:	ff000397          	auipc	x7,0xff000
+ 10001e8:	e2438393          	add	x7,x7,-476 # 8 <IO_LEDS_config>
+ 10001ec:	0002a023          	sw	x0,0(x5)
+ 10001f0:	00032023          	sw	x0,0(x6)
+ 10001f4:	0003a023          	sw	x0,0(x7)
+
+010001f8 <init_mouse_wait>:
+ 10001f8:	fbdff0ef          	jal	10001b4 <conectado_mouse_USB>
+ 10001fc:	fe050ee3          	beqz	x10,10001f8 <init_mouse_wait>
+ 1000200:	00012083          	lw	x1,0(x2)
+ 1000204:	00410113          	add	x2,x2,4
+ 1000208:	00008067          	ret
+
+0100020c <refresh_mouse>:
+ 100020c:	fec10113          	add	x2,x2,-20
+ 1000210:	00112023          	sw	x1,0(x2)
+ 1000214:	00812223          	sw	x8,4(x2)
+ 1000218:	00912423          	sw	x9,8(x2)
+ 100021c:	01212623          	sw	x18,12(x2)
+ 1000220:	01312823          	sw	x19,16(x2)
+ 1000224:	00000513          	li	x10,0
+ 1000228:	0181a283          	lw	x5,24(x3)
+ 100022c:	0022f293          	and	x5,x5,2
+ 1000230:	04028c63          	beqz	x5,1000288 <refresh_mouse_out>
+ 1000234:	01c1a283          	lw	x5,28(x3)
+ 1000238:	ff000417          	auipc	x8,0xff000
+ 100023c:	dc840413          	add	x8,x8,-568 # 0 <IO_BUTTON>
+ 1000240:	ff000497          	auipc	x9,0xff000
+ 1000244:	dc448493          	add	x9,x9,-572 # 4 <IO_LEDS>
+ 1000248:	00829913          	sll	x18,x5,0x8
+ 100024c:	41895913          	sra	x18,x18,0x18
+ 1000250:	4182d993          	sra	x19,x5,0x18
+ 1000254:	0072f313          	and	x6,x5,7
+ 1000258:	ff000297          	auipc	x5,0xff000
+ 100025c:	db028293          	add	x5,x5,-592 # 8 <IO_LEDS_config>
+ 1000260:	0062a023          	sw	x6,0(x5)
+ 1000264:	00042383          	lw	x7,0(x8)
+ 1000268:	01238533          	add	x10,x7,x18
+ 100026c:	038000ef          	jal	10002a4 <CorregirPosicionRaton>
+ 1000270:	00a42023          	sw	x10,0(x8)
+ 1000274:	0004ae03          	lw	x28,0(x9)
+ 1000278:	013e0533          	add	x10,x28,x19
+ 100027c:	028000ef          	jal	10002a4 <CorregirPosicionRaton>
+ 1000280:	00a4a023          	sw	x10,0(x9)
+ 1000284:	00100513          	li	x10,1
+
+01000288 <refresh_mouse_out>:
+ 1000288:	01012983          	lw	x19,16(x2)
+ 100028c:	00c12903          	lw	x18,12(x2)
+ 1000290:	00812483          	lw	x9,8(x2)
+ 1000294:	00412403          	lw	x8,4(x2)
+ 1000298:	00012083          	lw	x1,0(x2)
+ 100029c:	01410113          	add	x2,x2,20
+ 10002a0:	00008067          	ret
+
+010002a4 <CorregirPosicionRaton>:
+ 10002a4:	c0000e93          	li	x29,-1024
+ 10002a8:	00aec663          	blt	x29,x10,10002b4 <CorregirPosicion_else>
+ 10002ac:	000e8513          	mv	x10,x29
+ 10002b0:	0100006f          	j	10002c0 <Fin_CorregirPosicion>
+
+010002b4 <CorregirPosicion_else>:
+ 10002b4:	3ff00e93          	li	x29,1023
+ 10002b8:	01d54463          	blt	x10,x29,10002c0 <Fin_CorregirPosicion>
+ 10002bc:	000e8513          	mv	x10,x29
+
+010002c0 <Fin_CorregirPosicion>:
+ 10002c0:	00008067          	ret
+
+010002c4 <MouseMiddleButton>:
+ 10002c4:	ff000297          	auipc	x5,0xff000
+ 10002c8:	d4428293          	add	x5,x5,-700 # 8 <IO_LEDS_config>
+ 10002cc:	00028303          	lb	x6,0(x5)
+ 10002d0:	00437313          	and	x6,x6,4
+ 10002d4:	00602533          	sgtz	x10,x6
+ 10002d8:	00008067          	ret
+
+010002dc <MouseRightButton>:
+ 10002dc:	ff000297          	auipc	x5,0xff000
+ 10002e0:	d2c28293          	add	x5,x5,-724 # 8 <IO_LEDS_config>
+ 10002e4:	00028303          	lb	x6,0(x5)
+ 10002e8:	00237313          	and	x6,x6,2
+ 10002ec:	00602533          	sgtz	x10,x6
+ 10002f0:	00008067          	ret
+
+010002f4 <MouseLeftButton>:
+ 10002f4:	ff000297          	auipc	x5,0xff000
+ 10002f8:	d1428293          	add	x5,x5,-748 # 8 <IO_LEDS_config>
+ 10002fc:	00028303          	lb	x6,0(x5)
+ 1000300:	00137313          	and	x6,x6,1
+ 1000304:	00602533          	sgtz	x10,x6
+ 1000308:	00008067          	ret
+
+0100030c <LeerMouseX>:
+ 100030c:	ff000297          	auipc	x5,0xff000
+ 1000310:	cf428293          	add	x5,x5,-780 # 0 <IO_BUTTON>
+ 1000314:	0002a503          	lw	x10,0(x5)
+ 1000318:	00008067          	ret
+
+0100031c <LeerMouseY>:
+ 100031c:	ff000297          	auipc	x5,0xff000
+ 1000320:	ce828293          	add	x5,x5,-792 # 4 <IO_LEDS>
+ 1000324:	0002a503          	lw	x10,0(x5)
+ 1000328:	00008067          	ret
+
+0100032c <EscribirMouseX>:
+ 100032c:	ffc10113          	add	x2,x2,-4
+ 1000330:	00012083          	lw	x1,0(x2)
+ 1000334:	f71ff0ef          	jal	10002a4 <CorregirPosicionRaton>
+ 1000338:	ff000297          	auipc	x5,0xff000
+ 100033c:	cc828293          	add	x5,x5,-824 # 0 <IO_BUTTON>
+ 1000340:	00a2a023          	sw	x10,0(x5)
+ 1000344:	00012083          	lw	x1,0(x2)
+ 1000348:	00410113          	add	x2,x2,4
+ 100034c:	00008067          	ret
+
+01000350 <EscribirMouseY>:
+ 1000350:	ffc10113          	add	x2,x2,-4
+ 1000354:	00012083          	lw	x1,0(x2)
+ 1000358:	f4dff0ef          	jal	10002a4 <CorregirPosicionRaton>
+ 100035c:	ff000297          	auipc	x5,0xff000
+ 1000360:	ca828293          	add	x5,x5,-856 # 4 <IO_LEDS>
+ 1000364:	00a2a023          	sw	x10,0(x5)
+ 1000368:	00012083          	lw	x1,0(x2)
+ 100036c:	00410113          	add	x2,x2,4
+ 1000370:	00008067          	ret
+
+01000374 <conectado_teclado_usb>:
+ 1000374:	0101a283          	lw	x5,16(x3)
+ 1000378:	00100513          	li	x10,1
+ 100037c:	0012f293          	and	x5,x5,1
+ 1000380:	00029463          	bnez	x5,1000388 <conectado_teclado_usb_fin>
+ 1000384:	00000513          	li	x10,0
+
+01000388 <conectado_teclado_usb_fin>:
+ 1000388:	00008067          	ret
+
+0100038c <init_teclado>:
+ 100038c:	ffc10113          	add	x2,x2,-4
+ 1000390:	00112023          	sw	x1,0(x2)
+
+01000394 <init_teclado_wait>:
+ 1000394:	fe1ff0ef          	jal	1000374 <conectado_teclado_usb>
+ 1000398:	02050063          	beqz	x10,10003b8 <init_teclado_fin>
+ 100039c:	ff000297          	auipc	x5,0xff000
+ 10003a0:	c7028293          	add	x5,x5,-912 # c <IO_UART>
+ 10003a4:	0002a023          	sw	x0,0(x5)
+ 10003a8:	ff000297          	auipc	x5,0xff000
+ 10003ac:	c6c28293          	add	x5,x5,-916 # 14 <IO_KBRD_key0>
+ 10003b0:	00028023          	sb	x0,0(x5)
+ 10003b4:	00100513          	li	x10,1
+
+010003b8 <init_teclado_fin>:
+ 10003b8:	00012083          	lw	x1,0(x2)
+ 10003bc:	00410113          	add	x2,x2,4
+ 10003c0:	00008067          	ret
+
+010003c4 <leer_teclado_usb>:
+ 10003c4:	ff410113          	add	x2,x2,-12
+ 10003c8:	00112023          	sw	x1,0(x2)
+ 10003cc:	00812223          	sw	x8,4(x2)
+ 10003d0:	00912423          	sw	x9,8(x2)
+ 10003d4:	0101a403          	lw	x8,16(x3)
+ 10003d8:	0141c283          	lbu	x5,20(x3)
+ 10003dc:	0151c303          	lbu	x6,21(x3)
+ 10003e0:	0161c383          	lbu	x7,22(x3)
+ 10003e4:	0171ce03          	lbu	x28,23(x3)
+ 10003e8:	00845413          	srl	x8,x8,0x8
+ 10003ec:	ff000497          	auipc	x9,0xff000
+ 10003f0:	c2048493          	add	x9,x9,-992 # c <IO_UART>
+ 10003f4:	0004ce83          	lbu	x29,0(x9)
+ 10003f8:	0014c583          	lbu	x11,1(x9)
+ 10003fc:	0024c603          	lbu	x12,2(x9)
+ 1000400:	0034c683          	lbu	x13,3(x9)
+ 1000404:	00000513          	li	x10,0
+
+01000408 <leerkey0>:
+ 1000408:	00028e63          	beqz	x5,1000424 <leerkey1>
+ 100040c:	01d28c63          	beq	x5,x29,1000424 <leerkey1>
+ 1000410:	00b28a63          	beq	x5,x11,1000424 <leerkey1>
+ 1000414:	00c28863          	beq	x5,x12,1000424 <leerkey1>
+ 1000418:	00d28663          	beq	x5,x13,1000424 <leerkey1>
+ 100041c:	00028513          	mv	x10,x5
+ 1000420:	0580006f          	j	1000478 <finleertecla>
+
+01000424 <leerkey1>:
+ 1000424:	00030e63          	beqz	x6,1000440 <leerkey2>
+ 1000428:	01d30c63          	beq	x6,x29,1000440 <leerkey2>
+ 100042c:	00b30a63          	beq	x6,x11,1000440 <leerkey2>
+ 1000430:	00c30863          	beq	x6,x12,1000440 <leerkey2>
+ 1000434:	00d30663          	beq	x6,x13,1000440 <leerkey2>
+ 1000438:	00030513          	mv	x10,x6
+ 100043c:	03c0006f          	j	1000478 <finleertecla>
+
+01000440 <leerkey2>:
+ 1000440:	00038e63          	beqz	x7,100045c <leerkey3>
+ 1000444:	01d38c63          	beq	x7,x29,100045c <leerkey3>
+ 1000448:	00b38a63          	beq	x7,x11,100045c <leerkey3>
+ 100044c:	00c38863          	beq	x7,x12,100045c <leerkey3>
+ 1000450:	00d38663          	beq	x7,x13,100045c <leerkey3>
+ 1000454:	00038513          	mv	x10,x7
+ 1000458:	0200006f          	j	1000478 <finleertecla>
+
+0100045c <leerkey3>:
+ 100045c:	000e0e63          	beqz	x28,1000478 <finleertecla>
+ 1000460:	01de0c63          	beq	x28,x29,1000478 <finleertecla>
+ 1000464:	00be0a63          	beq	x28,x11,1000478 <finleertecla>
+ 1000468:	00ce0863          	beq	x28,x12,1000478 <finleertecla>
+ 100046c:	00de0663          	beq	x28,x13,1000478 <finleertecla>
+ 1000470:	000e0513          	mv	x10,x28
+ 1000474:	0040006f          	j	1000478 <finleertecla>
+
+01000478 <finleertecla>:
+ 1000478:	00548023          	sb	x5,0(x9)
+ 100047c:	006480a3          	sb	x6,1(x9)
+ 1000480:	00748123          	sb	x7,2(x9)
+ 1000484:	01c481a3          	sb	x28,3(x9)
+ 1000488:	ff000497          	auipc	x9,0xff000
+ 100048c:	b8c48493          	add	x9,x9,-1140 # 14 <IO_KBRD_key0>
+ 1000490:	0084a023          	sw	x8,0(x9)
+ 1000494:	00040593          	mv	x11,x8
+ 1000498:	064000ef          	jal	10004fc <ScancodeToAscii>
+ 100049c:	00812483          	lw	x9,8(x2)
+ 10004a0:	00412403          	lw	x8,4(x2)
+ 10004a4:	00012083          	lw	x1,0(x2)
+ 10004a8:	00c10113          	add	x2,x2,12
+ 10004ac:	00008067          	ret
+
+010004b0 <TeclaUSBPresionada>:
+ 10004b0:	ff000297          	auipc	x5,0xff000
+ 10004b4:	b5c28293          	add	x5,x5,-1188 # c <IO_UART>
+ 10004b8:	00000f13          	li	x30,0
+
+010004bc <TeclaUSBPresionada_loop>:
+ 10004bc:	0002c303          	lbu	x6,0(x5)
+ 10004c0:	00128293          	add	x5,x5,1
+ 10004c4:	00030c63          	beqz	x6,10004dc <TeclaUSBPresionada_no>
+ 10004c8:	00a30663          	beq	x6,x10,10004d4 <TeclaUSBPresionada_si>
+ 10004cc:	001f0f13          	add	x30,x30,1
+ 10004d0:	fedff06f          	j	10004bc <TeclaUSBPresionada_loop>
+
+010004d4 <TeclaUSBPresionada_si>:
+ 10004d4:	000f0513          	mv	x10,x30
+ 10004d8:	0080006f          	j	10004e0 <TeclaUSB_fin>
+
+010004dc <TeclaUSBPresionada_no>:
+ 10004dc:	fff00513          	li	x10,-1
+
+010004e0 <TeclaUSB_fin>:
+ 10004e0:	00008067          	ret
+
+010004e4 <ModifierUSBPresionado>:
+ 10004e4:	ff000297          	auipc	x5,0xff000
+ 10004e8:	b3028293          	add	x5,x5,-1232 # 14 <IO_KBRD_key0>
+ 10004ec:	0002c303          	lbu	x6,0(x5)
+ 10004f0:	00657333          	and	x6,x10,x6
+ 10004f4:	00603533          	snez	x10,x6
+ 10004f8:	00008067          	ret
+
+010004fc <ScancodeToAscii>:
+ 10004fc:	ffc10113          	add	x2,x2,-4
+ 1000500:	00112023          	sw	x1,0(x2)
+ 1000504:	0225f293          	and	x5,x11,34
+ 1000508:	00400313          	li	x6,4
+ 100050c:	04654a63          	blt	x10,x6,1000560 <endNoAscii>
+ 1000510:	01e00393          	li	x7,30
+ 1000514:	00755c63          	bge	x10,x7,100052c <else_otros_caracteres>
+ 1000518:	00028663          	beqz	x5,1000524 <letras_no_MAYUS>
+ 100051c:	03d50513          	add	x10,x10,61
+ 1000520:	0440006f          	j	1000564 <endScancodeToAscii>
+
+01000524 <letras_no_MAYUS>:
+ 1000524:	05d50513          	add	x10,x10,93
+ 1000528:	03c0006f          	j	1000564 <endScancodeToAscii>
+
+0100052c <else_otros_caracteres>:
+ 100052c:	03900313          	li	x6,57
+ 1000530:	02655863          	bge	x10,x6,1000560 <endNoAscii>
+ 1000534:	fe250393          	add	x7,x10,-30
+ 1000538:	00339393          	sll	x7,x7,0x3
+ 100053c:	00029a63          	bnez	x5,1000550 <otros_caracteres_shift>
+ 1000540:	00000317          	auipc	x6,0x0
+ 1000544:	03030313          	add	x6,x6,48 # 1000570 <ScancodeTabla1>
+ 1000548:	00730333          	add	x6,x6,x7
+ 100054c:	000300e7          	jalr	x6
+
+01000550 <otros_caracteres_shift>:
+ 1000550:	00000317          	auipc	x6,0x0
+ 1000554:	0f830313          	add	x6,x6,248 # 1000648 <ScancodeTabla2>
+ 1000558:	00730333          	add	x6,x6,x7
+ 100055c:	000300e7          	jalr	x6
+
+01000560 <endNoAscii>:
+ 1000560:	00000513          	li	x10,0
+
+01000564 <endScancodeToAscii>:
+ 1000564:	00012083          	lw	x1,0(x2)
+ 1000568:	00410113          	add	x2,x2,4
+ 100056c:	00008067          	ret
+
+01000570 <ScancodeTabla1>:
+ 1000570:	03100513          	li	x10,49
+ 1000574:	ff1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000578:	03200513          	li	x10,50
+ 100057c:	fe9ff06f          	j	1000564 <endScancodeToAscii>
+ 1000580:	03300513          	li	x10,51
+ 1000584:	fe1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000588:	03400513          	li	x10,52
+ 100058c:	fd9ff06f          	j	1000564 <endScancodeToAscii>
+ 1000590:	03500513          	li	x10,53
+ 1000594:	fd1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000598:	03600513          	li	x10,54
+ 100059c:	fc9ff06f          	j	1000564 <endScancodeToAscii>
+ 10005a0:	03700513          	li	x10,55
+ 10005a4:	fc1ff06f          	j	1000564 <endScancodeToAscii>
+ 10005a8:	03800513          	li	x10,56
+ 10005ac:	fb9ff06f          	j	1000564 <endScancodeToAscii>
+ 10005b0:	03900513          	li	x10,57
+ 10005b4:	fb1ff06f          	j	1000564 <endScancodeToAscii>
+ 10005b8:	03000513          	li	x10,48
+ 10005bc:	fa9ff06f          	j	1000564 <endScancodeToAscii>
+ 10005c0:	00a00513          	li	x10,10
+ 10005c4:	fa1ff06f          	j	1000564 <endScancodeToAscii>
+ 10005c8:	01b00513          	li	x10,27
+ 10005cc:	f99ff06f          	j	1000564 <endScancodeToAscii>
+ 10005d0:	00800513          	li	x10,8
+ 10005d4:	f91ff06f          	j	1000564 <endScancodeToAscii>
+ 10005d8:	00900513          	li	x10,9
+ 10005dc:	f89ff06f          	j	1000564 <endScancodeToAscii>
+ 10005e0:	02000513          	li	x10,32
+ 10005e4:	f81ff06f          	j	1000564 <endScancodeToAscii>
+ 10005e8:	02d00513          	li	x10,45
+ 10005ec:	f79ff06f          	j	1000564 <endScancodeToAscii>
+ 10005f0:	03d00513          	li	x10,61
+ 10005f4:	f71ff06f          	j	1000564 <endScancodeToAscii>
+ 10005f8:	05b00513          	li	x10,91
+ 10005fc:	f69ff06f          	j	1000564 <endScancodeToAscii>
+ 1000600:	05d00513          	li	x10,93
+ 1000604:	f61ff06f          	j	1000564 <endScancodeToAscii>
+ 1000608:	05c00513          	li	x10,92
+ 100060c:	f59ff06f          	j	1000564 <endScancodeToAscii>
+ 1000610:	02300513          	li	x10,35
+ 1000614:	f51ff06f          	j	1000564 <endScancodeToAscii>
+ 1000618:	03b00513          	li	x10,59
+ 100061c:	f49ff06f          	j	1000564 <endScancodeToAscii>
+ 1000620:	02700513          	li	x10,39
+ 1000624:	f41ff06f          	j	1000564 <endScancodeToAscii>
+ 1000628:	06000513          	li	x10,96
+ 100062c:	f39ff06f          	j	1000564 <endScancodeToAscii>
+ 1000630:	02c00513          	li	x10,44
+ 1000634:	f31ff06f          	j	1000564 <endScancodeToAscii>
+ 1000638:	02e00513          	li	x10,46
+ 100063c:	f29ff06f          	j	1000564 <endScancodeToAscii>
+ 1000640:	02f00513          	li	x10,47
+ 1000644:	f21ff06f          	j	1000564 <endScancodeToAscii>
+
+01000648 <ScancodeTabla2>:
+ 1000648:	02100513          	li	x10,33
+ 100064c:	f19ff06f          	j	1000564 <endScancodeToAscii>
+ 1000650:	04000513          	li	x10,64
+ 1000654:	f11ff06f          	j	1000564 <endScancodeToAscii>
+ 1000658:	02300513          	li	x10,35
+ 100065c:	f09ff06f          	j	1000564 <endScancodeToAscii>
+ 1000660:	02400513          	li	x10,36
+ 1000664:	f01ff06f          	j	1000564 <endScancodeToAscii>
+ 1000668:	02500513          	li	x10,37
+ 100066c:	ef9ff06f          	j	1000564 <endScancodeToAscii>
+ 1000670:	05e00513          	li	x10,94
+ 1000674:	ef1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000678:	02600513          	li	x10,38
+ 100067c:	ee9ff06f          	j	1000564 <endScancodeToAscii>
+ 1000680:	02a00513          	li	x10,42
+ 1000684:	ee1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000688:	02800513          	li	x10,40
+ 100068c:	ed9ff06f          	j	1000564 <endScancodeToAscii>
+ 1000690:	02900513          	li	x10,41
+ 1000694:	ed1ff06f          	j	1000564 <endScancodeToAscii>
+ 1000698:	00a00513          	li	x10,10
+ 100069c:	ec9ff06f          	j	1000564 <endScancodeToAscii>
+ 10006a0:	01b00513          	li	x10,27
+ 10006a4:	ec1ff06f          	j	1000564 <endScancodeToAscii>
+ 10006a8:	00800513          	li	x10,8
+ 10006ac:	eb9ff06f          	j	1000564 <endScancodeToAscii>
+ 10006b0:	00900513          	li	x10,9
+ 10006b4:	eb1ff06f          	j	1000564 <endScancodeToAscii>
+ 10006b8:	02000513          	li	x10,32
+ 10006bc:	ea9ff06f          	j	1000564 <endScancodeToAscii>
+ 10006c0:	05f00513          	li	x10,95
+ 10006c4:	ea1ff06f          	j	1000564 <endScancodeToAscii>
+ 10006c8:	02b00513          	li	x10,43
+ 10006cc:	e99ff06f          	j	1000564 <endScancodeToAscii>
+ 10006d0:	07b00513          	li	x10,123
+ 10006d4:	e91ff06f          	j	1000564 <endScancodeToAscii>
+ 10006d8:	07d00513          	li	x10,125
+ 10006dc:	e89ff06f          	j	1000564 <endScancodeToAscii>
+ 10006e0:	07c00513          	li	x10,124
+ 10006e4:	e81ff06f          	j	1000564 <endScancodeToAscii>
+ 10006e8:	07e00513          	li	x10,126
+ 10006ec:	e79ff06f          	j	1000564 <endScancodeToAscii>
+ 10006f0:	03a00513          	li	x10,58
+ 10006f4:	e71ff06f          	j	1000564 <endScancodeToAscii>
+ 10006f8:	02200513          	li	x10,34
+ 10006fc:	e69ff06f          	j	1000564 <endScancodeToAscii>
+ 1000700:	07e00513          	li	x10,126
+ 1000704:	e61ff06f          	j	1000564 <endScancodeToAscii>
+ 1000708:	03c00513          	li	x10,60
+ 100070c:	e59ff06f          	j	1000564 <endScancodeToAscii>
+ 1000710:	03e00513          	li	x10,62
+ 1000714:	e51ff06f          	j	1000564 <endScancodeToAscii>
+ 1000718:	03f00513          	li	x10,63
+ 100071c:	e49ff06f          	j	1000564 <endScancodeToAscii>
+
+01000720 <UART_putc>:
+ 1000720:	00d1c303          	lbu	x6,13(x3)
+ 1000724:	fe030ee3          	beqz	x6,1000720 <UART_putc>
+ 1000728:	00a18623          	sb	x10,12(x3)
+ 100072c:	00008067          	ret
+
+01000730 <UART_getc>:
+ 1000730:	00e1c283          	lbu	x5,14(x3)
+ 1000734:	fe028ee3          	beqz	x5,1000730 <UART_getc>
+ 1000738:	00c1c503          	lbu	x10,12(x3)
+ 100073c:	00008067          	ret
+
+01000740 <LeerCiclos>:
+ 1000740:	c80022f3          	rdcycleh	x5
+ 1000744:	c0002573          	rdcycle	x10
+ 1000748:	c80025f3          	rdcycleh	x11
+ 100074c:	fe559ae3          	bne	x11,x5,1000740 <LeerCiclos>
+ 1000750:	00008067          	ret
+
+01000754 <LeerTiempo>:
+ 1000754:	c81022f3          	rdtimeh	x5
+ 1000758:	c0102573          	rdtime	x10
+ 100075c:	c81025f3          	rdtimeh	x11
+ 1000760:	fe5590e3          	bne	x11,x5,1000740 <LeerCiclos>
+ 1000764:	00008067          	ret
+
+01000768 <LeerInstrRet>:
+ 1000768:	c82022f3          	rdinstreth	x5
+ 100076c:	c0202573          	rdinstret	x10
+ 1000770:	c82025f3          	rdinstreth	x11
+ 1000774:	fc5596e3          	bne	x11,x5,1000740 <LeerCiclos>
+ 1000778:	00008067          	ret
+
+0100077c <__divsi3>:
+ 100077c:	06054063          	bltz	x10,10007dc <__umodsi3+0x10>
+ 1000780:	0605c663          	bltz	x11,10007ec <__umodsi3+0x20>
+
+01000784 <__udivsi3>:
+ 1000784:	00058613          	mv	x12,x11
+ 1000788:	00050593          	mv	x11,x10
+ 100078c:	fff00513          	li	x10,-1
+ 1000790:	02060c63          	beqz	x12,10007c8 <__udivsi3+0x44>
+ 1000794:	00100693          	li	x13,1
+ 1000798:	00b67a63          	bgeu	x12,x11,10007ac <__udivsi3+0x28>
+ 100079c:	00c05863          	blez	x12,10007ac <__udivsi3+0x28>
+ 10007a0:	00161613          	sll	x12,x12,0x1
+ 10007a4:	00169693          	sll	x13,x13,0x1
+ 10007a8:	feb66ae3          	bltu	x12,x11,100079c <__udivsi3+0x18>
+ 10007ac:	00000513          	li	x10,0
+ 10007b0:	00c5e663          	bltu	x11,x12,10007bc <__udivsi3+0x38>
+ 10007b4:	40c585b3          	sub	x11,x11,x12
+ 10007b8:	00d56533          	or	x10,x10,x13
+ 10007bc:	0016d693          	srl	x13,x13,0x1
+ 10007c0:	00165613          	srl	x12,x12,0x1
+ 10007c4:	fe0696e3          	bnez	x13,10007b0 <__udivsi3+0x2c>
+ 10007c8:	00008067          	ret
+
+010007cc <__umodsi3>:
+ 10007cc:	00008293          	mv	x5,x1
+ 10007d0:	fb5ff0ef          	jal	1000784 <__udivsi3>
+ 10007d4:	00058513          	mv	x10,x11
+ 10007d8:	00028067          	jr	x5
+ 10007dc:	40a00533          	neg	x10,x10
+ 10007e0:	0005d863          	bgez	x11,10007f0 <__umodsi3+0x24>
+ 10007e4:	40b005b3          	neg	x11,x11
+ 10007e8:	f95ff06f          	j	100077c <__divsi3>
+ 10007ec:	40b005b3          	neg	x11,x11
+ 10007f0:	00008293          	mv	x5,x1
+ 10007f4:	f89ff0ef          	jal	100077c <__divsi3>
+ 10007f8:	40a00533          	neg	x10,x10
+ 10007fc:	00028067          	jr	x5
+
+01000800 <__modsi3>:
+ 1000800:	00008293          	mv	x5,x1
+ 1000804:	0005ca63          	bltz	x11,1000818 <__modsi3+0x18>
+ 1000808:	00054c63          	bltz	x10,1000820 <__modsi3+0x20>
+ 100080c:	f79ff0ef          	jal	1000784 <__udivsi3>
+ 1000810:	00058513          	mv	x10,x11
+ 1000814:	00028067          	jr	x5
+ 1000818:	40b005b3          	neg	x11,x11
+ 100081c:	fe0558e3          	bgez	x10,100080c <__modsi3+0xc>
+ 1000820:	40a00533          	neg	x10,x10
+ 1000824:	f61ff0ef          	jal	1000784 <__udivsi3>
+ 1000828:	40b00533          	neg	x10,x11
+ 100082c:	00028067          	jr	x5
+
+01000830 <__mulsi3>:
+ 1000830:	00050613          	mv	x12,x10
+ 1000834:	00000513          	li	x10,0
+ 1000838:	0015f693          	and	x13,x11,1
+ 100083c:	00068463          	beqz	x13,1000844 <__mulsi3+0x14>
+ 1000840:	00c50533          	add	x10,x10,x12
+ 1000844:	0015d593          	srl	x11,x11,0x1
+ 1000848:	00161613          	sll	x12,x12,0x1
+ 100084c:	fe0596e3          	bnez	x11,1000838 <__mulsi3+0x8>
+ 1000850:	00008067          	ret
+
+01000854 <main>:
+ 1000854:	fefff297          	auipc	x5,0xfefff
+ 1000858:	7c428293          	add	x5,x5,1988 # 18 <IO_mouse_status>
+ 100085c:	00300313          	li	x6,3
+ 1000860:	0062a023          	sw	x6,0(x5)
+ 1000864:	00a00313          	li	x6,10
+ 1000868:	0062a223          	sw	x6,4(x5)
+ 100086c:	00100313          	li	x6,1
+ 1000870:	0062a423          	sw	x6,8(x5)
+ 1000874:	00800313          	li	x6,8
+ 1000878:	0062a623          	sw	x6,12(x5)
+ 100087c:	00f00313          	li	x6,15
+ 1000880:	0062a823          	sw	x6,16(x5)
+ 1000884:	00500313          	li	x6,5
+ 1000888:	0062aa23          	sw	x6,20(x5)
+ 100088c:	00c00313          	li	x6,12
+ 1000890:	0062ac23          	sw	x6,24(x5)
+ 1000894:	00600313          	li	x6,6
+ 1000898:	0062ae23          	sw	x6,28(x5)
+ 100089c:	00500313          	li	x6,5
+ 10008a0:	0262a023          	sw	x6,32(x5)
+ 10008a4:	00400313          	li	x6,4
+ 10008a8:	0262a223          	sw	x6,36(x5)
+ 10008ac:	ff700313          	li	x6,-9
+ 10008b0:	0062a023          	sw	x6,0(x5)
+ 10008b4:	000004b3          	add	x9,x0,x0
+ 10008b8:	00a00913          	li	x18,10
+ 10008bc:	fefff517          	auipc	x10,0xfefff
+ 10008c0:	75c50513          	add	x10,x10,1884 # 18 <IO_mouse_status>
+ 10008c4:	00048593          	mv	x11,x9
+ 10008c8:	00090613          	mv	x12,x18
+ 10008cc:	00c000ef          	jal	10008d8 <SortArray>
+ 10008d0:	00100513          	li	x10,1
+ 10008d4:	00008067          	ret
+
+010008d8 <SortArray>:
+ 10008d8:	fe010113          	add	x2,x2,-32
+ 10008dc:	00812023          	sw	x8,0(x2)
+ 10008e0:	00912223          	sw	x9,4(x2)
+ 10008e4:	01212423          	sw	x18,8(x2)
+ 10008e8:	01312623          	sw	x19,12(x2)
+ 10008ec:	01412823          	sw	x20,16(x2)
+ 10008f0:	01512a23          	sw	x21,20(x2)
+ 10008f4:	01612c23          	sw	x22,24(x2)
+ 10008f8:	00112e23          	sw	x1,28(x2)
+ 10008fc:	00050a33          	add	x20,x10,x0
+ 1000900:	00058ab3          	add	x21,x11,x0
+ 1000904:	00060b33          	add	x22,x12,x0
+ 1000908:	01500433          	add	x8,x0,x21
+ 100090c:	016004b3          	add	x9,x0,x22
+ 1000910:	016a82b3          	add	x5,x21,x22
+ 1000914:	0012d293          	srl	x5,x5,0x1
+ 1000918:	00229293          	sll	x5,x5,0x2
+ 100091c:	014282b3          	add	x5,x5,x20
+ 1000920:	0002a903          	lw	x18,0(x5)
+
+01000924 <DO_WHILE>:
+ 1000924:	00241293          	sll	x5,x8,0x2
+ 1000928:	005a02b3          	add	x5,x20,x5
+ 100092c:	0002a303          	lw	x6,0(x5)
+ 1000930:	01232333          	slt	x6,x6,x18
+ 1000934:	00030663          	beqz	x6,1000940 <WHILE2>
+ 1000938:	00140413          	add	x8,x8,1
+ 100093c:	fe9ff06f          	j	1000924 <DO_WHILE>
+
+01000940 <WHILE2>:
+ 1000940:	00249293          	sll	x5,x9,0x2
+ 1000944:	005a02b3          	add	x5,x20,x5
+ 1000948:	0002a303          	lw	x6,0(x5)
+ 100094c:	00692333          	slt	x6,x18,x6
+ 1000950:	00030663          	beqz	x6,100095c <END_WHILE>
+ 1000954:	fff48493          	add	x9,x9,-1
+ 1000958:	fe9ff06f          	j	1000940 <WHILE2>
+
+0100095c <END_WHILE>:
+ 100095c:	0084a2b3          	slt	x5,x9,x8
+ 1000960:	02029663          	bnez	x5,100098c <END_IF_1>
+ 1000964:	00241313          	sll	x6,x8,0x2
+ 1000968:	01430333          	add	x6,x6,x20
+ 100096c:	00032983          	lw	x19,0(x6)
+ 1000970:	00249393          	sll	x7,x9,0x2
+ 1000974:	014383b3          	add	x7,x7,x20
+ 1000978:	0003ae03          	lw	x28,0(x7)
+ 100097c:	01c32023          	sw	x28,0(x6)
+ 1000980:	0133a023          	sw	x19,0(x7)
+ 1000984:	00140413          	add	x8,x8,1
+ 1000988:	fff48493          	add	x9,x9,-1
+
+0100098c <END_IF_1>:
+ 100098c:	0084a2b3          	slt	x5,x9,x8
+ 1000990:	f8028ae3          	beqz	x5,1000924 <DO_WHILE>
+
+01000994 <END_DO_WHILE>:
+ 1000994:	009aa2b3          	slt	x5,x21,x9
+ 1000998:	00028a63          	beqz	x5,10009ac <END_IF_2>
+ 100099c:	000a6533          	or	x10,x20,x0
+ 10009a0:	000a85b3          	add	x11,x21,x0
+ 10009a4:	00048633          	add	x12,x9,x0
+ 10009a8:	f31ff0ef          	jal	10008d8 <SortArray>
+
+010009ac <END_IF_2>:
+ 10009ac:	016422b3          	slt	x5,x8,x22
+ 10009b0:	00028a63          	beqz	x5,10009c4 <END_IF_3>
+ 10009b4:	000a6a33          	or	x20,x20,x0
+ 10009b8:	000405b3          	add	x11,x8,x0
+ 10009bc:	000b0633          	add	x12,x22,x0
+ 10009c0:	f19ff0ef          	jal	10008d8 <SortArray>
+
+010009c4 <END_IF_3>:
+ 10009c4:	00012403          	lw	x8,0(x2)
+ 10009c8:	00412483          	lw	x9,4(x2)
+ 10009cc:	00812903          	lw	x18,8(x2)
+ 10009d0:	00c12983          	lw	x19,12(x2)
+ 10009d4:	01012a03          	lw	x20,16(x2)
+ 10009d8:	01412a83          	lw	x21,20(x2)
+ 10009dc:	01812b03          	lw	x22,24(x2)
+ 10009e0:	01c12083          	lw	x1,28(x2)
+ 10009e4:	02010113          	add	x2,x2,32
+ 10009e8:	00c50513          	add	x10,x10,12
+ 10009ec:	00008067          	ret
+
+Disassembly of section .data:
+
+00000000 <mouse_x>:
+   0:	0000                	.2byte	0x0
+	...
+
+00000004 <mouse_y>:
+   4:	0000                	.2byte	0x0
+	...
+
+00000008 <mouse_btn>:
+   8:	0000                	.2byte	0x0
+	...
+
+0000000c <teclas>:
+	...
+
+00000014 <special>:
+  14:	0000                	.2byte	0x0
+	...
+
+00000018 <arreglo>:
+  18:	00000003          	lb	x0,0(x0) # 0 <mouse_x>
+  1c:	000a                	.2byte	0xa
+  1e:	0000                	.2byte	0x0
+  20:	0001                	.2byte	0x1
+  22:	0000                	.2byte	0x0
+  24:	0008                	.2byte	0x8
+  26:	0000                	.2byte	0x0
+  28:	0000000f          	fence	unknown,unknown
+  2c:	0005                	.2byte	0x5
+  2e:	0000                	.2byte	0x0
+  30:	000c                	.2byte	0xc
+  32:	0000                	.2byte	0x0
+  34:	0006                	.2byte	0x6
+  36:	0000                	.2byte	0x0
+  38:	0005                	.2byte	0x5
+  3a:	0000                	.2byte	0x0
+  3c:	0004                	.2byte	0x4
+  3e:	0000                	.2byte	0x0
+  40:	0009                	.2byte	0x9
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1941                	.2byte	0x1941
+   2:	0000                	.2byte	0x0
+   4:	7200                	.2byte	0x7200
+   6:	7369                	.2byte	0x7369
+   8:	01007663          	bgeu	x0,x16,14 <IO_KBRD_key0>
+   c:	0000000f          	fence	unknown,unknown
+  10:	7205                	.2byte	0x7205
+  12:	3376                	.2byte	0x3376
+  14:	6932                	.2byte	0x6932
+  16:	7032                	.2byte	0x7032
+  18:	0031                	.2byte	0x31
