@@ -1,0 +1,52 @@
+set_io --warn-no-port led[0] 	C10
+set_io --warn-no-port led[1]	A10
+set_io --warn-no-port led[2]	D7
+set_io --warn-no-port led[3]	D6
+set_io --warn-no-port led[4] 	A7
+set_io --warn-no-port led[5] 	C7
+set_io --warn-no-port led[6] 	A4
+set_io --warn-no-port led[7] 	C4
+
+set_io --warn-no-port lcol[3]	A12
+set_io --warn-no-port lcol[2]	D10
+set_io --warn-no-port lcol[1]	A6
+set_io --warn-no-port lcol[0]	C5
+
+# set_io --warn-no-port spkp  	M12
+# set_io --warn-no-port spkm  	M6
+
+set_io --warn-no-port key[0]	C11
+set_io --warn-no-port key[1]	C6
+set_io --warn-no-port key[2]	A11
+set_io --warn-no-port key[3]	A5
+
+set_io --warn-no-port flash_cs_n P13
+set_io --warn-no-port flash_mosi M11
+set_io --warn-no-port flash_miso P11	
+set_io --warn-no-port flash_sclk P12
+
+set_io --warn-no-port clk12MHz	P7
+
+set_io --warn-no-port RXD		N1
+set_io --warn-no-port TXD		P1
+
+set_io --warn-no-port dbg_RXD	A2
+set_io --warn-no-port dbg_TXD	A1
+set_io --warn-no-port dbg_ON    D3
+
+set_io --warn-no-port teclado_hab	P8
+set_io usbdp		M9
+set_io usbdm	 	P9
+
+
+set_io --warn-no-port vga_red[2]    B14
+set_io --warn-no-port vga_red[1]    C12
+set_io --warn-no-port vga_red[0]    C14
+set_io --warn-no-port vga_green[2]  D12
+set_io --warn-no-port vga_green[1]  D14
+set_io --warn-no-port vga_green[0]  E12
+set_io --warn-no-port vga_blue[1]   E14
+set_io --warn-no-port vga_blue[0]   F12
+
+set_io --warn-no-port vga_hsync     G12
+set_io --warn-no-port vga_vsync     F14
