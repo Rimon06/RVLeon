@@ -1,0 +1,808 @@
+Info: Importing module RVleon
+Info: Rule checker, verifying imported design
+Info: Checksum: 0x8403d35a
+
+Info: constrained 'led[0]' to bel 'X22/Y33/io1'
+Info: constrained 'led[1]' to bel 'X25/Y33/io0'
+Info: constrained 'led[2]' to bel 'X13/Y33/io1'
+Info: constrained 'led[3]' to bel 'X11/Y33/io0'
+Info: constrained 'led[4]' to bel 'X17/Y33/io0'
+Info: constrained 'led[5]' to bel 'X14/Y33/io1'
+Info: constrained 'led[6]' to bel 'X5/Y33/io0'
+Info: constrained 'led[7]' to bel 'X4/Y33/io0'
+Info: constrained 'lcol[3]' to bel 'X30/Y33/io1'
+Info: constrained 'lcol[2]' to bel 'X27/Y33/io0'
+Info: constrained 'lcol[1]' to bel 'X16/Y33/io1'
+Info: constrained 'lcol[0]' to bel 'X8/Y33/io1'
+Info: constrained 'key[0]' to bel 'X28/Y33/io1'
+Info: constrained 'key[1]' to bel 'X11/Y33/io1'
+Info: constrained 'key[2]' to bel 'X26/Y33/io0'
+Info: constrained 'key[3]' to bel 'X10/Y33/io1'
+Info: constrained 'flash_cs_n' to bel 'X31/Y0/io1'
+Info: constrained 'flash_mosi' to bel 'X30/Y0/io0'
+Info: constrained 'flash_miso' to bel 'X30/Y0/io1'
+Info: constrained 'flash_sclk' to bel 'X31/Y0/io0'
+Info: constrained 'clk12MHz' to bel 'X16/Y0/io1'
+Info: constrained 'RXD' to bel 'X0/Y4/io1'
+Info: constrained 'TXD' to bel 'X0/Y4/io0'
+Info: constrained 'dbg_RXD' to bel 'X3/Y33/io0'
+Info: constrained 'dbg_TXD' to bel 'X2/Y33/io0'
+Info: constrained 'dbg_ON' to bel 'X0/Y27/io0'
+Info: constrained 'teclado_hab' to bel 'X17/Y0/io0'
+Info: constrained 'usbdp' to bel 'X22/Y0/io1'
+Info: constrained 'usbdm' to bel 'X21/Y0/io1'
+Info: constrained 'vga_red[2]' to bel 'X33/Y28/io0'
+Info: constrained 'vga_red[1]' to bel 'X29/Y33/io1'
+Info: constrained 'vga_red[0]' to bel 'X33/Y24/io1'
+Info: constrained 'vga_green[2]' to bel 'X33/Y27/io1'
+Info: constrained 'vga_green[1]' to bel 'X33/Y23/io1'
+Info: constrained 'vga_green[0]' to bel 'X33/Y21/io0'
+Info: constrained 'vga_blue[1]' to bel 'X33/Y21/io1'
+Info: constrained 'vga_blue[0]' to bel 'X33/Y15/io0'
+Info: constrained 'vga_hsync' to bel 'X33/Y11/io0'
+Info: constrained 'vga_vsync' to bel 'X33/Y16/io1'
+
+Info: Packing constants..
+Info: Packing IOs..
+Info: vga_red[0] feeds SB_IO pantalla__UUT.user_IO[7], removing $nextpnr_obuf vga_red[0].
+Info: vga_red[1] feeds SB_IO pantalla__UUT.user_IO[8], removing $nextpnr_obuf vga_red[1].
+Info: vga_red[2] feeds SB_IO pantalla__UUT.user_IO[9], removing $nextpnr_obuf vga_red[2].
+Info: vga_green[0] feeds SB_IO pantalla__UUT.user_IO[4], removing $nextpnr_obuf vga_green[0].
+Info: vga_green[1] feeds SB_IO pantalla__UUT.user_IO[5], removing $nextpnr_obuf vga_green[1].
+Info: vga_green[2] feeds SB_IO pantalla__UUT.user_IO[6], removing $nextpnr_obuf vga_green[2].
+Info: vga_blue[0] feeds SB_IO pantalla__UUT.user_IO[2], removing $nextpnr_obuf vga_blue[0].
+Info: vga_blue[1] feeds SB_IO pantalla__UUT.user_IO[3], removing $nextpnr_obuf vga_blue[1].
+Info: vga_hsync feeds SB_IO pantalla__UUT.user_IO[0], removing $nextpnr_obuf vga_hsync.
+Info: vga_vsync feeds SB_IO pantalla__UUT.user_IO[1], removing $nextpnr_obuf vga_vsync.
+Info: Packing LUT-FFs..
+Info:     4992 LCs used as LUT4 only
+Info:      728 LCs used as LUT4 and DFF
+Info: Packing non-LUT FFs..
+Info:     1750 LCs used as DFF only
+Info: Packing carries..
+Info:       67 LCs used as CARRY only
+Info: Packing RAMs..
+Info: Placing PLLs..
+Info:   constrained PLL 'pantalla__UUT.PLL' to X16/Y33/pll_3
+Info: Packing special functions..
+Info: Promoting globals..
+Info: promoting clk12MHz$SB_IO_IN (fanout 2481)
+Info: promoting cpu_rst [reset] (fanout 282)
+Info: promoting dbgmodule.rst_dm [reset] (fanout 51)
+Info: promoting USB_KBRD_MOUSE.show.act_keybrd_SB_LUT4_I2_O [reset] (fanout 40)
+Info: promoting RV32I.MW_RegWrite_SB_LUT4_I2_O [reset] (fanout 32)
+Info: promoting RV32I.DE_error_SB_LUT4_I0_O_SB_LUT4_I2_O [cen] (fanout 150)
+Info: promoting RV32I.dbg_resumeack_SB_LUT4_I2_I0_SB_LUT4_I2_O_SB_LUT4_I3_O [cen] (fanout 126)
+Info: Constraining chains...
+Info:       47 LCs used to legalise carry chains.
+Info: Checksum: 0x290d63bc
+
+Info: Annotating ports with timing budgets for target frequency 12.00 MHz
+Info: Checksum: 0xca8f0ef6
+
+Info: Device utilisation:
+Info: 	         ICESTORM_LC:  7590/ 7680    98%
+Info: 	        ICESTORM_RAM:    27/   32    84%
+Info: 	               SB_IO:    39/  256    15%
+Info: 	               SB_GB:     8/    8   100%
+Info: 	        ICESTORM_PLL:     1/    2    50%
+Info: 	         SB_WARMBOOT:     0/    1     0%
+
+Info: Placed 41 cells based on constraints.
+Info: Creating initial analytic placement for 7149 cells, random placement wirelen = 220371.
+Info:     at initial placer iter 0, wirelen = 2515
+Info:     at initial placer iter 1, wirelen = 2390
+Info:     at initial placer iter 2, wirelen = 2742
+Info:     at initial placer iter 3, wirelen = 2712
+Info: Running main analytical placer.
+Info:     at iteration #1, type ALL: wirelen solved = 2472, spread = 68490, legal = 107644; time = 7.14s
+Info:     at iteration #2, type ALL: wirelen solved = 4986, spread = 53610, legal = 94138; time = 5.69s
+Info:     at iteration #3, type ALL: wirelen solved = 7735, spread = 46265, legal = 88539; time = 6.51s
+Info:     at iteration #4, type ALL: wirelen solved = 9977, spread = 43493, legal = 91190; time = 7.67s
+Info:     at iteration #5, type ALL: wirelen solved = 12610, spread = 41115, legal = 86520; time = 6.76s
+Info:     at iteration #6, type ALL: wirelen solved = 14472, spread = 40678, legal = 87066; time = 8.22s
+Info:     at iteration #7, type ALL: wirelen solved = 15801, spread = 40454, legal = 86979; time = 7.10s
+Info:     at iteration #8, type ALL: wirelen solved = 18061, spread = 39953, legal = 82435; time = 7.46s
+Info:     at iteration #9, type ALL: wirelen solved = 20706, spread = 39742, legal = 83701; time = 6.95s
+Info:     at iteration #10, type ALL: wirelen solved = 22630, spread = 40759, legal = 82077; time = 6.20s
+Info:     at iteration #11, type ALL: wirelen solved = 22882, spread = 41771, legal = 84725; time = 5.66s
+Info:     at iteration #12, type ALL: wirelen solved = 25539, spread = 42838, legal = 84242; time = 5.63s
+Info:     at iteration #13, type ALL: wirelen solved = 27430, spread = 43824, legal = 85550; time = 5.74s
+Info:     at iteration #14, type ALL: wirelen solved = 28493, spread = 43964, legal = 85252; time = 5.54s
+Info:     at iteration #15, type ALL: wirelen solved = 30078, spread = 45852, legal = 83406; time = 5.20s
+Info: HeAP Placer Time: 104.17s
+Info:   of which solving equations: 11.48s
+Info:   of which spreading cells: 1.73s
+Info:   of which strict legalisation: 86.47s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 4449, wirelen = 82077
+Info:   at iteration #5: temp = 0.000000, timing cost = 3996, wirelen = 63110
+Info:   at iteration #10: temp = 0.000000, timing cost = 3632, wirelen = 58800
+Info:   at iteration #15: temp = 0.000000, timing cost = 3343, wirelen = 56476
+Info:   at iteration #20: temp = 0.000000, timing cost = 3416, wirelen = 54803
+Info:   at iteration #25: temp = 0.000000, timing cost = 3317, wirelen = 53864
+Info:   at iteration #30: temp = 0.000000, timing cost = 3365, wirelen = 53554
+Info:   at iteration #35: temp = 0.000000, timing cost = 3320, wirelen = 53452
+Info:   at iteration #38: temp = 0.000000, timing cost = 3321, wirelen = 53417 
+Info: SA placement time 61.63s
+
+Info: Max frequency for clock       'pantalla__UUT.px_clk': 38.97 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk12MHz$SB_IO_IN_$glb_clk': 29.73 MHz (PASS at 12.00 MHz)
+
+Info: Max delay <async>                            -> <async>                           : 3.48 ns
+Info: Max delay <async>                            -> posedge clk12MHz$SB_IO_IN_$glb_clk: 5.32 ns
+Info: Max delay posedge clk12MHz$SB_IO_IN_$glb_clk -> <async>                           : 5.17 ns
+Info: Max delay posedge clk12MHz$SB_IO_IN_$glb_clk -> posedge pantalla__UUT.px_clk      : 7.59 ns
+Info: Max delay posedge pantalla__UUT.px_clk       -> posedge clk12MHz$SB_IO_IN_$glb_clk: 3.59 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 32 endpoint(s)
+Info:          + represents [1,32) endpoint(s)
+Info: [ 26708,  29487) |**************************+
+Info: [ 29487,  32266) |*******************+
+Info: [ 32266,  35045) |*****************************************************+
+Info: [ 35045,  37824) |**+
+Info: [ 37824,  40603) | 
+Info: [ 40603,  43382) | 
+Info: [ 43382,  46161) | 
+Info: [ 46161,  48940) | 
+Info: [ 48940,  51719) |+
+Info: [ 51719,  54498) |*+
+Info: [ 54498,  57277) |****+
+Info: [ 57277,  60056) |*******+
+Info: [ 60056,  62835) |****+
+Info: [ 62835,  65614) |***+
+Info: [ 65614,  68393) |***+
+Info: [ 68393,  71172) |****+
+Info: [ 71172,  73951) |**********************+
+Info: [ 73951,  76730) |**********************************+
+Info: [ 76730,  79509) |*****************************+
+Info: [ 79509,  82288) |************************************************************ 
+Info: Checksum: 0xd3b07989
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 24956 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs
+Info:       1000 |       14        985 |   14   985 |     23981
+Info:       2000 |       71       1928 |   57   943 |     23044
+Info:       3000 |      100       2899 |   29   971 |     22080
+Info:       4000 |      190       3809 |   90   910 |     21212
+Info:       5000 |      323       4676 |  133   867 |     20402
+Info:       6000 |      538       5461 |  215   785 |     19650
+Info:       7000 |      669       6330 |  131   869 |     18813
+Info:       8000 |      838       7161 |  169   831 |     18017
+Info:       9000 |     1016       7983 |  178   822 |     17278
+Info:      10000 |     1172       8827 |  156   844 |     16532
+Info:      11000 |     1316       9683 |  144   856 |     15729
+Info:      12000 |     1518      10481 |  202   798 |     15006
+Info:      13000 |     1800      11199 |  282   718 |     14472
+Info:      14000 |     2135      11864 |  335   665 |     14004
+Info:      15000 |     2499      12500 |  364   636 |     13595
+Info:      16000 |     2756      13243 |  257   743 |     13073
+Info:      17000 |     3110      13889 |  354   646 |     12684
+Info:      18000 |     3452      14547 |  342   658 |     12207
+Info:      19000 |     3849      15150 |  397   603 |     11848
+Info:      20000 |     4150      15849 |  301   699 |     11309
+Info:      21000 |     4564      16435 |  414   586 |     11047
+Info:      22000 |     4962      17037 |  398   602 |     10687
+Info:      23000 |     5398      17601 |  436   564 |     10407
+Info:      24000 |     5844      18155 |  446   554 |     10223
+Info:      25000 |     6274      18725 |  430   570 |      9952
+Info:      26000 |     6754      19245 |  480   520 |      9769
+Info:      27000 |     7167      19832 |  413   587 |      9493
+Info:      28000 |     7640      20359 |  473   527 |      9281
+Info:      29000 |     8076      20923 |  436   564 |      9112
+Info:      30000 |     8480      21519 |  404   596 |      8800
+Info:      31000 |     8857      22142 |  377   623 |      8506
+Info:      32000 |     9251      22748 |  394   606 |      8082
+Info:      33000 |     9720      23279 |  469   531 |      7833
+Info:      34000 |    10211      23788 |  491   509 |      7699
+Info:      35000 |    10718      24281 |  507   493 |      7620
+Info:      36000 |    11161      24838 |  443   557 |      7518
+Info:      37000 |    11646      25353 |  485   515 |      7406
+Info:      38000 |    12115      25884 |  469   531 |      7319
+Info:      39000 |    12606      26393 |  491   509 |      7194
+Info:      40000 |    13072      26927 |  466   534 |      6921
+Info:      41000 |    13548      27451 |  476   524 |      6625
+Info:      42000 |    14049      27950 |  501   499 |      6545
+Info:      43000 |    14485      28514 |  436   564 |      6348
+Info:      44000 |    15014      28985 |  529   471 |      6320
+Info:      45000 |    15582      29417 |  568   432 |      6247
+Info:      46000 |    16034      29965 |  452   548 |      6154
+Info:      47000 |    16527      30472 |  493   507 |      6136
+Info:      48000 |    17052      30947 |  525   475 |      6087
+Info:      49000 |    17588      31411 |  536   464 |      6139
+Info:      50000 |    18113      31886 |  525   475 |      6011
+Info:      51000 |    18637      32362 |  524   476 |      5964
+Info:      52000 |    19152      32847 |  515   485 |      5849
+Info:      53000 |    19676      33323 |  524   476 |      5780
+Info:      54000 |    20159      33840 |  483   517 |      5746
+Info:      55000 |    20673      34326 |  514   486 |      5657
+Info:      56000 |    21099      34900 |  426   574 |      5514
+Info:      57000 |    21643      35356 |  544   456 |      5430
+Info:      58000 |    22159      35840 |  516   484 |      5294
+Info:      59000 |    22689      36310 |  530   470 |      5177
+Info:      60000 |    23207      36792 |  518   482 |      5106
+Info:      61000 |    23746      37253 |  539   461 |      5116
+Info:      62000 |    24288      37711 |  542   458 |      5015
+Info:      63000 |    24856      38143 |  568   432 |      4985
+Info:      64000 |    25384      38615 |  528   472 |      4977
+Info:      65000 |    25832      39167 |  448   552 |      4973
+Info:      66000 |    26393      39606 |  561   439 |      4898
+Info:      67000 |    26862      40137 |  469   531 |      4869
+Info:      68000 |    27421      40578 |  559   441 |      4837
+Info:      69000 |    27957      41042 |  536   464 |      4804
+Info:      70000 |    28425      41574 |  468   532 |      4799
+Info:      71000 |    28981      42018 |  556   444 |      4778
+Info:      72000 |    29551      42448 |  570   430 |      4727
+Info:      73000 |    30097      42902 |  546   454 |      4692
+Info:      74000 |    30652      43347 |  555   445 |      4634
+Info:      75000 |    31195      43804 |  543   457 |      4585
+Info:      76000 |    31814      44185 |  619   381 |      4567
+Info:      77000 |    32381      44618 |  567   433 |      4588
+Info:      78000 |    32949      45050 |  568   432 |      4549
+Info:      79000 |    33491      45508 |  542   458 |      4538
+Info:      80000 |    33987      46012 |  496   504 |      4575
+Info:      81000 |    34541      46458 |  554   446 |      4552
+Info:      82000 |    35053      46946 |  512   488 |      4518
+Info:      83000 |    35670      47329 |  617   383 |      4487
+Info:      84000 |    36249      47750 |  579   421 |      4438
+Info:      85000 |    36875      48124 |  626   374 |      4404
+Info:      86000 |    37434      48565 |  559   441 |      4359
+Info:      87000 |    37963      49036 |  529   471 |      4354
+Info:      88000 |    38486      49513 |  523   477 |      4314
+Info:      89000 |    39089      49910 |  603   397 |      4307
+Info:      90000 |    39687      50312 |  598   402 |      4283
+Info:      91000 |    40236      50763 |  549   451 |      4260
+Info:      92000 |    40846      51153 |  610   390 |      4254
+Info:      93000 |    41332      51667 |  486   514 |      4221
+Info:      94000 |    41914      52085 |  582   418 |      4184
+Info:      95000 |    42516      52483 |  602   398 |      4228
+Info:      96000 |    43064      52935 |  548   452 |      4161
+Info:      97000 |    43642      53357 |  578   422 |      4114
+Info:      98000 |    44225      53774 |  583   417 |      4016
+Info:      99000 |    44806      54193 |  581   419 |      3972
+Info:     100000 |    45374      54625 |  568   432 |      3913
+Info:     101000 |    45955      55044 |  581   419 |      3908
+Info:     102000 |    46577      55422 |  622   378 |      3900
+Info:     103000 |    47136      55863 |  559   441 |      3875
+Info:     104000 |    47639      56360 |  503   497 |      3842
+Info:     105000 |    48279      56720 |  640   360 |      3854
+Info:     106000 |    48895      57104 |  616   384 |      3823
+Info:     107000 |    49449      57550 |  554   446 |      3850
+Info:     108000 |    50053      57946 |  604   396 |      3951
+Info:     109000 |    50466      58533 |  413   587 |      3791
+Info:     110000 |    51000      58999 |  534   466 |      3746
+Info:     111000 |    51613      59386 |  613   387 |      3725
+Info:     112000 |    52186      59813 |  573   427 |      3684
+Info:     113000 |    52788      60211 |  602   398 |      3667
+Info:     114000 |    53356      60643 |  568   432 |      3627
+Info:     115000 |    53896      61103 |  540   460 |      3732
+Info:     116000 |    54377      61622 |  481   519 |      3669
+Info:     117000 |    54953      62046 |  576   424 |      3620
+Info:     118000 |    55589      62410 |  636   364 |      3597
+Info:     119000 |    56163      62836 |  574   426 |      3556
+Info:     120000 |    56823      63176 |  660   340 |      3553
+Info:     121000 |    57320      63679 |  497   503 |      3536
+Info:     122000 |    57917      64082 |  597   403 |      3519
+Info:     123000 |    58529      64470 |  612   388 |      3547
+Info:     124000 |    59081      64918 |  552   448 |      3507
+Info:     125000 |    59687      65312 |  606   394 |      3471
+Info:     126000 |    60199      65800 |  512   488 |      3387
+Info:     127000 |    60760      66239 |  561   439 |      3393
+Info:     128000 |    61378      66621 |  618   382 |      3325
+Info:     129000 |    61975      67024 |  597   403 |      3311
+Info:     130000 |    62545      67454 |  570   430 |      3393
+Info:     131000 |    63087      67912 |  542   458 |      3312
+Info:     132000 |    63674      68325 |  587   413 |      3341
+Info:     133000 |    64217      68782 |  543   457 |      3251
+Info:     134000 |    64778      69221 |  561   439 |      3219
+Info:     135000 |    65327      69672 |  549   451 |      3189
+Info:     136000 |    65885      70114 |  558   442 |      3170
+Info:     137000 |    66467      70532 |  582   418 |      3188
+Info:     138000 |    67023      70976 |  556   444 |      3199
+Info:     139000 |    67614      71385 |  591   409 |      3193
+Info:     140000 |    68157      71842 |  543   457 |      3183
+Info:     141000 |    68610      72389 |  453   547 |      3147
+Info:     142000 |    69121      72878 |  511   489 |      3095
+Info:     143000 |    69613      73386 |  492   508 |      3056
+Info:     144000 |    70249      73750 |  636   364 |      3082
+Info:     145000 |    70828      74171 |  579   421 |      3015
+Info:     146000 |    71439      74560 |  611   389 |      2989
+Info:     147000 |    72126      74873 |  687   313 |      3001
+Info:     148000 |    72712      75287 |  586   414 |      2981
+Info:     149000 |    73351      75648 |  639   361 |      3020
+Info:     150000 |    74029      75970 |  678   322 |      3000
+Info:     151000 |    74575      76424 |  546   454 |      3012
+Info:     152000 |    75178      76821 |  603   397 |      2974
+Info:     153000 |    75705      77294 |  527   473 |      2950
+Info:     154000 |    76284      77715 |  579   421 |      2996
+Info:     155000 |    76784      78215 |  500   500 |      2938
+Info:     156000 |    77411      78588 |  627   373 |      2909
+Info:     157000 |    77961      79038 |  550   450 |      2890
+Info:     158000 |    78576      79423 |  615   385 |      2878
+Info:     159000 |    79112      79887 |  536   464 |      2855
+Info:     160000 |    79722      80277 |  610   390 |      2842
+Info:     161000 |    80323      80676 |  601   399 |      2836
+Info:     162000 |    80956      81043 |  633   367 |      2815
+Info:     163000 |    81449      81550 |  493   507 |      2817
+Info:     164000 |    82047      81952 |  598   402 |      2808
+Info:     165000 |    82488      82511 |  441   559 |      2978
+Info:     166000 |    83024      82975 |  536   464 |      2788
+Info:     167000 |    83630      83369 |  606   394 |      2754
+Info:     168000 |    84255      83744 |  625   375 |      2728
+Info:     169000 |    84767      84232 |  512   488 |      2740
+Info:     170000 |    85270      84729 |  503   497 |      2705
+Info:     171000 |    85822      85177 |  552   448 |      2668
+Info:     172000 |    86450      85549 |  628   372 |      2659
+Info:     173000 |    87060      85939 |  610   390 |      2644
+Info:     174000 |    87692      86307 |  632   368 |      2666
+Info:     175000 |    88306      86693 |  614   386 |      2642
+Info:     176000 |    88927      87072 |  621   379 |      2623
+Info:     177000 |    89533      87466 |  606   394 |      2594
+Info:     178000 |    90089      87910 |  556   444 |      2564
+Info:     179000 |    90667      88332 |  578   422 |      2577
+Info:     180000 |    91270      88729 |  603   397 |      2564
+Info:     181000 |    91898      89101 |  628   372 |      2579
+Info:     182000 |    92430      89569 |  532   468 |      2551
+Info:     183000 |    93007      89992 |  577   423 |      2535
+Info:     184000 |    93580      90419 |  573   427 |      2524
+Info:     185000 |    94192      90807 |  612   388 |      2523
+Info:     186000 |    94702      91297 |  510   490 |      2497
+Info:     187000 |    95232      91767 |  530   470 |      2519
+Info:     188000 |    95735      92264 |  503   497 |      2566
+Info:     189000 |    96358      92641 |  623   377 |      2507
+Info:     190000 |    96964      93035 |  606   394 |      2473
+Info:     191000 |    97551      93448 |  587   413 |      2457
+Info:     192000 |    98215      93784 |  664   336 |      2452
+Info:     193000 |    98819      94180 |  604   396 |      2430
+Info:     194000 |    99416      94583 |  597   403 |      2438
+Info:     195000 |   100029      94970 |  613   387 |      2418
+Info:     196000 |   100647      95352 |  618   382 |      2407
+Info:     197000 |   101306      95693 |  659   341 |      2413
+Info:     198000 |   101895      96104 |  589   411 |      2372
+Info:     199000 |   102453      96546 |  558   442 |      2373
+Info:     200000 |   103030      96969 |  577   423 |      2347
+Info:     201000 |   103638      97361 |  608   392 |      2345
+Info:     202000 |   104219      97780 |  581   419 |      2342
+Info:     203000 |   104779      98220 |  560   440 |      2313
+Info:     204000 |   105383      98616 |  604   396 |      2287
+Info:     205000 |   106078      98921 |  695   305 |      2293
+Info:     206000 |   106651      99348 |  573   427 |      2269
+Info:     207000 |   107124      99875 |  473   527 |      2269
+Info:     208000 |   107806     100193 |  682   318 |      2271
+Info:     209000 |   108470     100529 |  664   336 |      2271
+Info:     210000 |   109113     100886 |  643   357 |      2245
+Info:     211000 |   109696     101303 |  583   417 |      2232
+Info:     212000 |   110173     101826 |  477   523 |      2209
+Info:     213000 |   110723     102276 |  550   450 |      2210
+Info:     214000 |   111326     102673 |  603   397 |      2199
+Info:     215000 |   111876     103123 |  550   450 |      2202
+Info:     216000 |   112507     103492 |  631   369 |      2184
+Info:     217000 |   113113     103886 |  606   394 |      2157
+Info:     218000 |   113712     104287 |  599   401 |      2145
+Info:     219000 |   114348     104651 |  636   364 |      2171
+Info:     220000 |   114963     105036 |  615   385 |      2133
+Info:     221000 |   115650     105349 |  687   313 |      2157
+Info:     222000 |   116314     105685 |  664   336 |      2126
+Info:     223000 |   116816     106183 |  502   498 |      2150
+Info:     224000 |   117446     106553 |  630   370 |      2154
+Info:     225000 |   118010     106989 |  564   436 |      2134
+Info:     226000 |   118714     107285 |  704   296 |      2155
+Info:     227000 |   119264     107735 |  550   450 |      2124
+Info:     228000 |   119818     108181 |  554   446 |      2113
+Info:     229000 |   120479     108520 |  661   339 |      2139
+Info:     230000 |   121110     108889 |  631   369 |      2095
+Info:     231000 |   121729     109270 |  619   381 |      2076
+Info:     232000 |   122296     109703 |  567   433 |      2054
+Info:     233000 |   122938     110061 |  642   358 |      2030
+Info:     234000 |   123520     110479 |  582   418 |      2018
+Info:     235000 |   124019     110980 |  499   501 |      2070
+Info:     236000 |   124597     111402 |  578   422 |      2021
+Info:     237000 |   125168     111831 |  571   429 |      1991
+Info:     238000 |   125735     112264 |  567   433 |      1969
+Info:     239000 |   126380     112619 |  645   355 |      1949
+Info:     240000 |   126992     113007 |  612   388 |      1984
+Info:     241000 |   127607     113392 |  615   385 |      1971
+Info:     242000 |   128304     113695 |  697   303 |      1976
+Info:     243000 |   128967     114032 |  663   337 |      1954
+Info:     244000 |   129563     114436 |  596   404 |      1940
+Info:     245000 |   130084     114915 |  521   479 |      1957
+Info:     246000 |   130588     115411 |  504   496 |      1917
+Info:     247000 |   131260     115739 |  672   328 |      1905
+Info:     248000 |   131916     116083 |  656   344 |      1907
+Info:     249000 |   132604     116395 |  688   312 |      1915
+Info:     250000 |   133185     116814 |  581   419 |      1929
+Info:     251000 |   133732     117267 |  547   453 |      1983
+Info:     252000 |   134265     117734 |  533   467 |      1965
+Info:     253000 |   134824     118175 |  559   441 |      1951
+Info:     254000 |   135445     118554 |  621   379 |      1892
+Info:     255000 |   136025     118974 |  580   420 |      1891
+Info:     256000 |   136637     119362 |  612   388 |      1873
+Info:     257000 |   137243     119756 |  606   394 |      1987
+Info:     258000 |   137662     120337 |  419   581 |      1914
+Info:     259000 |   138279     120720 |  617   383 |      1861
+Info:     260000 |   138922     121077 |  643   357 |      1875
+Info:     261000 |   139550     121449 |  628   372 |      1889
+Info:     262000 |   140256     121743 |  706   294 |      1970
+Info:     263000 |   140857     122142 |  601   399 |      2009
+Info:     264000 |   141384     122615 |  527   473 |      1995
+Info:     265000 |   141925     123074 |  541   459 |      2011
+Info:     266000 |   142572     123427 |  647   353 |      1935
+Info:     267000 |   143145     123854 |  573   427 |      1936
+Info:     268000 |   143726     124273 |  581   419 |      1857
+Info:     269000 |   144355     124644 |  629   371 |      1865
+Info:     270000 |   144859     125140 |  504   496 |      1858
+Info:     271000 |   145474     125525 |  615   385 |      1832
+Info:     272000 |   145944     126055 |  470   530 |      1812
+Info:     273000 |   146567     126432 |  623   377 |      1801
+Info:     274000 |   147178     126821 |  611   389 |      1777
+Info:     275000 |   147747     127252 |  569   431 |      1763
+Info:     276000 |   148394     127605 |  647   353 |      1748
+Info:     277000 |   149025     127974 |  631   369 |      1740
+Info:     278000 |   149706     128293 |  681   319 |      1713
+Info:     279000 |   150377     128622 |  671   329 |      1692
+Info:     280000 |   151006     128993 |  629   371 |      1688
+Info:     281000 |   151657     129342 |  651   349 |      1640
+Info:     282000 |   152265     129734 |  608   392 |      1742
+Info:     283000 |   152654     130345 |  389   611 |      1669
+Info:     284000 |   153320     130679 |  666   334 |      1647
+Info:     285000 |   153865     131134 |  545   455 |      1665
+Info:     286000 |   154557     131442 |  692   308 |      1647
+Info:     287000 |   155246     131753 |  689   311 |      1678
+Info:     288000 |   155800     132199 |  554   446 |      1874
+Info:     289000 |   156284     132715 |  484   516 |      1641
+Info:     290000 |   156878     133121 |  594   406 |      1663
+Info:     291000 |   157519     133480 |  641   359 |      1623
+Info:     292000 |   158132     133867 |  613   387 |      1603
+Info:     293000 |   158833     134166 |  701   299 |      1604
+Info:     294000 |   159439     134560 |  606   394 |      1587
+Info:     295000 |   160088     134911 |  649   351 |      1630
+Info:     296000 |   160633     135366 |  545   455 |      1616
+Info:     297000 |   161278     135721 |  645   355 |      1577
+Info:     298000 |   161894     136105 |  616   384 |      1585
+Info:     299000 |   162516     136483 |  622   378 |      1650
+Info:     300000 |   163097     136902 |  581   419 |      1553
+Info:     301000 |   163639     137360 |  542   458 |      1542
+Info:     302000 |   164274     137725 |  635   365 |      1556
+Info:     303000 |   164976     138023 |  702   298 |      1589
+Info:     304000 |   165607     138392 |  631   369 |      1673
+Info:     305000 |   166182     138817 |  575   425 |      1631
+Info:     306000 |   166758     139241 |  576   424 |      1593
+Info:     307000 |   167284     139715 |  526   474 |      1558
+Info:     308000 |   167869     140130 |  585   415 |      1568
+Info:     309000 |   168525     140474 |  656   344 |      1552
+Info:     310000 |   169172     140827 |  647   353 |      1573
+Info:     311000 |   169730     141269 |  558   442 |      1568
+Info:     312000 |   170418     141581 |  688   312 |      1544
+Info:     313000 |   170980     142019 |  562   438 |      1529
+Info:     314000 |   171583     142416 |  603   397 |      1576
+Info:     315000 |   172070     142929 |  487   513 |      1537
+Info:     316000 |   172674     143325 |  604   396 |      1545
+Info:     317000 |   173356     143643 |  682   318 |      1518
+Info:     318000 |   173998     144001 |  642   358 |      1531
+Info:     319000 |   174702     144297 |  704   296 |      1510
+Info:     320000 |   175319     144680 |  617   383 |      1560
+Info:     321000 |   176013     144986 |  694   306 |      1541
+Info:     322000 |   176609     145390 |  596   404 |      1513
+Info:     323000 |   177281     145718 |  672   328 |      1524
+Info:     324000 |   177905     146094 |  624   376 |      1537
+Info:     325000 |   178354     146645 |  449   551 |      1522
+Info:     326000 |   178904     147095 |  550   450 |      1520
+Info:     327000 |   179530     147469 |  626   374 |      1607
+Info:     328000 |   180191     147808 |  661   339 |      1697
+Info:     329000 |   180834     148165 |  643   357 |      1661
+Info:     330000 |   181446     148553 |  612   388 |      1567
+Info:     331000 |   182025     148974 |  579   421 |      1409
+Info:     332000 |   182590     149409 |  565   435 |      1405
+Info:     333000 |   182915     150084 |  325   675 |       911
+Info:     334000 |   183556     150443 |  641   359 |       881
+Info:     335000 |   184210     150789 |  654   346 |       935
+Info:     336000 |   184837     151162 |  627   373 |       955
+Info:     337000 |   185429     151570 |  592   408 |       851
+Info:     338000 |   185955     152044 |  526   474 |       786
+Info:     339000 |   186533     152466 |  578   422 |       764
+Info:     340000 |   187165     152834 |  632   368 |       718
+Info:     341000 |   187803     153196 |  638   362 |       715
+Info:     342000 |   188379     153620 |  576   424 |       698
+Info:     343000 |   189014     153985 |  635   365 |       653
+Info:     344000 |   189743     154256 |  729   271 |       654
+Info:     345000 |   190424     154575 |  681   319 |       690
+Info:     346000 |   191053     154946 |  629   371 |       656
+Info:     347000 |   191682     155317 |  629   371 |       630
+Info:     348000 |   192270     155729 |  588   412 |       579
+Info:     349000 |   192670     156329 |  400   600 |       625
+Info:     350000 |   193187     156812 |  517   483 |       673
+Info:     351000 |   193802     157197 |  615   385 |       622
+Info:     352000 |   194297     157702 |  495   505 |       434
+Info:     353000 |   194932     158067 |  635   365 |       412
+Info:     354000 |   195411     158588 |  479   521 |       184
+Info:     354994 |   195896     159098 |  485   510 |         0
+Info: Routing complete.
+Info: Route time 4227.19s
+Info: Checksum: 0xc942954d
+
+Info: Critical path report for clock 'pantalla__UUT.px_clk' (posedge -> posedge):
+Info: curr total
+Info:  2.1  2.1  Source pantalla__UUT.framebuffer.1.2.0_RAM.RDATA_12
+Info:  2.4  4.6    Net pantalla__UUT.framebuffer.1.2.0_RDATA_3 budget 4.298000 ns (25,17) -> (22,9)
+Info:                Sink pantalla__UUT.framebuffer.1.0.0_RDATA_3_SB_LUT4_I0_LC.I3
+Info:  0.3  4.9  Source pantalla__UUT.framebuffer.1.0.0_RDATA_3_SB_LUT4_I0_LC.O
+Info:  0.9  5.8    Net pantalla__UUT.framebuffer.1.0.0_RDATA_3_SB_LUT4_I0_O budget 3.402000 ns (22,9) -> (22,9)
+Info:                Sink pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_LC.I0
+Info:  0.4  6.2  Source pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_LC.O
+Info:  0.6  6.8    Net pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_O budget 3.478000 ns (22,9) -> (22,9)
+Info:                Sink pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_O_SB_LUT4_I3_LC.I3
+Info:  0.3  7.1  Source pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_O_SB_LUT4_I3_LC.O
+Info:  1.9  9.1    Net pantalla__UUT.framebuffer.1.4.0_RDATA_3_SB_LUT4_I3_O_SB_LUT4_I3_O budget 3.402000 ns (22,9) -> (27,8)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_LC.I3
+Info:  0.3  9.4  Source pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_LC.O
+Info:  0.6 10.0    Net pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O budget 3.671000 ns (27,8) -> (27,7)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_9_SB_LUT4_I2_O_SB_LUT4_I0_O_SB_LUT4_I2_1_LC.I3
+Info:  0.3 10.3  Source pantalla__UUT.framebuffer.0.4.0_RDATA_9_SB_LUT4_I2_O_SB_LUT4_I0_O_SB_LUT4_I2_1_LC.O
+Info:  1.3 11.6    Net pantalla__UUT.framebuffer.0.4.0_RDATA_9_SB_LUT4_I2_O_SB_LUT4_I0_O_SB_LUT4_I2_1_O budget 3.700000 ns (27,7) -> (29,9)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_I3_I2_SB_LUT4_O_LC.I1
+Info:  0.4 12.0  Source pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_I3_I2_SB_LUT4_O_LC.O
+Info:  1.7 13.7    Net pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_I3_I2 budget 4.308000 ns (29,9) -> (30,2)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_I3_SB_LUT4_I1_O_SB_LUT4_I2_I3_SB_LUT4_O_LC.I3
+Info:  0.3 14.0  Source pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_I3_SB_LUT4_I1_O_SB_LUT4_I2_I3_SB_LUT4_O_LC.O
+Info:  1.6 15.6    Net pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_I3_SB_LUT4_I1_O_SB_LUT4_I2_I3 budget 3.402000 ns (30,2) -> (26,1)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_I3_SB_LUT4_I1_O_SB_LUT4_I2_I3_SB_LUT4_I3_LC.I3
+Info:  0.3 16.0  Source pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I1_I3_SB_LUT4_I1_O_SB_LUT4_I2_I3_SB_LUT4_I3_LC.O
+Info:  1.0 16.9    Net pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_I1_SB_LUT4_I3_O_SB_LUT4_I1_I0_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_I1 budget 3.592000 ns (26,1) -> (26,2)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_I1_SB_LUT4_I3_O_SB_LUT4_I1_I0_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_LC.I1
+Info:  0.4 17.3  Source pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_I1_SB_LUT4_I3_O_SB_LUT4_I1_I0_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_LC.O
+Info:  1.3 18.6    Net pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_I2_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I3_I2 budget 3.616000 ns (26,2) -> (24,3)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_I2_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I3_LC.I2
+Info:  0.4 19.0  Source pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_I2_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I3_LC.O
+Info:  2.1 21.1    Net pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I0_I1 budget 3.674000 ns (24,3) -> (31,4)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I0_LC.I1
+Info:  0.4 21.5  Source pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I0_LC.O
+Info:  1.7 23.2    Net pantalla__UUT.framebuffer.0.4.0_RDATA_3_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I3_O_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_I0_O budget 3.477000 ns (31,4) -> (31,15)
+Info:                Sink pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_I2_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I2_O_SB_LUT4_I3_LC.I2
+Info:  0.4 23.5  Source pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_I2_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I2_O_SB_LUT4_I3_LC.O
+Info:  0.6 24.1    Net pantalla__UUT.framebuffer.0.4.0_RDATA_2_SB_LUT4_I3_O_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I3_O_SB_LUT4_I3_I2_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I2_O_SB_LUT4_I3_O budget 3.752000 ns (31,15) -> (32,14)
+Info:                Sink pantalla__UUT.user_IO[9]_D_OUT_0_SB_LUT4_O_I1_SB_LUT4_O_LC.I2
+Info:  0.4 24.5  Source pantalla__UUT.user_IO[9]_D_OUT_0_SB_LUT4_O_I1_SB_LUT4_O_LC.O
+Info:  0.6 25.1    Net pantalla__UUT.user_IO[9]_D_OUT_0_SB_LUT4_O_I1 budget 3.577000 ns (32,14) -> (32,15)
+Info:                Sink pantalla__UUT.user_IO[9]_D_OUT_0_SB_LUT4_O_LC.I1
+Info:  0.4 25.5  Source pantalla__UUT.user_IO[9]_D_OUT_0_SB_LUT4_O_LC.O
+Info:  3.0 28.5    Net pantalla__UUT.user_IO[9]_D_OUT_0 budget 4.234000 ns (32,15) -> (33,28)
+Info:                Sink pantalla__UUT.user_IO[9].D_OUT_0
+Info:  0.1 28.5  Setup pantalla__UUT.user_IO[9].D_OUT_0
+Info: 7.3 ns logic, 21.2 ns routing
+
+Info: Critical path report for clock 'clk12MHz$SB_IO_IN_$glb_clk' (posedge -> posedge):
+Info: curr total
+Info:  2.1  2.1  Source RAM_6KiB.memArray.2.0.0_RAM.RDATA_5
+Info:  3.6  5.7    Net RAM_data[9] budget 0.000000 ns (8,9) -> (18,16)
+Info:                Sink RV32I.Wb_rdData_SB_LUT4_O_21_I2_SB_LUT4_O_I1_SB_LUT4_O_LC.I0
+Info:  0.4  6.2  Source RV32I.Wb_rdData_SB_LUT4_O_21_I2_SB_LUT4_O_I1_SB_LUT4_O_LC.O
+Info:  1.6  7.8    Net RV32I.Wb_rdData_SB_LUT4_O_21_I2_SB_LUT4_O_I1 budget 0.000000 ns (18,16) -> (19,16)
+Info:                Sink RV32I.Wb_rdData_SB_LUT4_O_29_I2_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
+Info:  0.4  8.1  Source RV32I.Wb_rdData_SB_LUT4_O_29_I2_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:  0.6  8.7    Net RV32I.Wb_rdData_SB_LUT4_O_29_I2_SB_LUT4_O_I3 budget 0.000000 ns (19,16) -> (19,15)
+Info:                Sink RV32I.Wb_rdData_SB_LUT4_O_29_I2_SB_LUT4_O_LC.I3
+Info:  0.3  9.0  Source RV32I.Wb_rdData_SB_LUT4_O_29_I2_SB_LUT4_O_LC.O
+Info:  2.0 11.1    Net RV32I.Wb_rdData_SB_LUT4_O_29_I2 budget 0.000000 ns (19,15) -> (16,24)
+Info:                Sink RV32I.Wb_rdData_SB_LUT4_O_29_LC.I2
+Info:  0.4 11.4  Source RV32I.Wb_rdData_SB_LUT4_O_29_LC.O
+Info:  1.0 12.4    Net RV32I.Wb_rdData[1] budget 0.000000 ns (16,24) -> (16,26)
+Info:                Sink RV32I.E_rs2Data_SB_LUT4_O_30_I1_SB_LUT4_O_LC.I2
+Info:  0.4 12.8  Source RV32I.E_rs2Data_SB_LUT4_O_30_I1_SB_LUT4_O_LC.O
+Info:  0.6 13.4    Net RV32I.E_rs2Data_SB_LUT4_O_30_I1 budget 0.000000 ns (16,26) -> (16,27)
+Info:                Sink RV32I.E_rs2Data_SB_LUT4_O_30_LC.I1
+Info:  0.4 13.8  Source RV32I.E_rs2Data_SB_LUT4_O_30_LC.O
+Info:  1.9 15.7    Net RV32I.E_rs2Data[1] budget 0.000000 ns (16,27) -> (27,28)
+Info:                Sink RV32I.DE_ALUSrc2_SB_LUT4_I1_3_LC.I2
+Info:  0.4 16.0  Source RV32I.DE_ALUSrc2_SB_LUT4_I1_3_LC.O
+Info:  1.6 17.7    Net RV32I.DE_ALUSrc2_SB_LUT4_I1_3_O budget 0.000000 ns (27,28) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_20_LC.I2
+Info:  0.2 17.9  Source RV32I.alu.minus_SB_LUT4_O_20_LC.COUT
+Info:  0.0 17.9    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[2] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_9_LC.CIN
+Info:  0.1 18.1  Source RV32I.alu.minus_SB_LUT4_O_9_LC.COUT
+Info:  0.0 18.1    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[3] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_6_LC.CIN
+Info:  0.1 18.2  Source RV32I.alu.minus_SB_LUT4_O_6_LC.COUT
+Info:  0.0 18.2    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[4] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_5_LC.CIN
+Info:  0.1 18.3  Source RV32I.alu.minus_SB_LUT4_O_5_LC.COUT
+Info:  0.0 18.3    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[5] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_4_LC.CIN
+Info:  0.1 18.4  Source RV32I.alu.minus_SB_LUT4_O_4_LC.COUT
+Info:  0.0 18.4    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[6] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_3_LC.CIN
+Info:  0.1 18.6  Source RV32I.alu.minus_SB_LUT4_O_3_LC.COUT
+Info:  0.0 18.6    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[7] budget 0.000000 ns (29,23) -> (29,23)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_2_LC.CIN
+Info:  0.1 18.7  Source RV32I.alu.minus_SB_LUT4_O_2_LC.COUT
+Info:  0.2 18.9    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[8] budget 0.190000 ns (29,23) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_1_LC.CIN
+Info:  0.1 19.0  Source RV32I.alu.minus_SB_LUT4_O_1_LC.COUT
+Info:  0.0 19.0    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[9] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_LC.CIN
+Info:  0.1 19.1  Source RV32I.alu.minus_SB_LUT4_O_LC.COUT
+Info:  0.0 19.1    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[10] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_30_LC.CIN
+Info:  0.1 19.3  Source RV32I.alu.minus_SB_LUT4_O_30_LC.COUT
+Info:  0.0 19.3    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[11] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_29_LC.CIN
+Info:  0.1 19.4  Source RV32I.alu.minus_SB_LUT4_O_29_LC.COUT
+Info:  0.0 19.4    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[12] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_28_LC.CIN
+Info:  0.1 19.5  Source RV32I.alu.minus_SB_LUT4_O_28_LC.COUT
+Info:  0.0 19.5    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[13] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_27_LC.CIN
+Info:  0.1 19.6  Source RV32I.alu.minus_SB_LUT4_O_27_LC.COUT
+Info:  0.0 19.6    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[14] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_26_LC.CIN
+Info:  0.1 19.8  Source RV32I.alu.minus_SB_LUT4_O_26_LC.COUT
+Info:  0.0 19.8    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[15] budget 0.000000 ns (29,24) -> (29,24)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_25_LC.CIN
+Info:  0.1 19.9  Source RV32I.alu.minus_SB_LUT4_O_25_LC.COUT
+Info:  0.2 20.1    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[16] budget 0.190000 ns (29,24) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_24_LC.CIN
+Info:  0.1 20.2  Source RV32I.alu.minus_SB_LUT4_O_24_LC.COUT
+Info:  0.0 20.2    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[17] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_23_LC.CIN
+Info:  0.1 20.3  Source RV32I.alu.minus_SB_LUT4_O_23_LC.COUT
+Info:  0.0 20.3    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[18] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_22_LC.CIN
+Info:  0.1 20.5  Source RV32I.alu.minus_SB_LUT4_O_22_LC.COUT
+Info:  0.0 20.5    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[19] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_21_LC.CIN
+Info:  0.1 20.6  Source RV32I.alu.minus_SB_LUT4_O_21_LC.COUT
+Info:  0.0 20.6    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[20] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_19_LC.CIN
+Info:  0.1 20.7  Source RV32I.alu.minus_SB_LUT4_O_19_LC.COUT
+Info:  0.0 20.7    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[21] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_18_LC.CIN
+Info:  0.1 20.8  Source RV32I.alu.minus_SB_LUT4_O_18_LC.COUT
+Info:  0.0 20.8    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[22] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_17_LC.CIN
+Info:  0.1 21.0  Source RV32I.alu.minus_SB_LUT4_O_17_LC.COUT
+Info:  0.0 21.0    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[23] budget 0.000000 ns (29,25) -> (29,25)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_16_LC.CIN
+Info:  0.1 21.1  Source RV32I.alu.minus_SB_LUT4_O_16_LC.COUT
+Info:  0.2 21.3    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[24] budget 0.190000 ns (29,25) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_15_LC.CIN
+Info:  0.1 21.4  Source RV32I.alu.minus_SB_LUT4_O_15_LC.COUT
+Info:  0.0 21.4    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[25] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_14_LC.CIN
+Info:  0.1 21.5  Source RV32I.alu.minus_SB_LUT4_O_14_LC.COUT
+Info:  0.0 21.5    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[26] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_13_LC.CIN
+Info:  0.1 21.7  Source RV32I.alu.minus_SB_LUT4_O_13_LC.COUT
+Info:  0.0 21.7    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[27] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_12_LC.CIN
+Info:  0.1 21.8  Source RV32I.alu.minus_SB_LUT4_O_12_LC.COUT
+Info:  0.0 21.8    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[28] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_11_LC.CIN
+Info:  0.1 21.9  Source RV32I.alu.minus_SB_LUT4_O_11_LC.COUT
+Info:  0.0 21.9    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[29] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_10_LC.CIN
+Info:  0.1 22.0  Source RV32I.alu.minus_SB_LUT4_O_10_LC.COUT
+Info:  0.0 22.0    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[30] budget 0.000000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_8_LC.CIN
+Info:  0.1 22.2  Source RV32I.alu.minus_SB_LUT4_O_8_LC.COUT
+Info:  0.3 22.4    Net RV32I.alu.in2_SB_LUT4_O_I3_SB_CARRY_I1_CO[31] budget 0.260000 ns (29,26) -> (29,26)
+Info:                Sink RV32I.alu.minus_SB_LUT4_O_7_LC.I3
+Info:  0.3 22.7  Source RV32I.alu.minus_SB_LUT4_O_7_LC.O
+Info:  0.9 23.6    Net RV32I.alu.minus[31] budget 3.247000 ns (29,26) -> (28,26)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.I0
+Info:  0.4 24.1  Source RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:  0.6 24.7    Net RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_LUT4_O_I3 budget 2.841000 ns (28,26) -> (28,26)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_LUT4_O_LC.I3
+Info:  0.3 25.0  Source RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:  1.1 26.1    Net RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_I3 budget 2.826000 ns (28,26) -> (28,21)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_LC.I3
+Info:  0.3 26.4  Source RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1_SB_LUT4_O_LC.O
+Info:  1.3 27.7    Net RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_I1 budget 2.840000 ns (28,21) -> (24,20)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_LC.I1
+Info:  0.4 28.1  Source RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0_SB_LUT4_O_LC.O
+Info:  0.6 28.7    Net RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_I0 budget 3.013000 ns (24,20) -> (24,20)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_LC.I0
+Info:  0.4 29.1  Source RV32I.DE_isBRANCH_SB_LUT4_I3_I2_SB_LUT4_O_LC.O
+Info:  1.6 30.8    Net RV32I.DE_isBRANCH_SB_LUT4_I3_I2 budget 3.219000 ns (24,20) -> (26,15)
+Info:                Sink RV32I.DE_isBRANCH_SB_LUT4_I3_LC.I2
+Info:  0.4 31.2  Source RV32I.DE_isBRANCH_SB_LUT4_I3_LC.O
+Info:  2.8 34.0    Net RV32I.DE_isBRANCH_SB_LUT4_I3_O budget 3.080000 ns (26,15) -> (29,29)
+Info:                Sink RV32I.pc_SB_DFFESR_Q_30_E_SB_LUT4_O_I3_SB_LUT4_O_LC.I3
+Info:  0.3 34.3  Source RV32I.pc_SB_DFFESR_Q_30_E_SB_LUT4_O_I3_SB_LUT4_O_LC.O
+Info:  0.6 34.9    Net RV32I.pc_SB_DFFESR_Q_30_E_SB_LUT4_O_I3 budget 2.550000 ns (29,29) -> (29,29)
+Info:                Sink RV32I.pc_SB_DFFESR_Q_30_E_SB_LUT4_O_LC.I3
+Info:  0.3 35.2  Source RV32I.pc_SB_DFFESR_Q_30_E_SB_LUT4_O_LC.O
+Info:  2.4 37.6    Net RV32I.pc_SB_DFFESR_Q_30_E budget 3.751000 ns (29,29) -> (30,16)
+Info:                Sink RV32I.E_JumpAddr_SB_LUT4_O_LC.CEN
+Info:  0.1 37.7  Setup RV32I.E_JumpAddr_SB_LUT4_O_LC.CEN
+Info: 12.1 ns logic, 25.7 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> '<async>':
+Info: curr total
+Info:  0.0  0.0  Source clk12MHz$sb_io.D_IN_0
+Info:  1.6  1.6    Net clk12MHz$SB_IO_IN budget 41.137001 ns (16,0) -> (20,1)
+Info:                Sink flash_sclk_SB_LUT4_O_LC.I3
+Info:  0.3  2.0  Source flash_sclk_SB_LUT4_O_LC.O
+Info:  2.0  3.9    Net flash_sclk$SB_IO_OUT budget 40.259998 ns (20,1) -> (31,0)
+Info:                Sink flash_sclk$sb_io.D_OUT_0
+Info: 0.3 ns logic, 3.6 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge clk12MHz$SB_IO_IN_$glb_clk':
+Info: curr total
+Info:  0.0  0.0  Source key[1]$sb_io.D_IN_0
+Info:  3.3  3.3    Net key[1]$SB_IO_IN budget 40.362000 ns (11,33) -> (17,9)
+Info:                Sink vga_sel_mode_SB_LUT4_I0_LC.I3
+Info:  0.3  3.6  Source vga_sel_mode_SB_LUT4_I0_LC.O
+Info:  1.1  4.7    Net IO_in_SB_LUT4_O_17_I0 budget 15.441000 ns (17,9) -> (21,9)
+Info:                Sink IO_in_SB_LUT4_O_17_LC.I0
+Info:  0.5  5.2  Setup IO_in_SB_LUT4_O_17_LC.I0
+Info: 0.8 ns logic, 4.4 ns routing
+
+Info: Critical path report for cross-domain path 'posedge clk12MHz$SB_IO_IN_$glb_clk' -> '<async>':
+Info: curr total
+Info:  0.5  0.5  Source LEDS8_4.row_SB_DFFSS_Q_6_D_SB_LUT4_O_LC.O
+Info:  5.0  5.6    Net led[1]$SB_IO_OUT budget 82.792999 ns (7,15) -> (25,33)
+Info:                Sink led[1]$sb_io.D_OUT_0
+Info: 0.5 ns logic, 5.0 ns routing
+
+Info: Critical path report for cross-domain path 'posedge clk12MHz$SB_IO_IN_$glb_clk' -> 'posedge pantalla__UUT.px_clk':
+Info: curr total
+Info:  0.5  0.5  Source IO_in_SB_LUT4_O_4_I3_SB_LUT4_O_I1_SB_DFFE_Q_D_SB_LUT4_O_LC.O
+Info:  3.8  4.4    Net IO_in_SB_LUT4_O_4_I3_SB_LUT4_O_I1 budget 27.221001 ns (4,27) -> (32,16)
+Info:                Sink pantalla__UUT.user_IO[5]_D_OUT_0_SB_LUT4_O_I2_SB_LUT4_O_LC.I0
+Info:  0.4  4.8  Source pantalla__UUT.user_IO[5]_D_OUT_0_SB_LUT4_O_I2_SB_LUT4_O_LC.O
+Info:  0.6  5.4    Net pantalla__UUT.user_IO[5]_D_OUT_0_SB_LUT4_O_I2 budget 3.678000 ns (32,16) -> (32,17)
+Info:                Sink pantalla__UUT.user_IO[5]_D_OUT_0_SB_LUT4_O_LC.I2
+Info:  0.4  5.8  Source pantalla__UUT.user_IO[5]_D_OUT_0_SB_LUT4_O_LC.O
+Info:  2.0  7.7    Net pantalla__UUT.user_IO[5]_D_OUT_0 budget 3.761000 ns (32,17) -> (33,23)
+Info:                Sink pantalla__UUT.user_IO[5].D_OUT_0
+Info:  0.1  7.8  Setup pantalla__UUT.user_IO[5].D_OUT_0
+Info: 1.4 ns logic, 6.4 ns routing
+
+Info: Critical path report for cross-domain path 'posedge pantalla__UUT.px_clk' -> 'posedge clk12MHz$SB_IO_IN_$glb_clk':
+Info: curr total
+Info:  0.5  0.5  Source pantalla__UUT.blank_q_SB_DFF_Q_D_SB_LUT4_O_LC.O
+Info:  1.5  2.1    Net VGA_status[2] budget 39.307999 ns (29,17) -> (21,17)
+Info:                Sink key_SB_LUT4_I3_LC.I0
+Info:  0.4  2.5  Source key_SB_LUT4_I3_LC.O
+Info:  0.6  3.1    Net IO_in_SB_LUT4_O_16_I0 budget 15.157000 ns (21,17) -> (21,18)
+Info:                Sink IO_in_SB_LUT4_O_16_LC.I0
+Info:  0.5  3.6  Setup IO_in_SB_LUT4_O_16_LC.I0
+Info: 1.5 ns logic, 2.1 ns routing
+
+Info: Max frequency for clock       'pantalla__UUT.px_clk': 35.04 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk12MHz$SB_IO_IN_$glb_clk': 26.52 MHz (PASS at 12.00 MHz)
+
+Info: Max delay <async>                            -> <async>                           : 3.93 ns
+Info: Max delay <async>                            -> posedge clk12MHz$SB_IO_IN_$glb_clk: 5.20 ns
+Info: Max delay posedge clk12MHz$SB_IO_IN_$glb_clk -> <async>                           : 5.58 ns
+Info: Max delay posedge clk12MHz$SB_IO_IN_$glb_clk -> posedge pantalla__UUT.px_clk      : 7.83 ns
+Info: Max delay posedge pantalla__UUT.px_clk       -> posedge clk12MHz$SB_IO_IN_$glb_clk: 3.58 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 28 endpoint(s)
+Info:          + represents [1,28) endpoint(s)
+Info: [ 24018,  26931) |****+
+Info: [ 26931,  29844) |*******************************+
+Info: [ 29844,  32757) |*************************************************+
+Info: [ 32757,  35670) |***************************+
+Info: [ 35670,  38583) |+
+Info: [ 38583,  41496) | 
+Info: [ 41496,  44409) | 
+Info: [ 44409,  47322) |+
+Info: [ 47322,  50235) |*+
+Info: [ 50235,  53148) |+
+Info: [ 53148,  56061) |*+
+Info: [ 56061,  58974) |********+
+Info: [ 58974,  61887) |********+
+Info: [ 61887,  64800) |**+
+Info: [ 64800,  67713) |***+
+Info: [ 67713,  70626) |*********+
+Info: [ 70626,  73539) |*********************+
+Info: [ 73539,  76452) |*********************************************+
+Info: [ 76452,  79365) |**********************************+
+Info: [ 79365,  82278) |************************************************************ 
