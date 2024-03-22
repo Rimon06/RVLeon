@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name icefun)(type KiCad)(uri ${KIPRJMOD}/icefun.pretty)(options "")(descr ""))
+  (lib (name ssd1306)(type KiCad)(uri ${KIPRJMOD}/ssd1306.pretty)(options "")(descr ""))
+)

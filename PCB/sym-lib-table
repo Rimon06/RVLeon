@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name leonrv-rescue)(type Legacy)(uri ${KIPRJMOD}/leonrv-rescue.lib)(options "")(descr ""))
+  (lib (name icefun)(type Legacy)(uri "/home/jfdava/Universidad/1Trabajo de Grado/Proyecto/leonrv/icefun.lib")(options "")(descr ""))
+)
